@@ -1,0 +1,140 @@
+[
+	{
+		"id": 1,
+		"slug": "oracle-fusion-consultant",
+		"title": "Oracle Fusion Consultant",
+		"iconName": "tji-service-1",
+		"location": "Global / Hybrid",
+		"category": "Enterprise Platforms",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Client-facing",
+		"level": "Mid to Senior",
+		"summary": "Support Oracle Cloud delivery across ERP, HCM, SCM, EPM or CX workstreams for enterprise transformation programmes.",
+		"responsibilities": [
+			"Translate business requirements into Oracle Cloud solution designs.",
+			"Support configuration, testing, migration and user enablement.",
+			"Work with integration, reporting and managed services teams after go-live."
+		],
+		"requirements": [
+			"Oracle Fusion implementation or support experience.",
+			"Strong process knowledge in at least one functional domain.",
+			"Clear communication with business and technical stakeholders."
+		],
+		"tags": ["Oracle", "ERP", "Cloud"]
+	},
+	{
+		"id": 2,
+		"slug": "netsuite-erp-consultant",
+		"title": "NetSuite ERP Consultant",
+		"iconName": "tji-process-1",
+		"location": "Global / Hybrid",
+		"category": "Enterprise Platforms",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Remote-ready",
+		"level": "Consultant",
+		"summary": "Help growing organisations implement, optimise and support NetSuite ERP, finance, inventory and reporting capabilities.",
+		"responsibilities": [
+			"Gather requirements and map them to NetSuite processes.",
+			"Support configuration, workflows, reporting and user acceptance testing.",
+			"Contribute to post-go-live optimisation and managed support."
+		],
+		"requirements": [
+			"NetSuite ERP delivery or support experience.",
+			"Understanding of finance, operations or supply-chain processes.",
+			"Ability to document decisions and support client workshops."
+		],
+		"tags": ["NetSuite", "ERP", "Finance"]
+	},
+	{
+		"id": 3,
+		"slug": "salesforce-consultant",
+		"title": "Salesforce Consultant",
+		"iconName": "tji-user",
+		"location": "Global / Hybrid",
+		"category": "CRM & Experience",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Client-facing",
+		"level": "Consultant",
+		"summary": "Design and deliver Salesforce capabilities that improve sales, service, customer operations and workflow visibility.",
+		"responsibilities": [
+			"Support discovery, process mapping and Salesforce solution design.",
+			"Configure CRM workflows, reports, automations and integrations.",
+			"Work with delivery teams to improve adoption and platform value."
+		],
+		"requirements": [
+			"Salesforce implementation, administration or consulting experience.",
+			"Knowledge of Sales Cloud, Service Cloud or platform automation.",
+			"Strong problem-solving and stakeholder communication skills."
+		],
+		"tags": ["Salesforce", "CRM", "Automation"]
+	},
+	{
+		"id": 4,
+		"slug": "integration-engineer",
+		"title": "Integration Engineer",
+		"iconName": "tji-service-2",
+		"location": "Global / Hybrid",
+		"category": "Integration",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Delivery",
+		"level": "Mid to Senior",
+		"summary": "Build secure integration patterns across enterprise platforms, APIs, data services and operational systems.",
+		"responsibilities": [
+			"Design and implement APIs, data flows and reusable integration services.",
+			"Work with enterprise application, data and infrastructure teams.",
+			"Support integration testing, monitoring, troubleshooting and documentation."
+		],
+		"requirements": [
+			"Experience with integration platforms, APIs or middleware.",
+			"Understanding of data exchange patterns, security and observability.",
+			"Comfort working across business and technical teams."
+		],
+		"tags": ["Integration", "APIs", "Middleware"]
+	},
+	{
+		"id": 5,
+		"slug": "data-analytics-consultant",
+		"title": "Data & Analytics Consultant",
+		"iconName": "tji-chart",
+		"location": "Global / Hybrid",
+		"category": "Data, Analytics & AI",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Delivery",
+		"level": "Consultant",
+		"summary": "Help organisations improve visibility through reporting, analytics, governed data and AI-ready foundations.",
+		"responsibilities": [
+			"Build dashboards, reports and data models for decision support.",
+			"Support data quality, governance and source-system understanding.",
+			"Work with stakeholders to turn business questions into measurable insights."
+		],
+		"requirements": [
+			"Experience with analytics, BI, reporting or data platforms.",
+			"Ability to analyse data requirements and communicate findings.",
+			"Knowledge of Tableau, Oracle Analytics, SQL or related tools is useful."
+		],
+		"tags": ["Analytics", "Data", "AI-ready"]
+	},
+	{
+		"id": 6,
+		"slug": "managed-services-engineer",
+		"title": "Managed Services Engineer",
+		"iconName": "tji-support",
+		"location": "Global / Hybrid",
+		"category": "Managed Services",
+		"need": "Talent Pool",
+		"workModel": "Hybrid / Support",
+		"level": "Associate to Senior",
+		"summary": "Keep critical platforms stable, secure and continuously improved through managed operations and support.",
+		"responsibilities": [
+			"Monitor and support enterprise applications, cloud services or integrations.",
+			"Handle incidents, service requests, documentation and improvement actions.",
+			"Work with delivery teams to transition projects into reliable operations."
+		],
+		"requirements": [
+			"Experience in application, infrastructure or platform support.",
+			"Understanding of service management, troubleshooting and escalation.",
+			"Strong ownership, communication and documentation habits."
+		],
+		"tags": ["Managed Services", "Support", "Operations"]
+	}
+]

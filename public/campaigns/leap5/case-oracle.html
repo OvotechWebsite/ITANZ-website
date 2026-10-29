@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turning Three Smart-Meter Silos into Automated Billing and Analytics — iTANZ Case Study</title>
+<meta name="description" content="A high-volume Oracle Utilities MDM implementation connecting three vendor head-end systems to SAP-ISU and turning meter data into billing, theft detection and network-health insight.">
+<link rel="stylesheet" href="css/case-study.css">
+</head>
+<body>
+
+<header class="cs-top">
+  <div class="cs-top__in">
+    <a class="cs-top__logo" href="index.php"><img src="assets/footer-itanz.png" alt="iTANZ — Understanding, Engineered."></a>
+    <nav class="cs-nav">
+      <a href="index.php#top">HOME</a>
+      <a href="index.php#strength">STRENGTH AREAS</a>
+      <a href="index.php#leadership">LEADERSHIP</a>
+      <a href="index.php#why">WHY iTANZ</a>
+      <a class="is-on" href="index.php#outcomes">USE CASES</a>
+    </nav>
+    <button type="button" class="cs-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="cs-top__cta" href="index.php#reserve">RESERVE A SEAT
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"></path></svg></a>
+  </div>
+</header>
+
+<header class="cs-hero">
+    <picture>
+      <img class="cs-hero__img" src="assets/hero-oracle.png" alt="Engineers reviewing smart-meter data dashboards beside a metering panel">
+    </picture>
+  <div class="cs-hero__veil"></div>
+  <div class="cs-hero__inner">
+    <nav class="crumbs"><a href="index.php">Home</a><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg><a href="index.php#outcomes">Case Studies</a><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg><strong>Turning Three Smart-Meter Silos into Automated Billing and Analytics</strong></nav>
+    <h1>Turning Three Smart-Meter Silos into Automated Billing and Analytics</h1>
+    <p class="cs-hero__lede">A high-volume Oracle Utilities MDM implementation connecting three vendor head-end systems to SAP-ISU and turning meter data into billing, theft detection and network-health insight.</p>
+  </div>
+</header>
+
+<main class="cs-wrap">
+  <div class="cs-card">
+
+    <section class="cs-sec">
+      <h2>The Problem</h2>
+      <ul class="checks">
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Meter readings were manually accumulated and fed into SAP billing, creating a slow, labour-intensive process with limited real-time visibility.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Smart meters from three vendors reported into three separate Head End Systems, creating disconnected data silos despite producing valuable interval, network and event data.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>The utility could not automatically feed validated usage into billing, identify unauthorised/excessive consumption at service-point level, or use event data for proactive meter and network maintenance.</span></li>
+      </ul>
+    </section>
+
+    <hr class="rule">
+
+    <section class="cs-sec">
+      <h2>The Solution</h2>
+      <ul class="checks">
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>iTANZ integrated Oracle Utilities MDM with all three vendor HES platforms and connected MDM to SAP-ISU for automated consumption flow from meter through to billing.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Designed high-volume ingestion for 5–7GB of daily data using archive logging, continuous replication, Change Data Capture and appropriate slowly-changing-dimension patterns.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Transformed normalised source data into star and snowflake analytical structures, facts, dimensions and materialised views through data-integration tooling.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Enabled analytics for theft/unauthorised usage and network/meter health from interval and event data.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" fill="#0b6ea8"></circle><path d="M5.8 10.3l2.6 2.6 5.6-5.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Later migrated the MDM platform from legacy Exadata/Exalogic to modern Exadata and Private Cloud Appliance and continues to support the landscape.</span></li>
+      </ul>
+      <div class="tech">
+        <span class="tech__chip">Technologies Used</span>
+        <p>Oracle Utilities Meter Data Management (MDM) • Oracle Utilities Application Framework (OUAF) • SAP-ISU • Three vendor Head End Systems (HES) • Database replication and Change Data Capture (CDC) • ETL / analytical data integration • Oracle Exadata • Oracle Private Cloud Appliance</p>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="cs-sec">
+      <h2>Impact We Created</h2>
+      <div class="impact">
+        <div>
+          <h3>Automated meter-to-bill flow</h3>
+          <p>Automated consumption-data flow from three HES environments into SAP billing without manual meter-reading capture in the chain.</p>
+        </div>
+        <div>
+          <h3>Scale held at 5–7GB a day</h3>
+          <p>Established processing for 5–7GB of daily meter data while maintaining a usable analytics structure.</p>
+        </div>
+        <div>
+          <h3>Theft and network insight</h3>
+          <p>Enabled service-point-level theft and unauthorised-consumption analysis plus meter and network health insight.</p>
+        </div>
+        <div>
+          <h3>An operating relationship</h3>
+          <p>Extended the engagement into infrastructure modernisation and ongoing support, making the reference an active operating relationship rather than a one-time implementation.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="cs-sec">
+      <h2>The Conclusion</h2>
+      <p class="cs-sec__lede">The K-Electric case demonstrates iTANZ’s ability to make multi-vendor smart-meter data operational at scale—connecting it to billing, analytics and long-term platform operations through Oracle Utilities MDM.</p>
+      <p class="note">Source basis: iTANZ Oracle Utilities case-study material — Case Study 07, restructured into the standard Problem → Solution → Technologies → Impact → Conclusion framework.</p>
+    </section>
+
+    <div class="maps"><span>Maps to:</span><span>Enterprise Platforms</span><span>Data, Integration &amp; Analytics</span><span>Managed Services</span></div>
+
+    <nav class="pager">
+      <a href="case-couchbase.html"><i><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16242f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6M11 6l-6 6 6 6"></path></svg></i><span>Previous</span></a>
+      <a href="index.php#outcomes" aria-label="All case studies"><span class="pager__grid"><b></b><b></b><b></b><b></b></span></a>
+      <a href="case-netsuite.html"><span>Next</span><i><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16242f" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"></path></svg></i></a>
+    </nav>
+    <button type="button" class="cs-burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+
+  <aside class="cs-side">
+    <div class="cs-side__box">
+      <p class="cs-side__label">Case Overview</p>
+      <p>A high-volume Oracle Utilities MDM implementation connecting three vendor head-end systems to SAP-ISU and turning meter data into billing, theft detection and network-health insight.</p>
+    </div>
+    <div class="cs-side__row">
+      <p class="cs-side__label">Client</p>
+      <p class="cs-side__val">K-Electric — Vertically Integrated Power Utility</p>
+    </div>
+    <div class="cs-side__row">
+      <p class="cs-side__label">Sector</p>
+      <p class="cs-side__val">Power &amp; Energy Utility</p>
+    </div>
+    <div class="cs-side__row">
+      <p class="cs-side__label">Evidence Type</p>
+      <p class="cs-side__val">Client Engagement</p>
+    </div>
+    <div class="cs-side__row">
+      <p class="cs-side__label">Products / Platforms</p>
+      <p class="cs-side__val">Oracle Utilities MDM, OUAF, SAP-ISU, Exadata</p>
+    </div>
+  </aside>
+</main>
+
+<section class="cta">
+  <div class="cta__in">
+    <div class="cta__l">
+      <h2>Need a similar outcome?</h2>
+      <p>Start with the operating reality. iTANZ can help map the friction, choose the right platform path and engineer the next step.</p>
+      <a class="cta__btn" href="index.php#reserve">Talk to iTANZ <i><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0c1218" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg></i></a>
+    </div>
+    <div class="cta__r"></div>
+  </div>
+</section>
+
+<footer class="cs-foot">
+  <div class="cs-foot__in">
+    <img class="cs-foot__logo" src="assets/footer-itanz.png" alt="iTANZ — Understanding, Engineered.">
+    <span class="cs-foot__div"></span>
+    <div class="cs-foot__connect">Connect with us:<br><a href="mailto:info@itanzgroup.com">info@itanzgroup.com</a></div>
+    <img class="cs-foot__plate" src="assets/footer-leap-block.png" alt="LEAP — Into New Worlds · 31 Aug – 3 Sept 2026 · Riyadh">
+  </div>
+  <div class="cs-foot__bar">
+    <span>© 2026 iTANZ Technologies. All rights reserved.</span>
+    <a href="index.php#outcomes">Case Studies</a>
+    <a href="index.php#reserve">Reserve a Seat</a>
+    <span>Understanding, Engineered.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var b = document.querySelector('.cs-burger'), n = document.querySelector('.cs-nav');
+  if (!b || !n) return;
+  function setOpen(on) {
+    n.classList.toggle('is-open', on);
+    b.classList.toggle('is-open', on);
+    b.setAttribute('aria-expanded', on ? 'true' : 'false');
+  }
+  b.addEventListener('click', function () { setOpen(!n.classList.contains('is-open')); });
+  n.addEventListener('click', function (e) { if (e.target.closest('a')) setOpen(false); });
+  window.addEventListener('resize', function () { if (window.innerWidth > 900) setOpen(false); });
+})();
+</script>
+</body>
+</html>

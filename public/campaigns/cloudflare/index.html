@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/campaigns/cloudflare/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; font-family: "Open Sans", Helvetica, Arial, sans-serif; color: #0d2b52; background: #ffffff; text-wrap: pretty; -webkit-font-smoothing: antialiased; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: #ef7622; text-decoration: none; }
+  a:hover { color: #d8621a; }
+  button { font-family: inherit; }
+  :focus-visible { outline: 2px solid #ef7622; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+<style>
+  /* ---------- Book a Consultation modal ---------- */
+  @keyframes bcFade { from { opacity:0; } to { opacity:1; } }
+  @keyframes bcRise { from { opacity:0; transform:translateY(22px) scale(.985); } to { opacity:1; transform:none; } }
+
+  .bc-overlay { position:fixed; inset:0; z-index:999; background:rgba(6,26,52,.55);
+                backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+                display:flex; align-items:flex-start; justify-content:center;
+                padding:clamp(14px,3vw,44px); overflow-y:auto; animation:bcFade .18s ease both;
+                font-family:Montserrat,Helvetica,Arial,sans-serif; }
+  .bc-modal { position:relative; width:100%; max-width:1060px; background:#fff; border-radius:16px;
+              box-shadow:0 30px 80px rgba(6,22,42,.32); padding:clamp(26px,3.4vw,52px) clamp(20px,3.6vw,56px) clamp(28px,3.4vw,46px);
+              animation:bcRise .26s cubic-bezier(.2,.8,.25,1) both; }
+  .bc-close { position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%;
+              border:1px solid #e3e8ee; background:#fff; color:#0d2b52; cursor:pointer;
+              display:flex; align-items:center; justify-content:center; transition:background .16s, color .16s, transform .16s; }
+  .bc-close:hover { background:#ef7622; border-color:#ef7622; color:#fff; transform:rotate(90deg); }
+  .bc-title { font-size:clamp(23px,2.5vw,31px); font-weight:600; letter-spacing:-.015em; color:#0d2b52;
+              margin:0 46px 4px 0; }
+  .bc-sub { font-size:14px; color:#7b8797; margin:0 0 clamp(24px,2.4vw,34px); }
+
+  .bc-grid { display:grid; grid-template-columns:1fr; column-gap:clamp(24px,3vw,44px); row-gap:clamp(22px,2.4vw,32px); }
+  @media (min-width:720px) { .bc-grid { grid-template-columns:1fr 1fr; } }
+  .bc-full { grid-column:1 / -1; }
+
+  .bc-field { position:relative; }
+  .bc-input {
+    width:100%; border:0; border-bottom:1px dotted #c2ccd6; background:transparent;
+    font-family:Montserrat,Helvetica,Arial,sans-serif; font-size:15px; color:#0d2b52;
+    padding:0 0 11px; outline:none; border-radius:0; }
+  .bc-input::placeholder { color:#8a97a4; }
+  .bc-input:focus { border-bottom:1px solid #ef7622; }
+
+  .bc-qlabel { font-size:15px; line-height:1.5; color:#55636f; margin:0 0 16px; }
+  .bc-options { display:grid; grid-template-columns:1fr; gap:12px 34px; }
+  @media (min-width:720px) { .bc-options { grid-template-columns:1fr 1fr; } }
+  .bc-opt { display:flex; align-items:flex-start; gap:11px; font-size:14.5px; line-height:1.45;
+            color:#22364e; cursor:pointer; padding:7px 10px 7px 0; border-radius:6px; transition:color .15s; }
+  .bc-opt:hover { color:#ef7622; }
+  .bc-divider { grid-column:1 / -1; height:1px; background:repeating-linear-gradient(to right,#d6dee6 0 3px,transparent 3px 7px); }
+
+  .bc-consent { display:flex; align-items:flex-start; gap:11px; font-size:13px; line-height:1.5;
+                color:#55636f; cursor:pointer; }
+  .bc-check { appearance:none; -webkit-appearance:none; -moz-appearance:none; position:relative;
+              margin:1px 0 0; flex:0 0 auto; width:18px; height:18px; border:1.5px solid #b9c4cf;
+              border-radius:4px; background-color:#fff; cursor:pointer;
+              transition:border-color .15s, background-color .15s; }
+  .bc-check:checked { border-color:#ef7622; background-color:#ef7622; }
+  .bc-check::after { content:''; position:absolute; display:none; left:5.5px; top:1.5px;
+              width:4.5px; height:8.5px; border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+  .bc-check:checked::after { display:block; }
+  .bc-check:focus-visible { outline:2px solid #f7bc8e; outline-offset:2px; }
+
+  .bc-submit { display:inline-flex; align-items:center; gap:16px; border:0; cursor:pointer;
+               background:#ef7622; color:#fff; font-family:Montserrat,Helvetica,Arial,sans-serif;
+               font-size:15px; font-weight:700; letter-spacing:.005em; border-radius:999px;
+               padding:9px 9px 9px 26px; transition:background .16s, box-shadow .16s; }
+  .bc-submit:hover { background:#d8621a; box-shadow:0 8px 20px rgba(239,118,34,.28); }
+  .bc-submit:disabled { opacity:.6; cursor:not-allowed; box-shadow:none; }
+  .bc-submit span.bc-arrow { width:32px; height:32px; border-radius:50%; background:#0d2b52;
+               display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .bc-fieldset { border:0; margin:0; padding:0; min-width:0; }
+  .bc-fieldset:disabled { opacity:.55; }
+  .bc-error { grid-column:1 / -1; font-size:13.5px; line-height:1.5; color:#b3261e;
+              background:#fdecea; border-radius:6px; padding:11px 14px; margin:0; }
+
+  .bc-thanks { text-align:center; padding:clamp(16px,3vw,40px) 0 clamp(6px,1vw,14px); }
+  .bc-thanks-badge { width:66px; height:66px; border-radius:50%; background:#fff2e7; color:#ef7622;
+               display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+</style>
+</helmet>
+
+<div style="width:100%;overflow-x:hidden;background:#fff">
+
+  <a href="#home" style="position:absolute;left:-9999px;top:0;background:#0d2b52;color:#fff;padding:10px 16px;z-index:200;font-size:14px" style-focus="left:12px;top:12px">Skip to content</a>
+
+  <header data-site-header="true" style="position: {{ headerPos }}; top:0;left:0;width:100%;z-index:100;background:#fff;box-shadow: {{ headerShadow }}">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:18px clamp(20px,4vw,64px);display:flex;align-items:center;justify-content:space-between;gap:24px">
+
+      <a href="#home" onClick="{{ onNavClick }}" style="display:flex;flex-direction:column;gap:7px;flex-shrink:0">
+        <img src="uploads/logo.png" alt="iTANZ | Cloudflare" style="height:clamp(38px,3.6vw,52px);width:auto;display:block" />
+        <div style="font-family:Montserrat,sans-serif;font-size:clamp(8px,0.72vw,10px);font-weight:600;letter-spacing:0.24em;color:#7d8ea1;line-height:1">RESELLER &amp; IMPLEMENTATION PARTNER</div>
+      </a>
+
+      <nav aria-label="Primary" style="display: {{ deskNav }}; align-items:center;gap:clamp(18px,2.4vw,40px)">
+        <a href="#home" onClick="{{ onNavClick }}" style="font-family:'Open Sans',sans-serif;font-size:15px;font-weight:600;color:#0d2b52;padding-bottom:6px;border-bottom:2px solid #ef7622" style-hover="color:#ef7622">Home</a>
+        <a href="#solutions" onClick="{{ onNavClick }}" style="font-family:'Open Sans',sans-serif;font-size:15px;font-weight:500;color:#0d2b52;padding-bottom:6px;border-bottom:2px solid transparent" style-hover="color:#ef7622;border-bottom-color:#ef7622">Solutions</a>
+        <a href="#why" onClick="{{ onNavClick }}" style="font-family:'Open Sans',sans-serif;font-size:15px;font-weight:500;color:#0d2b52;padding-bottom:6px;border-bottom:2px solid transparent" style-hover="color:#ef7622;border-bottom-color:#ef7622">Why Cloudflare</a>
+        <a href="#assessment" onClick="{{ onNavClick }}" style="font-family:'Open Sans',sans-serif;font-size:15px;font-weight:500;color:#0d2b52;padding-bottom:6px;border-bottom:2px solid transparent" style-hover="color:#ef7622;border-bottom-color:#ef7622">Assessment</a>
+        <a href="#contact" onClick="{{ onNavClick }}" style="font-family:'Open Sans',sans-serif;font-size:15px;font-weight:500;color:#0d2b52;padding-bottom:6px;border-bottom:2px solid transparent" style-hover="color:#ef7622;border-bottom-color:#ef7622">Contact</a>
+      </nav>
+
+      <button type="button" aria-label="Open menu" aria-expanded="{{ menuExpanded }}" onClick="{{ toggleMenu }}" style="display: {{ burger }}; flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:10px;background:transparent;border:1px solid #dfe6ee;border-radius:4px;cursor:pointer">
+        <span style="display:block;height:2px;width:100%;background:#0d2b52"></span>
+        <span style="display:block;height:2px;width:100%;background:#0d2b52"></span>
+        <span style="display:block;height:2px;width:100%;background:#0d2b52"></span>
+      </button>
+    </div>
+
+    <div style="display: {{ menuPanel }}; flex-direction:column;border-top:1px solid #eaeef3;background:#fff;padding:8px clamp(20px,4vw,64px) 20px">
+      <a href="#home" onClick="{{ onNavClick }}" style="font-size:16px;font-weight:600;color:#0d2b52;padding:15px 0;border-bottom:1px solid #f0f3f7;min-height:44px">Home</a>
+      <a href="#solutions" onClick="{{ onNavClick }}" style="font-size:16px;font-weight:600;color:#0d2b52;padding:15px 0;border-bottom:1px solid #f0f3f7;min-height:44px">Solutions</a>
+      <a href="#why" onClick="{{ onNavClick }}" style="font-size:16px;font-weight:600;color:#0d2b52;padding:15px 0;border-bottom:1px solid #f0f3f7;min-height:44px">Why Cloudflare</a>
+      <a href="#assessment" onClick="{{ onNavClick }}" style="font-size:16px;font-weight:600;color:#0d2b52;padding:15px 0;border-bottom:1px solid #f0f3f7;min-height:44px">Assessment</a>
+      <a href="#contact" onClick="{{ onNavClick }}" style="font-size:16px;font-weight:600;color:#0d2b52;padding:15px 0;min-height:44px">Contact</a>
+    </div>
+  </header>
+
+  <section id="home" data-screen-label="Hero" style="position:relative;width:100%;background:#fff;overflow:hidden">
+    <div style="position:absolute;inset:0 0 0 auto;width: {{ heroImgWidth }}; background-image:url('uploads/hero-bg.webp');background-size:cover;background-position:right center;background-repeat:no-repeat">
+      
+    </div>
+    <div style="position:absolute;inset:0;background: {{ heroScrim }}"></div>
+
+    <div style="position:relative;width:100%;max-width:1400px;margin:0 auto;padding:clamp(48px,6vw,104px) clamp(20px,4vw,64px) clamp(56px,7vw,120px)">
+      <div style="max-width:min(640px,100%)">
+        <h1 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(36px,5.1vw,72px);line-height:1.16;letter-spacing:-0.015em;color:#0d2b52;margin:0">EVERY DIGITAL<br />INTERACTION<br /><span style="color:#ef7622">MATTERS.</span></h1>
+        <div style="width:64px;height:3px;background:#ef7622;margin:clamp(20px,2.4vw,34px) 0 clamp(22px,2.6vw,36px)"></div>
+        <p style="font-family:'Open Sans',sans-serif;font-size:clamp(17px,1.55vw,22px);line-height:1.55;font-weight:400;color:#123255;margin:0">Secure users.<br />Protect applications.<br />Connect everything.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(28px,3.2vw,44px)">
+          <a href="#book" onClick="{{ openModal }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:14px;background:#ef7622;color:#fff;font-family:'Open Sans',sans-serif;font-size:clamp(14px,1.05vw,15px);font-weight:600;padding:16px 26px;border-radius:2px;min-height:52px;box-shadow:0 2px 10px rgba(239,118,34,.28)" style-hover="background:#d8621a;color:#fff">Request a Zero Trust Assessment <span aria-hidden="true" style="font-size:17px;line-height:1">&#8594;</span></a>
+          <a href="#book" onClick="{{ openModal }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:14px;background:#fff;color:#ef7622;font-family:'Open Sans',sans-serif;font-size:clamp(14px,1.05vw,15px);font-weight:600;padding:16px 26px;border-radius:2px;min-height:52px;border:1.5px solid #ef7622" style-hover="background:#fff6f0;color:#d8621a">Talk to an Expert <span aria-hidden="true" style="font-size:17px;line-height:1">&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" data-screen-label="Why iTANZ Cloudflare" style="background:#fff;padding:clamp(56px,6.4vw,96px) 0">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+      <h2 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(25px,2.7vw,38px);line-height:1.25;letter-spacing:-0.01em;color:#0d2b52;text-align:center;margin:0">Why iTANZ | Cloudflare</h2>
+      <div style="width:46px;height:3px;background:#ef7622;margin:16px auto clamp(22px,2.4vw,32px)"></div>
+      <p style="max-width:720px;margin:0 auto;text-align:center;font-size:clamp(15px,1.3vw,18px);line-height:1.72;color:#3d5875">A partnership that brings together iTANZ's implementation expertise and Cloudflare's global edge platform to deliver secure, fast, and reliable experiences.</p>
+
+      <div style="display:grid;grid-template-columns: {{ whyGrid }}; gap:clamp(16px,1.8vw,28px);margin-top:clamp(34px,3.6vw,52px)">
+        <div style="background:#fff;border:1px solid #e6ebf1;border-radius:3px;box-shadow:0 6px 24px rgba(13,43,82,.06);padding:clamp(30px,3vw,44px) clamp(22px,2.2vw,32px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6l7.4 2.6v5.6c0 4.8-3.1 8.3-7.4 10.6-4.3-2.3-7.4-5.8-7.4-10.6V5.2z" /><circle cx="12" cy="10.6" r="2.1" /><path d="M12 12.7v3.1" /></svg>
+          <h3 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(17px,1.42vw,20px);color:#0d2b52;margin:0">Zero Trust Security</h3>
+          <p style="font-size:clamp(14px,1.15vw,16px);line-height:1.75;color:#4a627d;margin:0;max-width:280px">Verify every user, device, and application—always.</p>
+        </div>
+        <div style="background:#fff;border:1px solid #e6ebf1;border-radius:3px;box-shadow:0 6px 24px rgba(13,43,82,.06);padding:clamp(30px,3vw,44px) clamp(22px,2.2vw,32px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.4 17a8.6 8.6 0 1 1 17.2 0" /><path d="M12 16.4l4.6-5.2" /><circle cx="12" cy="17" r="1.3" /></svg>
+          <h3 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(17px,1.42vw,20px);color:#0d2b52;margin:0">Application Performance</h3>
+          <p style="font-size:clamp(14px,1.15vw,16px);line-height:1.75;color:#4a627d;margin:0;max-width:280px">Accelerate digital experiences everywhere, all the time.</p>
+        </div>
+        <div style="background:#fff;border:1px solid #e6ebf1;border-radius:3px;box-shadow:0 6px 24px rgba(13,43,82,.06);padding:clamp(30px,3vw,44px) clamp(22px,2.2vw,32px);display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2" /><path d="M12 2.8l8.7 12.9H3.3z" /><path d="M12 2.8v18.4M3.3 15.7h17.4" /></svg>
+          <h3 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(17px,1.42vw,20px);color:#0d2b52;margin:0">Secure Connectivity</h3>
+          <p style="font-size:clamp(14px,1.15vw,16px);line-height:1.75;color:#4a627d;margin:0;max-width:280px">Connect people, apps, and clouds with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solutions" data-screen-label="Built for a Zero Trust World" style="background:#f2f5f8;padding:clamp(52px,6vw,88px) 0 0">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+      <h2 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(25px,2.7vw,38px);line-height:1.25;letter-spacing:-0.01em;color:#0d2b52;text-align:center;margin:0">Built for a Zero Trust World</h2>
+      <div style="width:46px;height:3px;background:#ef7622;margin:16px auto clamp(30px,3.2vw,44px)"></div>
+
+      <div style="display:grid;grid-template-columns: {{ solGrid }}; gap:clamp(14px,1.5vw,24px);padding-bottom:clamp(48px,5vw,72px)">
+
+        <article style="position:relative;aspect-ratio:312/560;min-height:420px;border-radius:2px;overflow:hidden;background-image:url('uploads/card-1.webp');background-size:cover;background-position:center;box-shadow:0 8px 26px rgba(13,43,82,.10)">
+          
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.88) 42%,rgba(255,255,255,0) 66%)"></div>
+          <div style="position:relative;padding:clamp(16px,1.5vw,22px);display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:14px;color:#0d2b52;letter-spacing:-0.01em">iTANZ</span>
+              <span style="width:1px;height:14px;background:#c8d3de"></span>
+              <span style="width:14px;height:9px;border-radius:5px;background:#f6821f"></span>
+              <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:8px;letter-spacing:0.12em;color:#0d2b52">CLOUDFLARE</span>
+            </div>
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:9px;letter-spacing:0.18em;color:#ef7622">ZERO TRUST</span>
+            <h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,21px);line-height:1.24;color:#0d2b52;margin:0">TRUST NOTHING.<br />VERIFY EVERYTHING.</h3>
+            <p style="font-size:clamp(11px,0.92vw,13px);line-height:1.6;color:#3d5875;margin:0">Replace broad access with precise, context-aware control.</p>
+            <span style="display:inline-flex;align-items:center;gap:8px;align-self:flex-start;background:#ef7622;color:#fff;font-family:Montserrat,sans-serif;font-weight:700;font-size:8px;letter-spacing:0.1em;padding:9px 12px;border-radius:2px;margin-top:4px">REQUEST A ZERO TRUST ASSESSMENT <span aria-hidden="true">&#8594;</span></span>
+          </div>
+        </article>
+
+        <article style="position:relative;aspect-ratio:312/560;min-height:420px;border-radius:2px;overflow:hidden;background-image:url('uploads/card-2.webp');background-size:cover;background-position:center;box-shadow:0 8px 26px rgba(13,43,82,.10)">
+          
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,17,26,.86) 0%,rgba(9,17,26,.55) 46%,rgba(9,17,26,0) 70%)"></div>
+          <div style="position:relative;padding:clamp(16px,1.5vw,22px);display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:14px;color:#fff;letter-spacing:-0.01em">iTANZ</span>
+              <span style="width:1px;height:14px;background:rgba(255,255,255,.35)"></span>
+              <span style="width:14px;height:9px;border-radius:5px;background:#f6821f"></span>
+              <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:8px;letter-spacing:0.12em;color:#fff">CLOUDFLARE</span>
+            </div>
+            <h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,21px);line-height:1.24;color:#fff;margin:14px 0 0">CONTROL EVERY<br />CONNECTION.</h3>
+            <p style="font-size:clamp(11px,0.92vw,13px);line-height:1.6;color:rgba(255,255,255,.86);margin:0">Apply precise policy across distributed access.</p>
+          </div>
+        </article>
+
+        <article style="position:relative;aspect-ratio:312/560;min-height:420px;border-radius:2px;overflow:hidden;background-image:url('uploads/card-3.webp');background-size:cover;background-position:center;box-shadow:0 8px 26px rgba(13,43,82,.10)">
+          
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.82) 40%,rgba(255,255,255,0) 64%)"></div>
+          <div style="position:relative;padding:clamp(16px,1.5vw,22px);display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:14px;color:#0d2b52;letter-spacing:-0.01em">iTANZ</span>
+              <span style="width:1px;height:14px;background:#c8d3de"></span>
+              <span style="width:14px;height:9px;border-radius:5px;background:#f6821f"></span>
+              <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:8px;letter-spacing:0.12em;color:#0d2b52">CLOUDFLARE</span>
+            </div>
+            <h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,21px);line-height:1.24;color:#0d2b52;margin:14px 0 0">ACCESS,<br />ON YOUR<br />TERMS.</h3>
+            <p style="font-size:clamp(11px,0.92vw,13px);line-height:1.6;color:#3d5875;margin:0">Give trusted users secure access to critical resources.</p>
+          </div>
+        </article>
+
+        <article style="position:relative;aspect-ratio:312/560;min-height:420px;border-radius:2px;overflow:hidden;background-image:url('uploads/card-4.webp');background-size:cover;background-position:center;box-shadow:0 8px 26px rgba(13,43,82,.10)">
+          
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.82) 40%,rgba(255,255,255,0) 64%)"></div>
+          <div style="position:relative;padding:clamp(16px,1.5vw,22px);display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="font-family:Montserrat,sans-serif;font-weight:800;font-size:14px;color:#0d2b52;letter-spacing:-0.01em">iTANZ</span>
+              <span style="width:1px;height:14px;background:#c8d3de"></span>
+              <span style="width:14px;height:9px;border-radius:5px;background:#f6821f"></span>
+              <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:8px;letter-spacing:0.12em;color:#0d2b52">CLOUDFLARE</span>
+            </div>
+            <h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(17px,1.5vw,21px);line-height:1.24;color:#0d2b52;margin:14px 0 0">CONNECT PEOPLE.<br />PROTECT<br />PRODUCTION.</h3>
+            <p style="font-size:clamp(11px,0.92vw,13px);line-height:1.6;color:#3d5875;margin:0">Secure workforce access without exposing operations.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Challenges and Solutions" style="background:#0b2b52;padding:clamp(48px,5.4vw,80px) 0">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+      <div style="display:grid;grid-template-columns: {{ chGrid }}; gap:clamp(30px,3vw,40px) 0">
+
+        <div style="padding:0 clamp(18px,2vw,34px);border-left: {{ div1 }};display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="10.5" rx="2" /><path d="M8.2 10V7.4a3.8 3.8 0 0 1 7.6 0V10" /><path d="M12 14v3" /></svg>
+            <h3 style="font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(16px,1.3vw,18px);color:#fff;margin:0">VPN Complexity</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">THE CHALLENGE</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Legacy VPNs are complex, broad, and difficult to scale.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">OUR SOLUTION</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Zero Trust Network Access that's simple, secure, and scalable.</p>
+          </div>
+        </div>
+
+        <div style="padding:0 clamp(18px,2vw,34px);border-left: {{ div2 }};display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l9 15.8H3z" /><path d="M12 9.6v4.2" /><path d="M12 16.6h.01" /></svg>
+            <h3 style="font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(16px,1.3vw,18px);color:#fff;margin:0">Application Exposure</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">THE CHALLENGE</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Exposed apps and APIs increase risk and attack surface.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">OUR SOLUTION</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Protect every application with Cloudflare's global edge platform.</p>
+          </div>
+        </div>
+
+        <div style="padding:0 clamp(18px,2vw,34px);border-left: {{ div3 }};display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.4" r="3" /><path d="M3.6 19.4c0-3 2.4-5.2 5.4-5.2s5.4 2.2 5.4 5.2" /><circle cx="16.6" cy="9.4" r="2.3" /><path d="M15 14.6c3 0 5.4 2 5.4 4.8" /></svg>
+            <h3 style="font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(16px,1.3vw,18px);color:#fff;margin:0">Distributed Workforce</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">THE CHALLENGE</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Users need fast, reliable access from anywhere.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">OUR SOLUTION</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Secure, identity-aware access that follows users, not network boundaries.</p>
+          </div>
+        </div>
+
+        <div style="padding:0 clamp(18px,2vw,34px);border-left: {{ div4 }};display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.2" y="4.2" width="17.6" height="15.6" rx="2" /><path d="M6.8 15.2l3.4-4 2.6 2.6 4.4-5" /><path d="M14.6 8.8h2.6v2.6" /></svg>
+            <h3 style="font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(16px,1.3vw,18px);color:#fff;margin:0">Operational Continuity</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">THE CHALLENGE</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Downtime and disruptions impact business outcomes.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(11px,0.9vw,12px);letter-spacing:0.14em;color:#ef7622">OUR SOLUTION</span>
+            <p style="font-size:clamp(13px,1.1vw,15px);line-height:1.72;color:rgba(255,255,255,.86);margin:0">Built-in resilience and global performance you can count on.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Trusted Across Industries" style="background:#fff;padding:clamp(52px,6vw,88px) 0">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:0 clamp(20px,4vw,64px)">
+      <h2 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(25px,2.7vw,38px);line-height:1.25;letter-spacing:-0.01em;color:#0d2b52;text-align:center;margin:0">Trusted Across Industries</h2>
+      <div style="width:46px;height:3px;background:#ef7622;margin:16px auto clamp(30px,3.2vw,44px)"></div>
+
+      <div style="display:grid;grid-template-columns: {{ indGrid }}; gap:clamp(14px,1.5vw,24px)">
+        <div style="border:1px solid #e6ebf1;border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(13,43,82,.07)">
+          <div style="position:relative;background:#f4f7fa;display:flex;align-items:center;justify-content:center;z-index:1">
+            <img src="uploads/bfsi.png" alt="BFSI" style="width:100%;height:auto;display:block" />
+            <span style="position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(13,43,82,.14);display:flex;align-items:center;justify-content:center;z-index:3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="1.8" /><path d="M8.6 10.5V7.8a3.4 3.4 0 0 1 6.8 0v2.7" /></svg>
+            </span>
+          </div>
+          <p style="text-align:center;font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(14px,1.2vw,16px);color:#0d2b52;margin:0;padding:40px 12px 22px">BFSI</p>
+        </div>
+
+        <div style="border:1px solid #e6ebf1;border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(13,43,82,.07)">
+          <div style="position:relative;background:#f4f7fa;display:flex;align-items:center;justify-content:center;z-index:1">
+            <img src="uploads/government.png" alt="Government" style="width:100%;height:auto;display:block" />
+            <span style="position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(13,43,82,.14);display:flex;align-items:center;justify-content:center;z-index:3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 9.5L12 4.5l8.5 5" /><path d="M6 9.5v9M10 9.5v9M14 9.5v9M18 9.5v9" /><path d="M3.5 19.5h17" /></svg>
+            </span>
+          </div>
+          <p style="text-align:center;font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(14px,1.2vw,16px);color:#0d2b52;margin:0;padding:40px 12px 22px">Government</p>
+        </div>
+
+        <div style="border:1px solid #e6ebf1;border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(13,43,82,.07)">
+          <div style="position:relative;background:#f4f7fa;display:flex;align-items:center;justify-content:center;z-index:1">
+            <img src="uploads/telecom.png" alt="Telecom" style="width:100%;height:auto;display:block" />
+            <span style="position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(13,43,82,.14);display:flex;align-items:center;justify-content:center;z-index:3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="2" /><path d="M7.8 5.8a6 6 0 0 0 0 8.4M16.2 5.8a6 6 0 0 1 0 8.4" /><path d="M11 12l-1.4 8h4.8L13 12" /></svg>
+            </span>
+          </div>
+          <p style="text-align:center;font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(14px,1.2vw,16px);color:#0d2b52;margin:0;padding:40px 12px 22px">Telecom</p>
+        </div>
+
+        <div style="border:1px solid #e6ebf1;border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(13,43,82,.07)">
+          <div style="position:relative;background:#f4f7fa;display:flex;align-items:center;justify-content:center;z-index:1">
+            <img src="uploads/utilities.png" alt="Utilities" style="width:100%;height:auto;display:block" />
+            <span style="position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(13,43,82,.14);display:flex;align-items:center;justify-content:center;z-index:3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.6" /><path d="M12 3.2v2.6M12 18.2v2.6M3.2 12h2.6M18.2 12h2.6M5.8 5.8l1.9 1.9M16.3 16.3l1.9 1.9M18.2 5.8l-1.9 1.9M7.7 16.3l-1.9 1.9" /></svg>
+            </span>
+          </div>
+          <p style="text-align:center;font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(14px,1.2vw,16px);color:#0d2b52;margin:0;padding:40px 12px 22px">Utilities</p>
+        </div>
+
+        <div style="border:1px solid #e6ebf1;border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 6px 22px rgba(13,43,82,.07)">
+          <div style="position:relative;background:#f4f7fa;display:flex;align-items:center;justify-content:center;z-index:1">
+            <img src="uploads/manufacturing.png" alt="Manufacturing" style="width:100%;height:auto;display:block" />
+            <span style="position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(13,43,82,.14);display:flex;align-items:center;justify-content:center;z-index:3">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10l5 3.2V10l5 3.2V8l6 4v8z" /><path d="M4 20h16" /></svg>
+            </span>
+          </div>
+          <p style="text-align:center;font-family:'Open Sans',sans-serif;font-weight:600;font-size:clamp(14px,1.2vw,16px);color:#0d2b52;margin:0;padding:40px 12px 22px">Manufacturing</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="assessment" data-screen-label="Zero Trust Readiness Assessment" style="display:flex;flex-wrap:wrap;background:#eef2f6;align-items:stretch">
+    <div style="flex:1 1 480px;min-width:min(100%,320px);background:linear-gradient(135deg,#f4f7fa 0%,#e8eef4 100%);padding:clamp(40px,4.6vw,72px) clamp(20px,4vw,64px);display:flex;flex-direction:column;justify-content:center">
+      <div style="max-width:520px;margin-left: {{ assessMargin }};width:100%">
+        <h2 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:clamp(24px,2.5vw,34px);line-height:1.28;letter-spacing:-0.01em;color:#0d2b52;margin:0">ZERO TRUST READINESS<br />ASSESSMENT</h2>
+        <div style="width:46px;height:3px;background:#ef7622;margin:20px 0 24px"></div>
+        <p style="font-size:clamp(14px,1.2vw,16px);line-height:1.78;color:#3d5875;margin:0">We help you evaluate your security posture, identify gaps, and build a tailored roadmap to a Zero Trust future.</p>
+        <ul style="list-style:none;margin:26px 0 0;padding:0;display:flex;flex-direction:column;gap:12px">
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:clamp(13px,1.1vw,15px);line-height:1.55;color:#123255"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px" aria-hidden="true"><path d="M4 12.6l5.2 5.2L20 6.6" /></svg>Discover risks, misconfigurations, and blind spots</li>
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:clamp(13px,1.1vw,15px);line-height:1.55;color:#123255"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px" aria-hidden="true"><path d="M4 12.6l5.2 5.2L20 6.6" /></svg>Validate maturity across people, apps, and networks</li>
+          <li style="display:flex;align-items:flex-start;gap:12px;font-size:clamp(13px,1.1vw,15px);line-height:1.55;color:#123255"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef7622" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:3px" aria-hidden="true"><path d="M4 12.6l5.2 5.2L20 6.6" /></svg>Get actionable recommendations and next steps</li>
+        </ul>
+        <a href="#book" onClick="{{ openModal }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:14px;background:#ef7622;color:#fff;font-family:'Open Sans',sans-serif;font-size:clamp(14px,1.05vw,15px);font-weight:600;padding:16px 26px;border-radius:2px;min-height:52px;margin-top:30px;align-self:flex-start;box-shadow:0 2px 10px rgba(239,118,34,.28)" style-hover="background:#d8621a;color:#fff">Request Your Assessment <span aria-hidden="true" style="font-size:17px;line-height:1">&#8594;</span></a>
+      </div>
+    </div>
+    <div style="flex:1 1 480px;min-width:min(100%,320px);min-height: {{ assessMinH }}; align-self:stretch;background-image:url('uploads/assessment-dashboard.png');background-size:cover;background-position:center top">
+      
+    </div>
+  </section>
+
+  <section id="contact" data-screen-label="CTA Band" style="position:relative;background:#0b2b52;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url('uploads/cta.png');background-size:cover;background-position:center right"></div>
+    <div style="position:absolute;inset:0;background: {{ ctaScrim }}"></div>
+    <div style="position:relative;width:100%;max-width:1400px;margin:0 auto;padding:clamp(44px,5vw,76px) clamp(20px,4vw,64px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:clamp(28px,3vw,48px)">
+      <div style="flex:1 1 460px;min-width:min(100%,300px)">
+        <h2 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:clamp(26px,3.1vw,42px);line-height:1.22;letter-spacing:-0.01em;color:#fff;margin:0">TRUST NOTHING.<br /><span style="color:#ef7622">VERIFY</span> EVERYTHING.</h2>
+        <p style="font-size:clamp(14px,1.2vw,16px);line-height:1.7;color:rgba(255,255,255,.84);margin:22px 0 0">Secure every interaction. Deliver every experience.<br />Power your business with confidence.</p>
+      </div>
+      <a href="#book" onClick="{{ openModal }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:14px;background:#ef7622;color:#fff;font-family:'Open Sans',sans-serif;font-size:clamp(15px,1.15vw,17px);font-weight:600;padding:20px 32px;border-radius:2px;min-height:58px;flex-shrink:0;box-shadow:0 4px 18px rgba(0,0,0,.22)" style-hover="background:#d8621a;color:#fff">Book Your Assessment <span aria-hidden="true" style="font-size:19px;line-height:1">&#8594;</span></a>
+    </div>
+  </section>
+
+  <footer style="background:#061e3c;color:#fff">
+    <div style="width:100%;max-width:1400px;margin:0 auto;padding:clamp(34px,3.6vw,52px) clamp(20px,4vw,64px);display:flex;flex-wrap:wrap;align-items:center;gap:clamp(28px,3.4vw,56px)">
+
+      <div style="flex:1 1 320px;min-width:min(100%,280px);display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+        <img src="uploads/itanz-cloudeflare-alt.png" alt="iTANZ | Cloudflare" style="height:clamp(52px,5vw,72px);width:auto;display:block" />
+        <div style="font-family:Montserrat,sans-serif;font-size:clamp(8px,0.7vw,10px);font-weight:600;letter-spacing:0.24em;color:rgba(255,255,255,.6);line-height:1.6">RESELLER &amp; IMPLEMENTATION PARTNER</div>
+      </div>
+
+      <div style="flex:0 1 auto;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6" /><path d="M3.4 12h17.2" /><path d="M12 3.4c2.4 2.4 2.4 14.4 0 17.2-2.4-2.8-2.4-14.8 0-17.2z" /></svg>
+          <a href="https://www.itanzgroup.com" style="font-size:clamp(14px,1.15vw,16px);color:rgba(255,255,255,.9)" style-hover="color:#ef7622">www.itanzgroup.com</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.4" width="18" height="13.2" rx="2" /><path d="M3.6 6.4L12 13l8.4-6.6" /></svg>
+          <a href="mailto:info@itanzgroup.com" style="font-size:clamp(14px,1.15vw,16px);color:rgba(255,255,255,.9)" style-hover="color:#ef7622">info@itanzgroup.com</a>
+        </div>
+      </div>
+
+      <div style="flex:0 1 auto;padding-left:clamp(20px,2.6vw,44px);border-left:1px solid rgba(255,255,255,.2)">
+        <p style="font-size:clamp(14px,1.2vw,17px);line-height:1.55;color:#fff;margin:0">Clarity In Systems.<br />Confidence In Scale.</p>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,.12)">
+      <p style="text-align:center;font-size:clamp(11px,0.95vw,13px);color:rgba(255,255,255,.55);margin:0;padding:16px 20px">© 2026 iTANZ Tech Solutions Pvt. Ltd. All rights reserved. &nbsp;|&nbsp; <a href="/docs/iTANZ_Privacy_Policy.pdf" target="_blank" rel="noopener" style="color:rgba(255,255,255,.55);text-decoration:underline" style-hover="color:#ef7622">Privacy Policy</a></p>
+    </div>
+  </footer>
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="bc-overlay" onClick="{{ onBackdrop }}">
+      <div class="bc-modal" role="dialog" aria-modal="true" aria-label="Book a Consultation" onClick="{{ stopClick }}">
+        <button class="bc-close" type="button" aria-label="Close" onClick="{{ closeModal }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        </button>
+
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h2 class="bc-title">Book a Consultation</h2>
+            <p class="bc-sub">Tell us about your operational challenge and our specialists will get back to you within one business day.</p>
+
+            <form onSubmit="{{ onSubmit }}" method="post" action="/api/campaign-enquiry">
+             <fieldset class="bc-fieldset" disabled="{{ sending }}">
+              <div class="bc-grid">
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="first_name" placeholder="First Name*" autocomplete="given-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="last_name" placeholder="Last Name*" autocomplete="family-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="email" name="work_email" placeholder="Work Email*" autocomplete="email" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="company_name" placeholder="Company Name*" autocomplete="organization" required="" />
+                </div>
+                <div class="bc-field bc-full">
+                  <input class="bc-input" type="text" name="job_title" placeholder="Job Title*" autocomplete="organization-title" required="" />
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <p class="bc-qlabel">What is your organisation's biggest operational challenge today? (Select all that apply)*</p>
+                  <div class="bc-options">
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Disconnected systems and spreadsheets" /><span>Disconnected systems and spreadsheets</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Slow financial reporting and consolidation" /><span>Slow financial reporting and consolidation</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Limited inventory and order visibility" /><span>Limited inventory and order visibility</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Managing growth across multiple entities" /><span>Managing growth across multiple entities</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Too many manual business processes" /><span>Too many manual business processes</span></label>
+                  </div>
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <label class="bc-consent"><input class="bc-check" type="checkbox" name="consent" required="" /><span>I agree that iTANZ may use my details to respond to this enquiry in line with its <a href="/docs/iTANZ_Privacy_Policy.pdf" target="_blank" rel="noopener" style="color:#ef7622;text-decoration:underline">privacy policy</a>.</span></label>
+                </div>
+
+                <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+                  <p class="bc-error">{{ errorMsg }}</p>
+                </sc-if>
+
+                <div class="bc-full">
+                  <button class="bc-submit" type="submit" disabled="{{ sending }}">{{ submitLabel }}<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7" /><path d="M9 7h8v8" /></svg></span></button>
+                </div>
+              </div>
+             </fieldset>
+              <input type="text" name="website" tabIndex="-1" autoComplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+            </form>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div class="bc-thanks">
+            <div class="bc-thanks-badge">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+            </div>
+            <h2 class="bc-title" style="margin-right:0;text-align:center">Thank you</h2>
+            <p class="bc-sub" style="margin-bottom:26px;max-width:520px;margin-left:auto;margin-right:auto;font-size:15px;line-height:1.6">Your enquiry has been submitted successfully, and a confirmation email has been sent to you.</p>
+            <button class="bc-submit" type="button" onClick="{{ closeModal }}">Close<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg></span></button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;stickyHeader&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;},&quot;smoothScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1440, menuOpen: false, scrolled: false, modalOpen: false, submitted: false, sending: false, errorMsg: '' };
+
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      this.setState(s => ({ w, menuOpen: w >= 900 ? false : s.menuOpen }));
+    };
+    this._onScroll = () => {
+      const s = window.scrollY > 8;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.modalOpen && !this.state.sending) this.closeModal(); };
+    window.addEventListener('resize', this._onResize);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('keydown', this._onKey);
+    this._onResize();
+  }
+
+  componentDidUpdate() {
+    document.body.style.overflow = this.state.modalOpen ? 'hidden' : '';
+  }
+
+  closeModal = () => { this.setState({ modalOpen: false, submitted: false, sending: false, errorMsg: '' }); };
+
+  submitForm = (e) => {
+    e.preventDefault();
+    if (this.state.sending) return;
+    const data = new FormData(e.target);
+    if (data.getAll('challenge[]').length === 0) {
+      this.setState({ errorMsg: "Please select at least one operational challenge." });
+      return;
+    }
+    data.append('page_url', window.location.href);
+    this.setState({ sending: true, errorMsg: '' });
+
+    fetch("/api/campaign-enquiry", { method: 'POST', body: data })
+      .then(r => r.json().catch(() => ({ ok: false, error: 'The form handler did not respond correctly. Please try again.' })))
+      .then(res => {
+        if (res && res.ok) this.setState({ sending: false, submitted: true, errorMsg: '' });
+        else this.setState({ sending: false, errorMsg: (res && res.error) || 'Something went wrong. Please try again.' });
+      })
+      .catch(() => this.setState({ sending: false, errorMsg: 'We could not reach the server. Please check your connection and try again.' }));
+  };
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('keydown', this._onKey);
+    document.body.style.overflow = '';
+  }
+
+  scrollTo(hash) {
+    const el = document.querySelector(hash);
+    if (!el) return;
+    const header = document.querySelector('[data-site-header]');
+    const sticky = (this.props.stickyHeader ?? true) && this.state.w >= 900;
+    const offset = sticky && header ? header.offsetHeight - 1 : 0;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const smooth = (this.props.smoothScroll ?? true) && !reduce;
+    window.scrollTo({ top: Math.max(0, top), behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  renderVals() {
+    const w = this.state.w;
+    const mobile = w < 900;
+    const sticky = this.props.stickyHeader ?? true;
+    const chCols = w >= 1100 ? 4 : w >= 700 ? 2 : 1;
+    const div = '1px solid rgba(255,255,255,.14)';
+    const chDiv = i => (i % chCols === 0 ? 'none' : div);
+    const cols = n => 'repeat(' + n + ',minmax(0,1fr))';
+    return {
+      heroImgWidth: mobile ? '100%' : 'min(58%,900px)',
+      heroScrim: mobile
+        ? 'linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.93) 100%)'
+        : 'linear-gradient(90deg,#fff 0%,#fff 34%,rgba(255,255,255,.92) 44%,rgba(255,255,255,0) 62%)',
+      heroLabel: mobile ? 'none' : 'inline',
+      chGrid: cols(chCols),
+      div1: chDiv(0), div2: chDiv(1), div3: chDiv(2), div4: chDiv(3),
+      assessMargin: w >= 980 ? 'auto' : '0',
+      assessMinH: w >= 980 ? 'min(52vw,620px)' : 'min(88vw,560px)',
+      ctaScrim: mobile
+        ? 'linear-gradient(180deg,rgba(6,26,52,.86) 0%,rgba(6,26,52,.80) 100%)'
+        : 'linear-gradient(90deg,rgba(6,26,52,.94) 0%,rgba(6,26,52,.86) 42%,rgba(6,26,52,.42) 72%,rgba(6,26,52,.28) 100%)',
+      whyGrid: cols(w >= 900 ? 3 : 1),
+      solGrid: cols(w >= 1120 ? 4 : w >= 700 ? 2 : 1),
+      indGrid: cols(w >= 1120 ? 5 : w >= 840 ? 3 : w >= 520 ? 2 : 1),
+      deskNav: mobile ? 'none' : 'flex',
+      burger: mobile ? 'flex' : 'none',
+      menuPanel: mobile && this.state.menuOpen ? 'flex' : 'none',
+      menuExpanded: this.state.menuOpen ? 'true' : 'false',
+      headerPos: sticky && !mobile ? 'sticky' : 'relative',
+      headerShadow: this.state.scrolled ? '0 2px 14px rgba(13,43,82,.10)' : '0 1px 0 rgba(13,43,82,.07)',
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      modalOpen: this.state.modalOpen,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      sending: this.state.sending,
+      submitLabel: this.state.sending ? 'Sending…' : 'Speak to an Expert',
+      errorMsg: this.state.errorMsg,
+      hasError: !!this.state.errorMsg,
+      openModal: (e) => { if (e) e.preventDefault(); this.setState({ modalOpen: true, submitted: false, sending: false, errorMsg: '', menuOpen: false }); },
+      closeModal: this.closeModal,
+      onBackdrop: () => { if (!this.state.sending) this.closeModal(); },
+      stopClick: (e) => e.stopPropagation(),
+      onSubmit: this.submitForm,
+      onNavClick: (e) => {
+        const href = e.currentTarget.getAttribute('href') || '';
+        if (href.charAt(0) !== '#') return;
+        e.preventDefault();
+        this.setState({ menuOpen: false });
+        this.scrollTo(href);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
+

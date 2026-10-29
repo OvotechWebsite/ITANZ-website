@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/campaigns/netsuite/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: #ffffff; font-family: Lato, "Helvetica Neue", Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  img { max-width: 100%; }
+  a { color: #005EA8; text-decoration: none; }
+  a:hover { color: #F05A1F; }
+  :focus-visible { outline: 3px solid #F05A1F; outline-offset: 3px; }
+  @media (max-width: 980px) {
+    [data-r="nav"] { display: none !important; }
+    [data-r="burger"] { display: inline-flex !important; }
+    [data-r="heroimg"], [data-r="ctaimg"] { position: static !important; width: 100% !important; height: 240px !important; -webkit-mask-image: none !important; mask-image: none !important; margin-top: 36px !important; border-radius: 10px !important; }
+    [data-r="hero"], [data-r="cta"] { display: flex !important; flex-direction: column-reverse !important; align-items: stretch !important; min-height: 0 !important; }
+    [data-r="head"] { height: 88px !important; }
+    [data-r="logo"] { height: 62px !important; }
+    [data-r="arrow"] { display: none !important; }
+    [data-r="engage"] { grid-template-columns: 1fr !important; gap: 28px !important; }
+    [data-r="eco"] { grid-template-columns: 1fr !important; }
+    [data-r="footer"] { grid-template-columns: 1fr !important; gap: 28px !important; }
+    [data-r="statgrid"] { grid-template-columns: repeat(3, minmax(0,1fr)) !important; row-gap: 40px !important; }
+    [data-r="statdiv"] { display: none !important; }
+  }
+  @media (max-width: 760px) {
+    [data-r="cards"] > div { min-height: 0 !important; }
+  }
+  @media (max-width: 1080px) {
+    [data-r="ucgrid"] { grid-template-columns: 1fr !important; }
+  }
+  @media (max-width: 640px) {
+    [data-r="stats"] { grid-template-columns: 1fr 1fr !important; }
+    [data-r="statitem"] { border-left: 0 !important; padding: 14px 0 !important; }
+    [data-r="btnrow"] { flex-direction: column !important; align-items: stretch !important; }
+    [data-r="btn"] { justify-content: center !important; }
+    [data-r="engage"] { grid-template-columns: 1fr !important; }
+    [data-r="statgrid"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; row-gap: 32px !important; }
+  }
+
+  /* ---------- Book a Consultation popup ---------- */
+  @keyframes bcFade { from { opacity:0; } to { opacity:1; } }
+  @keyframes bcRise { from { opacity:0; transform:translateY(22px) scale(.985); } to { opacity:1; transform:none; } }
+
+  .bc-overlay { position:fixed; inset:0; z-index:999; background:rgba(7,24,39,.55);
+                backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+                display:flex; align-items:flex-start; justify-content:center;
+                padding:clamp(14px,3vw,44px); overflow-y:auto; animation:bcFade .18s ease both;
+                font-family:Lato,Arial,sans-serif; }
+  .bc-modal { position:relative; width:100%; max-width:1060px; background:#fff; border-radius:16px;
+              box-shadow:0 30px 80px rgba(6,22,42,.32); padding:clamp(26px,3.4vw,52px) clamp(20px,3.6vw,56px) clamp(28px,3.4vw,46px);
+              animation:bcRise .26s cubic-bezier(.2,.8,.25,1) both; }
+  .bc-close { position:absolute; top:14px; right:14px; width:44px; height:44px; border-radius:50%;
+              border:1px solid #e3e8ee; background:#fff; color:#0f1c2e; cursor:pointer;
+              display:flex; align-items:center; justify-content:center; transition:background .16s, color .16s, transform .16s; }
+  .bc-close:hover { background:#F05A1F; border-color:#F05A1F; color:#fff; transform:rotate(90deg); }
+  .bc-title { font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif; font-weight:700;
+              font-size:clamp(26px,2.8vw,36px); line-height:1.02; color:#111827; margin:0 52px 8px 0; }
+  .bc-sub { font-size:15px; line-height:1.45; color:#5D6B78; margin:0 0 clamp(24px,2.4vw,34px); }
+
+  .bc-grid { display:grid; grid-template-columns:1fr; column-gap:clamp(24px,3vw,44px); row-gap:clamp(22px,2.4vw,32px); }
+  @media (min-width:720px) { .bc-grid { grid-template-columns:1fr 1fr; } }
+  .bc-full { grid-column:1 / -1; }
+  .bc-field { position:relative; }
+  .bc-input { width:100%; border:0; border-bottom:1px dotted #c2ccd6; background:transparent;
+              font-family:Lato,Arial,sans-serif; font-size:16px; color:#111827; padding:0 0 11px; outline:none; border-radius:0; }
+  .bc-input::placeholder { color:#8a97a4; }
+  .bc-input:focus { border-bottom:1px solid #F05A1F; }
+
+  .bc-qlabel { font:700 15px/1.5 Lato,Arial,sans-serif; color:#111827; margin:0 0 16px; }
+  .bc-options { display:grid; grid-template-columns:1fr; gap:6px 34px; }
+  @media (min-width:720px) { .bc-options { grid-template-columns:1fr 1fr; } }
+  .bc-opt { display:flex; align-items:flex-start; gap:11px; font-size:15px; line-height:1.45;
+            color:#22364e; cursor:pointer; padding:10px 10px 10px 0; border-radius:6px; transition:color .15s; }
+  .bc-opt:hover { color:#F05A1F; }
+  .bc-checkwrap { position:relative; flex:0 0 auto; width:18px; height:18px; margin-top:1px; }
+  .bc-check-option { position:absolute; inset:0; margin:0; width:18px; height:18px;
+              opacity:0; cursor:pointer; }
+  .bc-checkbox { position:absolute; inset:0; border:1.5px solid #b9c4cf; border-radius:5px;
+              background:#fff; pointer-events:none; transition:border-color .15s, background .15s; }
+  .bc-checkbox::after { content:''; position:absolute; left:5px; top:2px; width:5px; height:9px;
+              border:solid #fff; border-width:0 2.4px 2.4px 0; transform:rotate(40deg);
+              opacity:0; transition:opacity .1s; }
+  .bc-check-option:checked + .bc-checkbox { border-color:#F05A1F; background:#F05A1F; }
+  .bc-check-option:checked + .bc-checkbox::after { opacity:1; }
+  .bc-check-option:focus-visible + .bc-checkbox { outline:2px solid #F05A1F; outline-offset:2px; }
+
+  .bc-divider { grid-column:1 / -1; height:1px; background:repeating-linear-gradient(to right,#d6dee6 0 3px,transparent 3px 7px); }
+
+  .bc-consent { display:flex; align-items:flex-start; gap:11px; font-size:14px; line-height:1.5;
+                color:#5D6B78; cursor:pointer; }
+  .bc-checkwrap-sm { position:relative; flex:0 0 auto; width:16px; height:16px; margin-top:1px; }
+  .bc-check { position:absolute; inset:0; margin:0; width:16px; height:16px; opacity:0; cursor:pointer; }
+  .bc-checkbox-sm { position:absolute; inset:0; border:1.5px solid #b9c4cf; border-radius:3px;
+              background:#fff; pointer-events:none; transition:border-color .15s, background .15s; }
+  .bc-checkbox-sm::after { content:''; position:absolute; left:4px; top:1px; width:4.5px; height:8px;
+              border:solid #fff; border-width:0 2.2px 2.2px 0; transform:rotate(40deg);
+              opacity:0; transition:opacity .1s; }
+  .bc-check:checked + .bc-checkbox-sm { border-color:#F05A1F; background:#F05A1F; }
+  .bc-check:checked + .bc-checkbox-sm::after { opacity:1; }
+  .bc-check:focus-visible + .bc-checkbox-sm { outline:2px solid #F05A1F; outline-offset:2px; }
+
+  .bc-submit { display:inline-flex; align-items:center; gap:16px; border:0; cursor:pointer;
+               background:#F05A1F; color:#fff; font-family:Lato,Arial,sans-serif; font-size:15px; font-weight:700;
+               letter-spacing:.04em; border-radius:999px; padding:9px 9px 9px 26px;
+               transition:background .16s, box-shadow .16s; }
+  .bc-submit:hover { background:#D94A12; box-shadow:0 8px 20px rgba(240,90,31,.28); }
+  .bc-submit:disabled { opacity:.6; cursor:not-allowed; box-shadow:none; }
+  .bc-submit span.bc-arrow { width:34px; height:34px; border-radius:50%; background:#071827;
+               display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .bc-fieldset { border:0; margin:0; padding:0; min-width:0; }
+  .bc-fieldset:disabled { opacity:.55; }
+  .bc-error { grid-column:1 / -1; font-size:14px; line-height:1.5; color:#b3261e;
+              background:#fdecea; border-radius:6px; padding:11px 14px; margin:0; }
+
+  .bc-thanks { text-align:center; padding:clamp(16px,3vw,40px) 0 clamp(6px,1vw,14px); }
+  .bc-thanks-badge { width:66px; height:66px; border-radius:50%; background:#FFF3EE; color:#F05A1F;
+               display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+</style>
+</helmet>
+<div style="{{ vars }}">
+<div style="font-family:Lato,'Helvetica Neue',Arial,sans-serif;color:#4B5563;background:#ffffff;overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:50;background:#ffffff;border-bottom:1px solid #E6EDF3">
+    <div data-r="head" style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px);height:124px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="#top" style="display:flex;align-items:center;flex:0 0 auto">
+        <img data-r="logo" src="assets/itanz-netsuite-logo.png" alt="iTANZ — Oracle NetSuite reseller and implementation partner" style="height:60px;width:auto;display:block" />
+      </a>
+      <nav data-r="nav" aria-label="Primary" style="display:flex;align-items:center;gap:40px">
+        <a href="#why-nsip" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Why NSIP</a>
+        <a href="#capabilities" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Capabilities</a>
+        <a href="#use-cases" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Use Cases</a>
+        <a href="#why-itanz" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Why iTANZ</a>
+        <a href="#contact" style="font:700 16px/1 Lato,Arial,sans-serif;color:var(--accent,#F05A1F)">Contact</a>
+      </nav>
+      <button data-r="burger" type="button" onClick="{{ toggle }}" aria-label="Toggle navigation menu" aria-expanded="{{ open }}" style="display:none;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid #E6EDF3;border-radius:8px;background:#ffffff;cursor:pointer;flex-direction:column;gap:5px">
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+      </button>
+    </div>
+    <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Mobile" style="border-top:1px solid #E6EDF3;background:#ffffff;padding:8px clamp(20px,5.5vw,80px) 20px;display:flex;flex-direction:column">
+        <a href="#why-nsip" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Why NSIP</a>
+        <a href="#capabilities" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Capabilities</a>
+        <a href="#use-cases" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Use Cases</a>
+        <a href="#why-itanz" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Why iTANZ</a>
+        <a href="#contact" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:var(--accent,#F05A1F);padding:16px 0">Contact</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main id="top">
+
+    <section data-r="hero" style="position:relative;overflow:hidden;background:#ffffff;min-height:640px;display:flex;align-items:center">
+      <div data-r="heroimg" style="position:absolute;top:0;right:0;width:58%;height:100%;background:url('assets/hero.png') center right / cover no-repeat;-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.55) 22%,#000 44%);mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.55) 22%,#000 44%)"></div>
+      <div style="position:relative;z-index:1;width:100%;max-width:1440px;margin:0 auto;padding:74px clamp(20px,5.5vw,80px) 56px">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F)">NETSUITE INTEGRATION PLATFORM</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h1 style="margin:34px 0 0;max-width:660px;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(34px,6.2vw,60px);line-height:0.92;letter-spacing:0.005em;color:#111827">CONNECT NETSUITE TO THE REST OF YOUR BUSINESS.</h1>
+        <p style="margin:32px 0 0;max-width:566px;font:400 clamp(17px,1.6vw,21px)/1.32 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">iTANZ helps growing enterprises connect applications, automate workflows and improve data visibility through NetSuite Integration Platform.</p>
+        <div data-r="btnrow" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:44px">
+          <a data-r="btn" href="#contact" onClick="{{ openModal }}" style="display:inline-flex;align-items:center;height:60px;padding:0 32px;border-radius:6px;background:var(--accent,#F05A1F);color:#ffffff;font:700 16px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;border:2px solid var(--accent,#F05A1F)" style-hover="background:#D94A12;border-color:#D94A12;color:#ffffff">BOOK AN INTEGRATION DISCOVERY</a>
+          <a data-r="btn" href="#engagement" style="display:inline-flex;align-items:center;height:60px;padding:0 32px;border-radius:6px;background:#ffffff;color:var(--accent,#F05A1F);font:700 16px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;border:2px solid var(--accent,#F05A1F)" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">IDENTIFY QUICK WINS</a>
+        </div>
+        <div style="margin-top:38px;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#111827">RESELLER &amp; IMPLEMENTATION PARTNER</div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showStats }}" hint-placeholder-val="{{ true }}">
+      <section aria-label="Credentials" style="background:#071827">
+        <div data-r="stats" style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px);display:grid;grid-template-columns:repeat(4,1fr)">
+          <div data-r="statitem" style="padding:50px 16px;text-align:center;font:700 clamp(15px,1.5vw,18px)/1.3 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff">ORACLE PARTNER</div>
+          <div data-r="statitem" style="padding:50px 16px;text-align:center;font:700 clamp(15px,1.5vw,18px)/1.3 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff;border-left:1px solid rgba(255,255,255,0.18)">7+ COUNTRIES</div>
+          <div data-r="statitem" style="padding:50px 16px;text-align:center;font:700 clamp(15px,1.5vw,18px)/1.3 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff;border-left:1px solid rgba(255,255,255,0.18)">150+ CONSULTANTS</div>
+          <div data-r="statitem" style="padding:50px 16px;text-align:center;font:700 clamp(15px,1.5vw,18px)/1.3 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff;border-left:1px solid rgba(255,255,255,0.18)">20+ DOMAIN EXPERTS</div>
+        </div>
+      </section>
+    </sc-if>
+
+    <section aria-labelledby="cost-h" style="background:#ffffff;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">THE COST OF DISCONNECTED SYSTEMS</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="cost-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">WHEN APPLICATIONS DO NOT WORK TOGETHER, GROWTH GETS HARDER.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Cloud and on-premises applications can create data silos, complex connections and costly manual synchronization.</p>
+        <div data-r="cards" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+          <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:24px;min-height:310px">
+            <img src="assets/icons/cost-1.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 0;font:700 20px/1.35 Lato,Arial,sans-serif;color:#111827">Disparate applications</h3>
+            <p style="margin:26px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Data sits across separate tools, creating silos and inconsistent views.</p>
+          </div>
+          <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:24px;min-height:310px">
+            <img src="assets/icons/cost-2.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 0;font:700 20px/1.35 Lato,Arial,sans-serif;color:#111827">Complex connections</h3>
+            <p style="margin:26px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Custom connections require specialist effort to build and maintain.</p>
+          </div>
+          <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:24px;min-height:310px">
+            <img src="assets/icons/cost-3.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 0;font:700 20px/1.35 Lato,Arial,sans-serif;color:#111827">Integrations that do not scale</h3>
+            <p style="margin:26px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">One-off interfaces become harder to manage as the business grows.</p>
+          </div>
+          <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:24px;min-height:310px">
+            <img src="assets/icons/cost-4.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 0;font:700 20px/1.35 Lato,Arial,sans-serif;color:#111827">Manual sync, cost and risk</h3>
+            <p style="margin:26px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Testing, validation and repeated handoffs increase effort and error exposure.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-nsip" aria-labelledby="nsip-h" style="background:#071827;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">WHAT NSIP ENABLES</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="nsip-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#ffffff">ONE CLOUD PLATFORM FOR CONNECTED, AUTOMATED OPERATIONS.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Connect and manage integrations, reduce manual errors and improve real-time visibility.</p>
+        <div data-r="cards" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px">
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.09);border-radius:var(--radius,10px);padding:32px;min-height:286px">
+            <img src="assets/icons/nsip-1.png" alt="" style="width:68px;height:68px;display:block" />
+            <h3 style="margin:26px 0 0;font:700 18px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">CONNECT AND INTEGRATE</h3>
+            <p style="margin:22px 0 0;font:400 17px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Centrally create and manage integrations. Deploy faster with prebuilt solutions.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.09);border-radius:var(--radius,10px);padding:32px;min-height:286px">
+            <img src="assets/icons/nsip-2.png" alt="" style="width:68px;height:68px;display:block" />
+            <h3 style="margin:26px 0 0;font:700 18px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">AUTOMATE WORKFLOWS</h3>
+            <p style="margin:22px 0 0;font:400 17px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Reduce manual errors and control workflows through a visual, self-service environment.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.09);border-radius:var(--radius,10px);padding:32px;min-height:286px">
+            <img src="assets/icons/nsip-3.png" alt="" style="width:68px;height:68px;display:block" />
+            <h3 style="margin:26px 0 0;font:700 18px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">MAKE INFORMED DECISIONS</h3>
+            <p style="margin:22px 0 0;font:400 17px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Improve real-time visibility, data consistency and operational insight.</p>
+          </div>
+        </div>
+        <div style="margin-top:40px;background:#0B2238;border:1px solid rgba(255,255,255,0.10);border-radius:8px;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px">
+          <span style="font:700 clamp(14px,1.4vw,18px)/1.4 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff">SCALABLE TO BUSINESS NEEDS</span>
+          <span style="color:var(--accent,#F05A1F);font-size:16px">&bull;</span>
+          <span style="font:700 clamp(14px,1.4vw,18px)/1.4 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff">REAL-TIME VISIBILITY</span>
+          <span style="color:var(--accent,#F05A1F);font-size:16px">&bull;</span>
+          <span style="font:700 clamp(14px,1.4vw,18px)/1.4 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#ffffff">DATA SECURITY WITH ORACLE CLOUD INFRASTRUCTURE</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="capabilities" aria-labelledby="eco-h" style="background:#ffffff;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">CONNECTIVITY ECOSYSTEM</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="eco-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">BUILT TO CONNECT ACROSS YOUR TECHNOLOGY LANDSCAPE.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Use prebuilt connectivity to link cloud, on-premises, Oracle, NetSuite and non-NetSuite applications.</p>
+        <div data-r="eco" style="margin-top:56px;display:grid;grid-template-columns:247px minmax(0,1fr);gap:40px;align-items:start">
+          <div style="background:#EAF2F8;border-radius:var(--radius,10px);padding:32px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:168px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(42px,4.4vw,56px);line-height:1;color:#005EA8">120+</div>
+            <div style="margin-top:14px;font:700 18px/1.3 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#111827">PREBUILT ADAPTERS</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px">
+            <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:20px;display:flex;gap:16px;align-items:flex-start">
+              <img src="assets/icons/eco-1.png" alt="" style="width:56px;height:56px;display:block;flex:0 0 auto" />
+              <div>
+                <h3 style="margin:2px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;letter-spacing:0.01em;color:#111827">3RD-PARTY SaaS</h3>
+                <p style="margin:8px 0 0;font:400 15px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Commerce, CRM, HCM and service platforms</p>
+              </div>
+            </div>
+            <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:20px;display:flex;gap:16px;align-items:flex-start">
+              <img src="assets/icons/eco-2.png" alt="" style="width:56px;height:56px;display:block;flex:0 0 auto" />
+              <div>
+                <h3 style="margin:2px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;letter-spacing:0.01em;color:#111827">ON-PREMISES</h3>
+                <p style="margin:8px 0 0;font:400 15px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Enterprise applications and databases</p>
+              </div>
+            </div>
+            <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:20px;display:flex;gap:16px;align-items:flex-start">
+              <img src="assets/icons/eco-3.png" alt="" style="width:56px;height:56px;display:block;flex:0 0 auto" />
+              <div>
+                <h3 style="margin:2px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;letter-spacing:0.01em;color:#111827">ORACLE + NETSUITE</h3>
+                <p style="margin:8px 0 0;font:400 15px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">ERP, CX, HCM and Oracle Cloud services</p>
+              </div>
+            </div>
+            <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:20px;display:flex;gap:16px;align-items:flex-start">
+              <img src="assets/icons/eco-4.png" alt="" style="width:56px;height:56px;display:block;flex:0 0 auto" />
+              <div>
+                <h3 style="margin:2px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;letter-spacing:0.01em;color:#111827">NON-NETSUITE APPS</h3>
+                <p style="margin:8px 0 0;font:400 15px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Business-critical platforms across the stack</p>
+              </div>
+            </div>
+            <div style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:var(--radius,10px);padding:20px;display:flex;gap:16px;align-items:flex-start">
+              <img src="assets/icons/eco-5.png" alt="" style="width:56px;height:56px;display:block;flex:0 0 auto" />
+              <div>
+                <h3 style="margin:2px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;letter-spacing:0.01em;color:#111827">MULTI-CLOUD + DATA</h3>
+                <p style="margin:8px 0 0;font:400 15px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Cloud services, messaging and data platforms</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflows" aria-labelledby="vis-h" style="background:#F5F8FB;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">END-TO-END VISIBILITY</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="vis-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">SIMPLIFY BUSINESS PROCESSES ACROSS THE ENTERPRISE.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Connect the workflows that shape finance, people, customer growth and operations.</p>
+        <div data-r="cards" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+          <div style="background:#ffffff;border:1px solid #E6EBF0;border-radius:var(--radius,10px);padding:28px;min-height:297px">
+            <img src="assets/icons/vis-1.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 22px;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#111827">FINANCE</h3>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:26px">
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Request to receipt</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Self-service inquiries</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Invoice to payment</li>
+            </ul>
+          </div>
+          <div style="background:#ffffff;border:1px solid #E6EBF0;border-radius:var(--radius,10px);padding:28px;min-height:297px">
+            <img src="assets/icons/vis-2.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 22px;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#111827">HUMAN RESOURCES</h3>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:26px">
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Recruit to onboard</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Benefits to payroll</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Payroll to payment</li>
+            </ul>
+          </div>
+          <div style="background:#ffffff;border:1px solid #E6EBF0;border-radius:var(--radius,10px);padding:28px;min-height:297px">
+            <img src="assets/icons/vis-3.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 22px;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#111827">SALES &amp; MARKETING</h3>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:26px">
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>360&deg; customer view</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Cost to acquire customer</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Return on ad spend</li>
+            </ul>
+          </div>
+          <div style="background:#ffffff;border:1px solid #E6EBF0;border-radius:var(--radius,10px);padding:28px;min-height:297px">
+            <img src="assets/icons/vis-4.png" alt="" style="width:64px;height:64px;display:block" />
+            <h3 style="margin:24px 0 22px;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#111827">OPERATIONS</h3>
+            <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:26px">
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Approval workflows</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Document processing</li>
+              <li style="display:flex;align-items:flex-start;gap:12px;font:400 16px/1.3 Lato,Arial,sans-serif;color:#4B5563"><span style="width:7px;height:7px;border-radius:50%;background:var(--accent,#F05A1F);margin-top:7px;flex:0 0 auto"></span>Activity tracking</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="arch-h" style="background:#ffffff;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">CAMPAIGN SOLUTION ARCHITECTURE</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="arch-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">ONE NETSUITE RELATIONSHIP. THREE PATHS TO GREATER CONTROL.</h2>
+        <div data-r="cards" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:34px">
+          <div style="background:#071827;border-radius:12px;padding:28px;min-height:250px;display:flex;flex-direction:column">
+            <h3 style="margin:0;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">NETSUITE INTEGRATION</h3>
+            <p style="margin:18px 0 0;font:400 17px/1.35 Lato,Arial,sans-serif;color:rgba(255,255,255,0.88);text-wrap:pretty">Connect applications, data and workflows.</p>
+            <div style="margin-top:auto;padding-top:28px;border-top:1px solid rgba(255,255,255,0.35)"></div>
+            <div style="margin-top:22px;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#ffffff">CONNECT THE ECOSYSTEM</div>
+          </div>
+          <div style="background:#005EA8;border-radius:12px;padding:28px;min-height:250px;display:flex;flex-direction:column">
+            <h3 style="margin:0;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">NETSUITE ONEWORLD</h3>
+            <p style="margin:18px 0 0;font:400 17px/1.35 Lato,Arial,sans-serif;color:rgba(255,255,255,0.92);text-wrap:pretty">Manage multiple entities, currencies and countries.</p>
+            <div style="margin-top:auto;padding-top:28px;border-top:1px solid rgba(255,255,255,0.45)"></div>
+            <div style="margin-top:22px;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#ffffff">CONTROL GLOBAL GROWTH</div>
+          </div>
+          <div style="background:var(--accent,#F05A1F);border-radius:12px;padding:28px;min-height:250px;display:flex;flex-direction:column">
+            <h3 style="margin:0;font:700 20px/1.3 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">NETSUITE ERP</h3>
+            <p style="margin:18px 0 0;font:400 17px/1.35 Lato,Arial,sans-serif;color:rgba(255,255,255,0.94);text-wrap:pretty">Unify financials, inventory, orders and reporting.</p>
+            <div style="margin-top:auto;padding-top:28px;border-top:1px solid rgba(255,255,255,0.5)"></div>
+            <div style="margin-top:22px;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#ffffff">RUN THE CORE BUSINESS</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases" aria-labelledby="uc-h" style="background:#F5F8FB;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">ORACLE NETSUITE USE CASES</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="uc-h" style="margin:34px auto 0;max-width:960px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">CONNECTED WORKFLOWS THAT STRENGTHEN CONTROL ACROSS FINANCE AND OPERATIONS</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">See how iTANZ brings procurement, finance, reconciliation, fixed assets and operational revenue into connected Oracle NetSuite workflows&mdash;reducing manual handoffs while improving visibility, governance and auditability.</p>
+
+        <div data-r="ucgrid" style="margin-top:56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+
+          <article style="display:flex;flex-direction:column;background:#ffffff;border:1px solid #E3EAF1;border-radius:12px;overflow:hidden">
+            <a href="Use-Case-Procure-to-Pay.dc.html" tabindex="-1" style="display:block;background:#F5F8FB;border-bottom:1px solid #E3EAF1"><img src="assets/1.png" alt="iTANZ and Oracle NetSuite procure-to-pay workflow: request, review, approval, execution and completion with pending purchase order, invoice and contract approvals" style="display:block;width:100%;height:auto" /></a>
+            <div style="padding:28px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+                <span style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">PROCURE-TO-PAY</span>
+              </div>
+              <h3 style="margin:16px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.06;color:#111827"><a href="Use-Case-Procure-to-Pay.dc.html" style="color:#111827;text-decoration:none" style-hover="color:var(--accent,#F05A1F)">CONTROL EVERY STEP FROM PURCHASE REQUEST TO SUPPLIER PAYMENT</a></h3>
+              <p style="margin:16px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Connect requisitions, budget validation, approvals, purchase orders, goods receipt, invoice matching and payment sign-off in one governed Oracle NetSuite workflow.</p>
+              <ul style="list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Real-time budget control</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Automated approvals</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Three-way matching</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Audit-ready payments</li>
+              </ul>
+              <div style="margin-top:auto;padding-top:28px">
+                <a href="Use-Case-Procure-to-Pay.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:6px;background:#ffffff;border:2px solid var(--accent,#F05A1F);color:var(--accent,#F05A1F);font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;text-transform:uppercase" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">View workflow<span aria-hidden="true" style="font-size:15px">&#8594;</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article style="display:flex;flex-direction:column;background:#ffffff;border:1px solid #E3EAF1;border-radius:12px;overflow:hidden">
+            <a href="Use-Case-Bank-Reconciliation.dc.html" tabindex="-1" style="display:block;background:#F5F8FB;border-bottom:1px solid #E3EAF1"><img src="assets/2.png" alt="iTANZ and Oracle NetSuite finance overview showing period-end close status, invoice created, payment received and bank reconciliation activity" style="display:block;width:100%;height:auto" /></a>
+            <div style="padding:28px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+                <span style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">BANK RECONCILIATION</span>
+              </div>
+              <h3 style="margin:16px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.06;color:#111827"><a href="Use-Case-Bank-Reconciliation.dc.html" style="color:#111827;text-decoration:none" style-hover="color:var(--accent,#F05A1F)">LET AUTOMATION CLEAR THE ROUTINE. KEEP FINANCE ON EXCEPTIONS.</a></h3>
+              <p style="margin:16px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Import bank statements, automatically match routine transactions and manage unmatched items through a controlled, validated and audit-ready reconciliation process.</p>
+              <ul style="list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Automated matching</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Exception worklist</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Many-to-one matching</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Reconciliation audit trail</li>
+              </ul>
+              <div style="margin-top:auto;padding-top:28px">
+                <a href="Use-Case-Bank-Reconciliation.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:6px;background:#ffffff;border:2px solid var(--accent,#F05A1F);color:var(--accent,#F05A1F);font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;text-transform:uppercase" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">View workflow<span aria-hidden="true" style="font-size:15px">&#8594;</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article style="display:flex;flex-direction:column;background:#ffffff;border:1px solid #E3EAF1;border-radius:12px;overflow:hidden">
+            <a href="Use-Case-Fixed-Assets.dc.html" tabindex="-1" style="display:block;background:#F5F8FB;border-bottom:1px solid #E3EAF1"><img src="assets/3.png" alt="iTANZ and Oracle NetSuite connected records across teams, approvals and asset information in a modern office environment" style="display:block;width:100%;height:auto" /></a>
+            <div style="padding:28px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+                <span style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">FIXED ASSET LIFECYCLE</span>
+              </div>
+              <h3 style="margin:16px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.06;color:#111827"><a href="Use-Case-Fixed-Assets.dc.html" style="color:#111827;text-decoration:none" style-hover="color:var(--accent,#F05A1F)">TURN QUALIFYING PURCHASES INTO MANAGED ASSETS WITHOUT RE-KEYING DATA</a></h3>
+              <p style="margin:16px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Carry supplier, cost and purchase information directly into Oracle NetSuite Fixed Assets, then manage setup, depreciation, journals and revaluation in one connected workflow.</p>
+              <ul style="list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Direct asset conversion</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">No duplicate entry</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Automated depreciation</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Audit-ready asset history</li>
+              </ul>
+              <div style="margin-top:auto;padding-top:28px">
+                <a href="Use-Case-Fixed-Assets.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:6px;background:#ffffff;border:2px solid var(--accent,#F05A1F);color:var(--accent,#F05A1F);font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;text-transform:uppercase" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">View workflow<span aria-hidden="true" style="font-size:15px">&#8594;</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article style="display:flex;flex-direction:column;background:#ffffff;border:1px solid #E3EAF1;border-radius:12px;overflow:hidden">
+            <a href="Use-Case-Service-Revenue.dc.html" tabindex="-1" style="display:block;background:#F5F8FB;border-bottom:1px solid #E3EAF1"><img src="assets/4.png" alt="iTANZ and Oracle NetSuite service revenue dashboards showing performance and pipeline overview beside a customer meeting" style="display:block;width:100%;height:auto" /></a>
+            <div style="padding:28px;display:flex;flex-direction:column;flex:1">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+                <span style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">SERVICE REVENUE INTEGRATION</span>
+                <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:4px;background:#EAF2F8;border:1px solid #B9D3E8;font:700 11px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:#005EA8">PUBLIC SECTOR</span>
+              </div>
+              <h3 style="margin:16px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:26px;line-height:1.06;color:#111827"><a href="Use-Case-Service-Revenue.dc.html" style="color:#111827;text-decoration:none" style-hover="color:var(--accent,#F05A1F)">MOVE SERVICE REVENUE INTO FINANCE GL&mdash;AUTOMATICALLY AND TRACEABLY</a></h3>
+              <p style="margin:16px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Connect operational payment channels with Oracle NetSuite Finance so daily receipts post to the correct income accounts, reconcile to source totals and stay traceable.</p>
+              <ul style="list-style:none;margin:22px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px">
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Automated revenue posting</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Multi-channel receipts</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Daily reconciliation</li>
+                <li style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.03em;color:#0B3A63;background:#EAF2F8;border-radius:999px;padding:9px 14px">Transaction drill-back</li>
+              </ul>
+              <div style="margin-top:auto;padding-top:28px">
+                <a href="Use-Case-Service-Revenue.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:6px;background:#ffffff;border:2px solid var(--accent,#F05A1F);color:var(--accent,#F05A1F);font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;text-transform:uppercase" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">View workflow<span aria-hidden="true" style="font-size:15px">&#8594;</span></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <p style="margin:34px 0 0;font:400 15px/1.5 Lato,Arial,sans-serif;color:#7A8794;text-wrap:pretty">Supported solution scenarios from the iTANZ demonstration environment. They are not customer case studies and carry no quantified performance claims.</p>
+      </div>
+    </section>
+
+    <section id="why-itanz" aria-labelledby="why-h" style="background:#071827;padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">WHY ITANZ</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="why-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#ffffff">INTEGRATION EXPERTISE GROUNDED IN BUSINESS CONTEXT.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#C7D2DD">Technology + talent + domain + delivery capability.</p>
+        <div data-r="cards" style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:24px">
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius,10px);padding:28px;min-height:278px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">01</div>
+            <h3 style="margin:14px 0 0;font:700 17px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">ADVISORY-LED DISCOVERY</h3>
+            <p style="margin:28px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Understand the current NetSuite footprint, dependencies and business priorities.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius,10px);padding:28px;min-height:278px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">02</div>
+            <h3 style="margin:14px 0 0;font:700 17px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">INTEGRATION CAPABILITY</h3>
+            <p style="margin:28px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Experience across Oracle OIC, NSIP, MuleSoft, Boomi and enterprise middleware.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius,10px);padding:28px;min-height:278px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">03</div>
+            <h3 style="margin:14px 0 0;font:700 17px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">DOMAIN-ALIGNED DELIVERY</h3>
+            <p style="margin:28px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Context across government, utilities, banking, retail, manufacturing and logistics.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius,10px);padding:28px;min-height:278px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">04</div>
+            <h3 style="margin:14px 0 0;font:700 17px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">DEPLOYMENT-READY RESOURCES</h3>
+            <p style="margin:28px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Access consultants with technical and domain alignment for delivery.</p>
+          </div>
+          <div style="background:#0B2238;border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius,10px);padding:28px;min-height:278px">
+            <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">05</div>
+            <h3 style="margin:14px 0 0;font:700 17px/1.35 Lato,Arial,sans-serif;letter-spacing:0.02em;color:#ffffff">ONGOING OPTIMIZATION</h3>
+            <p style="margin:28px 0 0;font:400 16px/1.4 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Support adoption, continuous improvement and scalable operations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="engagement" aria-labelledby="eng-h" style="background:linear-gradient(155deg,#EBF2FA 0%,#F4F8FC 42%,#FFFFFF 100%);padding:88px 0;scroll-margin-top:130px">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F);text-align:center">ENGAGEMENT PATH</div>
+          <div style="width:56px;height:3px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="eng-h" style="margin:34px auto 0;max-width:1060px;text-align:center;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:0.98;color:#111827">START WITH CLARITY. MOVE TO QUICK WINS.</h2>
+        <p style="margin:24px auto 0;max-width:960px;text-align:center;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">A focused two-step process designed to identify immediate simplification and improvement opportunities.</p>
+        <div data-r="engage" style="margin-top:64px;display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;gap:8px">
+          <div style="background:#ffffff;border-radius:12px;box-shadow:0 8px 30px rgba(16,42,67,0.07);padding:26px 32px 30px;display:flex;flex-direction:column;min-height:290px">
+            <div style="width:70px;height:4px;background:var(--accent,#F05A1F)"></div>
+            <div style="margin-top:22px;display:flex;gap:22px;align-items:flex-start">
+              <img src="assets/icons/eng-1.png" alt="" style="width:56px;height:48px;object-fit:contain;display:block;flex:0 0 auto" />
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">01</div>
+                <h3 style="margin:10px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.2;letter-spacing:0.01em;color:#111827">DISCOVERY</h3>
+                <p style="margin:14px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Understand the current systems, integrations, operating challenges and business priorities.</p>
+              </div>
+            </div>
+            <div style="margin-top:auto;padding-top:32px;display:flex;flex-direction:column;gap:18px">
+              <div style="height:1px;background:#E3EAF1;margin-left:78px"></div>
+              <a href="#contact" style="margin-left:78px;font:700 13px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#0B6FC0">MAP THE CURRENT STATE</a>
+            </div>
+          </div>
+          <div data-r="arrow" style="display:flex;align-items:center;justify-content:center" aria-hidden="true">
+            <svg width="90" height="24" viewBox="0 0 90 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 12H72" stroke="#2E7DC4" stroke-width="4"></path>
+              <path d="M68 2L88 12L68 22Z" fill="#2E7DC4"></path>
+            </svg>
+          </div>
+          <div style="background:#ffffff;border-radius:12px;box-shadow:0 8px 30px rgba(16,42,67,0.07);padding:26px 32px 30px;display:flex;flex-direction:column;min-height:290px">
+            <div style="width:70px;height:4px;background:var(--accent,#F05A1F)"></div>
+            <div style="margin-top:22px;display:flex;gap:22px;align-items:flex-start">
+              <img src="assets/icons/eng-2.png" alt="" style="width:56px;height:48px;object-fit:contain;display:block;flex:0 0 auto" />
+              <div style="flex:1;min-width:0">
+                <div style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:40px;line-height:1;color:var(--accent,#F05A1F)">02</div>
+                <h3 style="margin:10px 0 0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.2;letter-spacing:0.01em;color:#111827">QUICK-WIN IDENTIFICATION</h3>
+                <p style="margin:14px 0 0;font:400 16px/1.35 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Prioritize high-impact opportunities that can simplify workflows and produce measurable value quickly.</p>
+              </div>
+            </div>
+            <div style="margin-top:auto;padding-top:32px;display:flex;flex-direction:column;gap:18px">
+              <div style="height:1px;background:#E3EAF1;margin-left:78px"></div>
+              <a href="#contact" style="margin-left:78px;font:700 13px/1.2 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#0B6FC0">DEFINE THE FIRST MOVES</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:clamp(44px,4.5vw,72px)">
+          <div data-r="statgrid" style="background:#005F87;border-radius:14px;padding:clamp(38px,4.4vw,60px) clamp(20px,2.4vw,34px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr))">
+            <div style="position:relative;padding:0 22px 0 0">
+              <div style="font-family:Poppins,Lato,Arial,sans-serif;font-weight:500;font-size:clamp(38px,3.9vw,52px);line-height:1;letter-spacing:-0.01em;color:#ffffff;text-align:center">08+</div>
+              <div style="margin:16px auto 0;max-width:180px;font:400 15px/1.45 Poppins,Lato,Arial,sans-serif;color:#ffffff;text-align:center;text-wrap:pretty">Years powering enterprise transformation</div>
+            </div>
+            <div style="position:relative;padding:0 22px">
+              <div data-r="statdiv" aria-hidden="true" style="position:absolute;left:0;top:50%;transform:translateY(-50%);height:clamp(96px,9vw,116px);display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:5px">
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+                <span style="flex:1;width:1px;margin:4px 0;background-image:radial-gradient(circle,rgba(255,255,255,0.5) 0.5px,rgba(255,255,255,0) 1px);background-size:1px 6px;background-repeat:repeat-y"></span>
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+              </div>
+              <div style="font-family:Poppins,Lato,Arial,sans-serif;font-weight:500;font-size:clamp(38px,3.9vw,52px);line-height:1;letter-spacing:-0.01em;color:#ffffff;text-align:center">50+</div>
+              <div style="margin:16px auto 0;max-width:180px;font:400 15px/1.45 Poppins,Lato,Arial,sans-serif;color:#ffffff;text-align:center;text-wrap:pretty">Customers</div>
+            </div>
+            <div style="position:relative;padding:0 22px">
+              <div data-r="statdiv" aria-hidden="true" style="position:absolute;left:0;top:50%;transform:translateY(-50%);height:clamp(96px,9vw,116px);display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:5px">
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+                <span style="flex:1;width:1px;margin:4px 0;background-image:radial-gradient(circle,rgba(255,255,255,0.5) 0.5px,rgba(255,255,255,0) 1px);background-size:1px 6px;background-repeat:repeat-y"></span>
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+              </div>
+              <div style="font-family:Poppins,Lato,Arial,sans-serif;font-weight:500;font-size:clamp(38px,3.9vw,52px);line-height:1;letter-spacing:-0.01em;color:#ffffff;text-align:center">06+</div>
+              <div style="margin:16px auto 0;max-width:180px;font:400 15px/1.45 Poppins,Lato,Arial,sans-serif;color:#ffffff;text-align:center;text-wrap:pretty">Countries with our Presence and Clientele</div>
+            </div>
+            <div style="position:relative;padding:0 22px">
+              <div data-r="statdiv" aria-hidden="true" style="position:absolute;left:0;top:50%;transform:translateY(-50%);height:clamp(96px,9vw,116px);display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:5px">
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+                <span style="flex:1;width:1px;margin:4px 0;background-image:radial-gradient(circle,rgba(255,255,255,0.5) 0.5px,rgba(255,255,255,0) 1px);background-size:1px 6px;background-repeat:repeat-y"></span>
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+              </div>
+              <div style="font-family:Poppins,Lato,Arial,sans-serif;font-weight:500;font-size:clamp(38px,3.9vw,52px);line-height:1;letter-spacing:-0.01em;color:#ffffff;text-align:center">200+</div>
+              <div style="margin:16px auto 0;max-width:180px;font:400 15px/1.45 Poppins,Lato,Arial,sans-serif;color:#ffffff;text-align:center;text-wrap:pretty">Minds engineering what&rsquo;s next.</div>
+            </div>
+            <div style="position:relative;padding:0 22px">
+              <div data-r="statdiv" aria-hidden="true" style="position:absolute;left:0;top:50%;transform:translateY(-50%);height:clamp(96px,9vw,116px);display:flex;flex-direction:column;align-items:center;justify-content:space-between;width:5px">
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+                <span style="flex:1;width:1px;margin:4px 0;background-image:radial-gradient(circle,rgba(255,255,255,0.5) 0.5px,rgba(255,255,255,0) 1px);background-size:1px 6px;background-repeat:repeat-y"></span>
+                <span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.55)"></span>
+              </div>
+              <div style="font-family:Poppins,Lato,Arial,sans-serif;font-weight:500;font-size:clamp(38px,3.9vw,52px);line-height:1;letter-spacing:-0.01em;color:#ffffff;text-align:center">24/7</div>
+              <div style="margin:16px auto 0;max-width:180px;font:400 15px/1.45 Poppins,Lato,Arial,sans-serif;color:#ffffff;text-align:center;text-wrap:pretty">Support &amp; Managed Operations</div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" data-r="cta" aria-labelledby="cta-h" style="position:relative;overflow:hidden;background:#ffffff;scroll-margin-top:130px">
+      <div data-r="ctaimg" style="position:absolute;top:0;right:0;width:66%;height:100%;background:url('assets/cta-bg.png') center right / cover no-repeat;-webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 18%,#000 38%);mask-image:linear-gradient(to right,rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 18%,#000 38%)"></div>
+      <div style="position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:96px clamp(20px,5.5vw,80px)">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:12px">
+          <div style="font:700 clamp(15px,1.6vw,20px)/1.2 Lato,Arial,sans-serif;letter-spacing:0.04em;color:var(--accent,#F05A1F)">FINAL CONVERSION CTA</div>
+          <div style="width:70px;height:4px;background:var(--accent,#F05A1F)"></div>
+        </div>
+        <h2 id="cta-h" style="margin:34px 0 0;max-width:560px;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,43px);line-height:1.04;color:#111827">READY TO CONNECT NETSUITE TO MORE?</h2>
+        <p style="margin:26px 0 0;max-width:620px;font:400 clamp(16px,1.5vw,19px)/1.34 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Book an integration discovery with iTANZ and identify more connected systems, smarter processes and visibility gaps holding the business back.</p>
+        <div data-r="btnrow" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:52px">
+          <a data-r="btn" href="mailto:info@itanzgroup.com" onClick="{{ openModal }}" style="display:inline-flex;align-items:center;height:56px;padding:0 32px;border-radius:6px;background:var(--accent,#F05A1F);color:#ffffff;font:700 16px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;border:2px solid var(--accent,#F05A1F)" style-hover="background:#D94A12;border-color:#D94A12;color:#ffffff">BOOK AN INTEGRATION DISCOVERY</a>
+          <a data-r="btn" href="mailto:info@itanzgroup.com" onClick="{{ openModal }}" style="display:inline-flex;align-items:center;height:56px;padding:0 32px;border-radius:6px;background:#ffffff;color:var(--accent,#F05A1F);font:700 16px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;border:2px solid var(--accent,#F05A1F)" style-hover="background:#FFF3EE;color:var(--accent,#F05A1F)">CONTACT US</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="background:#071827;padding:48px 0 44px">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+      <div data-r="footer" style="display:grid;grid-template-columns:340px 1fr 1fr;gap:40px;align-items:center">
+        <img src="assets/itanz-x-oracle netsuite-alt.png" alt="iTANZ — Oracle NetSuite reseller and implementation partner" style="width:250px;max-width:90%;height:auto;display:block" />
+        <div>
+          <a href="mailto:info@itanzgroup.com" style="display:block;font:700 20px/1.4 Lato,Arial,sans-serif;color:#ffffff">info@itanzgroup.com</a>
+          <a href="https://itanzgroup.com" style="display:block;margin-top:6px;font:400 19px/1.4 Lato,Arial,sans-serif;color:#C7D2DD">itanzgroup.com</a>
+        </div>
+        <div>
+          <div style="font:700 20px/1.4 Lato,Arial,sans-serif;color:#ffffff">Level 7, 276 Flinders Street</div>
+          <div style="margin-top:6px;font:400 19px/1.4 Lato,Arial,sans-serif;color:#C7D2DD">Melbourne 3000 VIC</div>
+        </div>
+      </div>
+      <p style="margin:28px 0 0;font:400 15px/1.5 Lato,Arial,sans-serif;color:#8FA0B0">Oracle and NetSuite product references should be published only after final partner and legal review. &nbsp;|&nbsp; <a href="/docs/iTANZ_Privacy_Policy.pdf" target="_blank" rel="noopener" style="color:#8FA0B0;text-decoration:underline">Privacy Policy</a></p>
+    </div>
+  </footer>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="bc-overlay" onClick="{{ onBackdrop }}">
+      <div class="bc-modal" role="dialog" aria-modal="true" aria-label="Book a Consultation" onClick="{{ stopClick }}">
+        <button class="bc-close" type="button" aria-label="Close" onClick="{{ closeModal }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h2 class="bc-title">BOOK A CONSULTATION</h2>
+            <p class="bc-sub">Tell us about your operational challenge and our Oracle NetSuite specialists will get back to you within one business day.</p>
+
+            <form onSubmit="{{ onSubmit }}" method="post" action="/api/campaign-enquiry">
+             <fieldset class="bc-fieldset" disabled="{{ sending }}">
+              <div class="bc-grid">
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="first_name" placeholder="First Name*" autocomplete="given-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="last_name" placeholder="Last Name*" autocomplete="family-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="email" name="work_email" placeholder="Work Email*" autocomplete="email" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="company_name" placeholder="Company Name*" autocomplete="organization" required="" />
+                </div>
+                <div class="bc-field bc-full">
+                  <input class="bc-input" type="text" name="job_title" placeholder="Job Title*" autocomplete="organization-title" required="" />
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <p class="bc-qlabel">What are your organisation&rsquo;s biggest operational challenges today?* <span style="font-weight:400;color:#8a97a4">(select all that apply)</span></p>
+                  <div class="bc-options">
+                    <label class="bc-opt"><span class="bc-checkwrap"><input class="bc-check-option" type="checkbox" name="challenge[]" value="Disconnected systems and spreadsheets" /><span class="bc-checkbox"></span></span><span>Disconnected systems and spreadsheets</span></label>
+                    <label class="bc-opt"><span class="bc-checkwrap"><input class="bc-check-option" type="checkbox" name="challenge[]" value="Slow financial reporting and consolidation" /><span class="bc-checkbox"></span></span><span>Slow financial reporting and consolidation</span></label>
+                    <label class="bc-opt"><span class="bc-checkwrap"><input class="bc-check-option" type="checkbox" name="challenge[]" value="Limited inventory and order visibility" /><span class="bc-checkbox"></span></span><span>Limited inventory and order visibility</span></label>
+                    <label class="bc-opt"><span class="bc-checkwrap"><input class="bc-check-option" type="checkbox" name="challenge[]" value="Managing growth across multiple entities" /><span class="bc-checkbox"></span></span><span>Managing growth across multiple entities</span></label>
+                    <label class="bc-opt"><span class="bc-checkwrap"><input class="bc-check-option" type="checkbox" name="challenge[]" value="Too many manual business processes" /><span class="bc-checkbox"></span></span><span>Too many manual business processes</span></label>
+                  </div>
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <label class="bc-consent"><span class="bc-checkwrap-sm"><input class="bc-check" type="checkbox" name="consent" required="" /><span class="bc-checkbox-sm"></span></span><span>I agree that iTANZ may use my details to respond to this enquiry in line with its privacy process.</span></label>
+                </div>
+
+                <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+                  <p class="bc-error">{{ errorMsg }}</p>
+                </sc-if>
+
+                <div class="bc-full">
+                  <button class="bc-submit" type="submit" disabled="{{ sending }}">{{ submitLabel }}<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M9 7h8v8"></path></svg></span></button>
+                </div>
+              </div>
+             </fieldset>
+              <input type="text" name="website" tabIndex="-1" autoComplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+            </form>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div class="bc-thanks">
+            <div class="bc-thanks-badge">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+            </div>
+            <h2 class="bc-title" style="margin-right:0;text-align:center">THANK YOU</h2>
+            <p class="bc-sub" style="margin:0 auto 26px;max-width:520px">Your enquiry has been submitted successfully, and a confirmation email has been sent to you.</p>
+            <button class="bc-submit" type="button" onClick="{{ closeModal }}">Close<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg></span></button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F05A1F&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#F05A1F&quot;,&quot;#005EA8&quot;,&quot;#C2410C&quot;,&quot;#0F766E&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;cardRadius&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:10,&quot;min&quot;:0,&quot;max&quot;:24,&quot;step&quot;:1,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;showStatBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  state = { open: false, modalOpen: false, submitted: false, sending: false, errorMsg: '' };
+
+  componentDidMount() {
+    this.onResize = () => {
+      if (window.innerWidth > 980 && this.state.open) this.setState({ open: false });
+    };
+    window.addEventListener('resize', this.onResize);
+
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.modalOpen && !this.state.sending) this.closeModal(); };
+    window.addEventListener('keydown', this.onKey);
+
+    this.scrollToHash = () => {
+      if (!window.location.hash) return;
+      const el = document.getElementById(window.location.hash.slice(1));
+      if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(this.scrollToHash));
+    window.addEventListener('load', this.scrollToHash);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    document.body.style.overflow = '';
+    window.removeEventListener('load', this.scrollToHash);
+  }
+
+  componentDidUpdate() {
+    document.body.style.overflow = this.state.modalOpen ? 'hidden' : '';
+  }
+
+  closeModal = () => {
+    this.setState({ modalOpen: false, submitted: false, sending: false, errorMsg: '' });
+  };
+
+  submitForm = (e) => {
+    e.preventDefault();
+    if (this.state.sending) return;
+    const form = e.target;
+    if (form.querySelectorAll('input[name="challenge[]"]:checked').length === 0) {
+      this.setState({ errorMsg: 'Please select at least one operational challenge.' });
+      return;
+    }
+    const data = new FormData(form);
+    data.append('page_url', window.location.href);
+    this.setState({ sending: true, errorMsg: '' });
+
+    fetch("/api/campaign-enquiry", { method: 'POST', body: data })
+      .then((r) => r.json().catch(() => ({ ok: false, error: 'The form handler did not respond correctly. Please try again.' })))
+      .then((res) => {
+        if (res && res.ok) {
+          this.setState({ sending: false, submitted: true, errorMsg: '' });
+        } else {
+          this.setState({ sending: false, errorMsg: (res && res.error) || 'Something went wrong. Please try again.' });
+        }
+      })
+      .catch(() => {
+        this.setState({ sending: false, errorMsg: 'We could not reach the server. Please check your connection and try again.' });
+      });
+  };
+
+  renderVals() {
+    const accent = this.props.accent ?? '#F05A1F';
+    const radius = this.props.cardRadius ?? 10;
+    return {
+      vars: `--accent:${accent};--radius:${radius}px`,
+      open: this.state.open,
+      showStats: this.props.showStatBar ?? true,
+      toggle: () => this.setState((s) => ({ open: !s.open })),
+      close: () => this.setState({ open: false }),
+      modalOpen: this.state.modalOpen,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      sending: this.state.sending,
+      submitLabel: this.state.sending ? 'Sending…' : 'Send Enquiry',
+      errorMsg: this.state.errorMsg,
+      hasError: !!this.state.errorMsg,
+      openModal: (e) => {
+        if (e) e.preventDefault();
+        this.setState({ modalOpen: true, submitted: false, sending: false, errorMsg: '', open: false });
+      },
+      closeModal: this.closeModal,
+      onBackdrop: () => { if (!this.state.sending) this.closeModal(); },
+      stopClick: (e) => e.stopPropagation(),
+      onSubmit: this.submitForm
+    };
+  }
+}
+</script>
+</body>
+</html>

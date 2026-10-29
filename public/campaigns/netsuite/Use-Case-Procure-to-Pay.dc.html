@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: #ffffff; font-family: Lato, "Helvetica Neue", Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  img { max-width: 100%; }
+  a { color: #005EA8; text-decoration: none; }
+  a:hover { color: #F05A1F; }
+  :focus-visible { outline: 3px solid #F05A1F; outline-offset: 3px; }
+  @media (max-width: 980px) {
+    [data-r="nav"] { display: none !important; }
+    [data-r="burger"] { display: inline-flex !important; }
+    [data-r="head"] { height: 88px !important; }
+    [data-r="logo"] { height: 62px !important; }
+    [data-r="footer"] { grid-template-columns: 1fr !important; gap: 28px !important; }
+    [data-r="flow"] li { font-size: 12px !important; padding: 10px 12px !important; }
+    [data-r="herotext"] { max-width: 100% !important; }
+  }
+  @media (max-width: 640px) {
+    [data-r="btnrow"] { flex-direction: column !important; align-items: stretch !important; }
+    [data-r="btnrow"] a { justify-content: center !important; }
+  }
+</style>
+</helmet>
+<div style="{{ vars }}">
+<div style="font-family:Lato,Arial,sans-serif;color:#4B5563;background:#ffffff;overflow-x:hidden">
+
+  <header style="position:sticky;top:0;z-index:50;background:#ffffff;border-bottom:1px solid #E6EDF3">
+    <div data-r="head" style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px);height:124px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <a href="index.html" style="display:flex;align-items:center;flex:0 0 auto">
+        <img data-r="logo" src="assets/itanz-netsuite-logo.png" alt="iTANZ — Oracle NetSuite reseller and implementation partner" style="height:60px;width:auto;display:block" />
+      </a>
+      <nav data-r="nav" aria-label="Primary" style="display:flex;align-items:center;gap:40px">
+        <a href="index.html#why-nsip" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Why NSIP</a>
+        <a href="index.html#capabilities" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Capabilities</a>
+        <a href="index.html#use-cases" style="font:700 16px/1 Lato,Arial,sans-serif;color:var(--accent,#F05A1F)">Use Cases</a>
+        <a href="index.html#why-itanz" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Why iTANZ</a>
+        <a href="index.html#contact" style="font:700 16px/1 Lato,Arial,sans-serif;color:#111827">Contact</a>
+      </nav>
+      <button data-r="burger" type="button" onClick="{{ toggle }}" aria-label="Toggle navigation menu" aria-expanded="{{ open }}" style="display:none;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid #E6EDF3;border-radius:8px;background:#ffffff;cursor:pointer;flex-direction:column;gap:5px">
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+        <span style="display:block;width:22px;height:2px;background:#111827"></span>
+      </button>
+    </div>
+    <sc-if value="{{ open }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Mobile" style="border-top:1px solid #E6EDF3;background:#ffffff;padding:8px clamp(20px,5.5vw,80px) 20px;display:flex;flex-direction:column">
+        <a href="index.html#why-nsip" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Why NSIP</a>
+        <a href="index.html#capabilities" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Capabilities</a>
+        <a href="index.html#use-cases" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:var(--accent,#F05A1F);padding:16px 0;border-bottom:1px solid #F0F4F8">Use Cases</a>
+        <a href="index.html#why-itanz" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0;border-bottom:1px solid #F0F4F8">Why iTANZ</a>
+        <a href="index.html#contact" onClick="{{ close }}" style="font:700 17px/1 Lato,Arial,sans-serif;color:#111827;padding:16px 0">Contact</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main>
+    <section aria-labelledby="page-title" style="background-color:#F5F8FB;background-image:url('assets/1.png');background-size:cover;background-position:center;background-repeat:no-repeat;border-bottom:1px solid #E3EAF1">
+      <div style="max-width:1440px;margin:0 auto;padding:clamp(34px,4vw,60px) clamp(20px,5.5vw,80px) clamp(38px,4.4vw,66px)">
+        <div data-r="herotext" style="max-width:50%">
+          <h1 id="page-title" style="margin:0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(30px,5vw,54px);line-height:0.98;color:#111827">FROM PURCHASE REQUEST TO SUPPLIER PAYMENT&mdash;CONTROLLED IN ONE CONNECTED WORKFLOW</h1>
+          <p style="margin:24px 0 0;font:400 clamp(17px,1.6vw,20px)/1.42 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">iTANZ connects procurement and finance processes on Oracle NetSuite so purchasing teams can move faster without losing control over budgets, approvals or audit requirements.</p>
+          <div data-r="btnrow" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:36px">
+            <a href="#wf-h" style="display:inline-flex;align-items:center;height:56px;padding:0 30px;border-radius:6px;background:var(--accent,#F05A1F);border:2px solid var(--accent,#F05A1F);color:#ffffff;font:700 14px/1 Lato,Arial,sans-serif;letter-spacing:0.05em" style-hover="background:#D94A12;border-color:#D94A12;color:#ffffff">HOW THE WORKFLOW RUNS</a>
+            <a href="#out-h" style="display:inline-flex;align-items:center;height:56px;padding:0 30px;border-radius:6px;background:#ffffff;border:2px solid #C9D6E2;color:#111827;font:700 14px/1 Lato,Arial,sans-serif;letter-spacing:0.05em" style-hover="border-color:var(--accent,#F05A1F);color:var(--accent,#F05A1F)">BUSINESS OUTCOMES</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Overview" style="background:#ffffff;padding:clamp(48px,5vw,80px) 0 0">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <p style="margin:0;font:400 17px/1.45 Lato,Arial,sans-serif;color:#5D6B78"><strong style="color:#005EA8">Best fit for:</strong> Finance leaders, procurement teams, CFOs, public-sector organisations, utilities and operationally complex enterprises.</p>
+        <h2 style="margin:44px 0 0;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.08em;color:#005EA8">WORKFLOW STAGES</h2>
+        <ol data-r="flow" style="list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+              <li style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;color:#0B3A63;background:#EAF2F8;border-radius:6px;padding:12px 16px">1. REQUEST</li>
+              <li aria-hidden="true" style="color:var(--accent,#F05A1F);font-size:16px">&#8594;</li>
+              <li style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;color:#0B3A63;background:#EAF2F8;border-radius:6px;padding:12px 16px">2. BUDGET CHECK</li>
+              <li aria-hidden="true" style="color:var(--accent,#F05A1F);font-size:16px">&#8594;</li>
+              <li style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;color:#0B3A63;background:#EAF2F8;border-radius:6px;padding:12px 16px">3. APPROVAL &amp; PO</li>
+              <li aria-hidden="true" style="color:var(--accent,#F05A1F);font-size:16px">&#8594;</li>
+              <li style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;color:#0B3A63;background:#EAF2F8;border-radius:6px;padding:12px 16px">4. RECEIPT &amp; MATCH</li>
+              <li aria-hidden="true" style="color:var(--accent,#F05A1F);font-size:16px">&#8594;</li>
+              <li style="font:700 13px/1 Lato,Arial,sans-serif;letter-spacing:0.04em;color:#0B3A63;background:#EAF2F8;border-radius:6px;padding:12px 16px">5. PAYMENT SIGN-OFF</li>
+        </ol>
+        <div style="margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:36px">
+          <div>
+            <h2 style="margin:0;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.08em;color:#005EA8">BUSINESS CHALLENGE</h2>
+            <p style="margin:14px 0 0;font:400 17px/1.5 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Procurement processes often rely on disconnected requests, manual budget checks, email approvals and repeated data entry. This creates limited visibility into committed spend and increases the risk of delayed approvals, duplicate work and weak audit trails.</p>
+          </div>
+          <div>
+            <h2 style="margin:0;font:700 14px/1.2 Lato,Arial,sans-serif;letter-spacing:0.08em;color:#005EA8">HOW ITANZ AND ORACLE NETSUITE ADDRESS IT</h2>
+            <p style="margin:14px 0 0;font:400 17px/1.5 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">iTANZ Procurement and iTANZ Finance on Oracle NetSuite connect the full cycle. The system validates available budget, routes the request through the required approval hierarchy, creates the purchase order, records receipt, confirms the invoice match and applies final payment controls before a bank file is released.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="wf-h" style="background:#ffffff;padding:clamp(48px,5vw,80px) 0">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <h2 id="wf-h" style="margin:0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1;color:#111827">HOW THE WORKFLOW RUNS</h2>
+        <ol data-r="steps" style="list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px">
+            <li style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:10px;padding:24px"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#071827;color:#ffffff;font:700 18px/1 Lato,Arial,sans-serif">1</span><h3 style="margin:18px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;color:#111827">Raise the purchase requisition</h3><p style="margin:10px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">The requester enters the required item, estimated value and charge account in iTANZ Procurement.</p></li>
+            <li style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:10px;padding:24px"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#071827;color:#ffffff;font:700 18px/1 Lato,Arial,sans-serif">2</span><h3 style="margin:18px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;color:#111827">Validate budget and route approval</h3><p style="margin:10px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Oracle NetSuite checks the selected budget and routes the request to the correct approver based on the organisation hierarchy.</p></li>
+            <li style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:10px;padding:24px"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#071827;color:#ffffff;font:700 18px/1 Lato,Arial,sans-serif">3</span><h3 style="margin:18px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;color:#111827">Approve and generate the purchase order</h3><p style="margin:10px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">Once approved, the requisition converts into a purchase order and the committed value is reflected against the relevant budget.</p></li>
+            <li style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:10px;padding:24px"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#071827;color:#ffffff;font:700 18px/1 Lato,Arial,sans-serif">4</span><h3 style="margin:18px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;color:#111827">Record receipt and complete invoice matching</h3><p style="margin:10px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">The team confirms delivery against the purchase order, allowing the invoice to move through a controlled three-way match.</p></li>
+            <li style="background:#F5F8FB;border:1px solid #E3EAF1;border-radius:10px;padding:24px"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:#071827;color:#ffffff;font:700 18px/1 Lato,Arial,sans-serif">5</span><h3 style="margin:18px 0 0;font:700 17px/1.3 Lato,Arial,sans-serif;color:#111827">Run payment approval and release</h3><p style="margin:10px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#4B5563;text-wrap:pretty">The payment batch follows the configured approval sequence. The bank file is generated only after final sign-off, with the complete history retained.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="out-h" style="background:#F5F8FB;padding:clamp(48px,5vw,80px) 0">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <h2 id="out-h" style="margin:0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1;color:#111827">BUSINESS OUTCOMES</h2>
+        <div style="margin-top:30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px">
+            <div style="background:#071827;border-radius:10px;padding:26px"><h3 style="margin:0;font:700 18px/1.3 Lato,Arial,sans-serif;color:#ffffff">Real-time budget control</h3><p style="margin:12px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Validate available funds and make committed spend visible before the purchase proceeds.</p></div>
+            <div style="background:#071827;border-radius:10px;padding:26px"><h3 style="margin:0;font:700 18px/1.3 Lato,Arial,sans-serif;color:#ffffff">Fewer manual handoffs</h3><p style="margin:12px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Replace email chasing and repetitive purchase-order creation with configured workflows.</p></div>
+            <div style="background:#071827;border-radius:10px;padding:26px"><h3 style="margin:0;font:700 18px/1.3 Lato,Arial,sans-serif;color:#ffffff">Controlled supplier payments</h3><p style="margin:12px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Apply invoice matching and multi-level approval before funds are released.</p></div>
+            <div style="background:#071827;border-radius:10px;padding:26px"><h3 style="margin:0;font:700 18px/1.3 Lato,Arial,sans-serif;color:#ffffff">Complete audit trail</h3><p style="margin:12px 0 0;font:400 15px/1.45 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Retain who approved, when they approved and the budget position at the time of the decision.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="cta-h" style="background:#071827;padding:clamp(48px,5vw,76px) 0">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <h2 id="cta-h" style="margin:0;max-width:820px;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(26px,3.4vw,40px);line-height:1.02;color:#ffffff">READY TO CONNECT FINANCE AND OPERATIONS ON ORACLE NETSUITE?</h2>
+        <p style="margin:20px 0 0;max-width:760px;font:400 18px/1.42 Lato,Arial,sans-serif;color:#C7D2DD;text-wrap:pretty">Talk with iTANZ about how this workflow could apply to your organisation, and where connected processes would remove the most manual effort.</p>
+        <div data-r="btnrow" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:36px">
+          <a href="index.html#contact" style="display:inline-flex;align-items:center;height:56px;padding:0 30px;border-radius:6px;background:var(--accent,#F05A1F);border:2px solid var(--accent,#F05A1F);color:#ffffff;font:700 14px/1 Lato,Arial,sans-serif;letter-spacing:0.05em" style-hover="background:#D94A12;border-color:#D94A12;color:#ffffff">BOOK AN INTEGRATION DISCOVERY</a>
+          <a href="mailto:info@itanzgroup.com" style="display:inline-flex;align-items:center;height:56px;padding:0 30px;border-radius:6px;background:transparent;border:2px solid rgba(255,255,255,0.5);color:#ffffff;font:700 14px/1 Lato,Arial,sans-serif;letter-spacing:0.05em" style-hover="border-color:#ffffff;background:rgba(255,255,255,0.08);color:#ffffff">CONTACT US</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="more-h" style="background:#ffffff;padding:clamp(48px,5vw,80px) 0">
+      <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+        <h2 id="more-h" style="margin:0;font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:clamp(24px,3vw,32px);line-height:1;color:#111827">MORE USE CASES</h2>
+        <div style="margin-top:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px">
+            <a href="Use-Case-Bank-Reconciliation.dc.html" style="display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #E3EAF1;border-radius:10px;padding:24px;text-decoration:none" style-hover="border-color:var(--accent,#F05A1F)"><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">USE CASE 02</span><span style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.1;color:#111827">DAILY BANK RECONCILIATION</span><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#005EA8">VIEW WORKFLOW &#8594;</span></a>
+            <a href="Use-Case-Fixed-Assets.dc.html" style="display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #E3EAF1;border-radius:10px;padding:24px;text-decoration:none" style-hover="border-color:var(--accent,#F05A1F)"><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">USE CASE 03</span><span style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.1;color:#111827">PURCHASE-TO-FIXED-ASSET</span><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#005EA8">VIEW WORKFLOW &#8594;</span></a>
+            <a href="Use-Case-Service-Revenue.dc.html" style="display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #E3EAF1;border-radius:10px;padding:24px;text-decoration:none" style-hover="border-color:var(--accent,#F05A1F)"><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.08em;color:var(--accent,#F05A1F)">USE CASE 04</span><span style="font-family:'Archivo Narrow','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:22px;line-height:1.1;color:#111827">SERVICE REVENUE TO FINANCE GL</span><span style="font:700 12px/1 Lato,Arial,sans-serif;letter-spacing:0.06em;color:#005EA8">VIEW WORKFLOW &#8594;</span></a>
+        </div>
+        <p style="margin:32px 0 0;font:400 15px/1.5 Lato,Arial,sans-serif;color:#7A8794;text-wrap:pretty">Supported solution scenarios from the iTANZ demonstration environment. They are not customer case studies and carry no quantified performance claims.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background:#071827;padding:48px 0 44px">
+    <div style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5.5vw,80px)">
+      <div data-r="footer" style="display:grid;grid-template-columns:340px 1fr 1fr;gap:40px;align-items:center">
+        <img src="assets/itanz-x-oracle netsuite-alt.png" alt="iTANZ — Oracle NetSuite reseller and implementation partner" style="width:250px;max-width:90%;height:auto;display:block" />
+        <div>
+          <a href="mailto:info@itanzgroup.com" style="display:block;font:700 20px/1.4 Lato,Arial,sans-serif;color:#ffffff">info@itanzgroup.com</a>
+          <a href="https://itanzgroup.com" style="display:block;margin-top:6px;font:400 19px/1.4 Lato,Arial,sans-serif;color:#C7D2DD">itanzgroup.com</a>
+        </div>
+        <div>
+          <div style="font:700 20px/1.4 Lato,Arial,sans-serif;color:#ffffff">Level 7, 276 Flinders Street</div>
+          <div style="margin-top:6px;font:400 19px/1.4 Lato,Arial,sans-serif;color:#C7D2DD">Melbourne 3000 VIC</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F05A1F&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#F05A1F&quot;,&quot;#005EA8&quot;,&quot;#C2410C&quot;,&quot;#0F766E&quot;],&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { open: false };
+
+  componentDidMount() {
+    this.onResize = () => {
+      if (window.innerWidth > 980 && this.state.open) this.setState({ open: false });
+    };
+    window.addEventListener('resize', this.onResize);
+
+    this.scrollToHash = () => {
+      if (!window.location.hash) return;
+      const el = document.getElementById(window.location.hash.slice(1));
+      if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
+    };
+    requestAnimationFrame(() => requestAnimationFrame(this.scrollToHash));
+    window.addEventListener('load', this.scrollToHash);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('load', this.scrollToHash);
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#F05A1F';
+    return {
+      vars: `--accent:${accent}`,
+      open: this.state.open,
+      toggle: () => this.setState((s) => ({ open: !s.open })),
+      close: () => this.setState({ open: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

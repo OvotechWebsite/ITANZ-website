@@ -1,0 +1,446 @@
+/* iTANZ × LEAP 2026 — global styles.
+   Fixed 1672 × 4705 canvas; elements carry inline geometry and js/main.js
+   scales it, or reflows below 1180px. */
+
+html, body { max-width: 100%; overflow-x: hidden; }
+body { font-family: 'Outfit', system-ui, sans-serif; }
+
+*{box-sizing:border-box}
+body{margin:0;background:#000814;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+a{color:#4cc4f0;text-decoration:none}
+a:hover{color:#8ddaff}
+input,textarea,select,button{font-family:'Outfit',system-ui,sans-serif}
+input::placeholder,textarea::placeholder{color:#93a5b8;opacity:1}
+select{color:#93a5b8}
+select option{color:#0b1220}
+
+/* RESPONSIVE — above 1180px this is the fixed 1672px canvas scaled to the
+   viewport; at 1180px and below the logic class adds .reflow to <body> and
+   stamps r-* hooks, and these rules unpack it into vertical flow.
+   Tablet = 2 columns, phone = 1 column. */
+
+body.reflow { overflow-x: hidden; }
+body.reflow #lp-outer { width: 100% !important; height: auto !important; overflow: visible !important; }
+body.reflow #lp-page { transform: none !important; width: 100% !important; height: auto !important; }
+
+body.reflow #lp-page > section {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  padding: 46px 20px 54px;
+}
+
+/* decorative art is positioned for the wide canvas — drop it */
+body.reflow [data-art="1"] { display: none !important; }
+
+/* section blocks lose their canvas coordinates */
+body.reflow #lp-page > section > *,
+body.reflow #lp-page > section > footer > * {
+  position: relative !important;
+  left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+}
+
+/* mobile hero: iTANZ left, LEAP right, on one row */
+body.reflow #lp-page .r-hero-logos {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100% !important;
+  height: auto !important;
+}
+body.reflow #lp-page .r-hero-logos img {
+  position: relative !important;
+  left: auto !important; top: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 46% !important;
+  max-height: 54px;
+  object-fit: contain;
+  align-self: center !important;
+}
+@media (max-width: 640px) {
+  body.reflow #lp-page .r-hero-logos img { max-height: 46px; }
+}
+
+/* logos keep their proportions */
+body.reflow #lp-page .r-logo {
+  width: auto !important;
+  max-width: 58% !important;
+  height: auto !important;
+  align-self: flex-start;
+}
+
+body.reflow #lp-page .r-nav { flex-wrap: wrap !important; gap: 12px 20px !important; }
+body.reflow #lp-page .r-nav > a > div { margin-top: 6px !important; }
+
+/* headings scale with the viewport */
+body.reflow h1 { font-size: clamp(40px, 11.6vw, 82px) !important; line-height: 1.03 !important; }
+body.reflow h2 { font-size: clamp(32px, 8.6vw, 62px) !important; line-height: 1.06 !important; }
+body.reflow h3 { font-size: clamp(20px, 5vw, 25px) !important; line-height: 1.2 !important; }
+body.reflow h1, body.reflow h2, body.reflow h3, body.reflow p { width: auto !important; max-width: 100% !important; }
+body.reflow [style*="nowrap"] { white-space: normal !important; }
+
+/* flex rows wrap instead of overflowing */
+body.reflow #lp-page .r-row, body.reflow #lp-page .r-bar { flex-wrap: wrap !important; }
+body.reflow #lp-page > section div[style*="display:flex"],
+body.reflow #lp-page > section div[style*="display: flex"] { flex-wrap: wrap !important; }
+
+/* grids collapse */
+body.reflow #lp-page .r-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+}
+/* form fields run full width at every reflow size */
+body.reflow #lp-page .r-form div[style*="grid-template-columns"] {
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 14px !important;
+}
+body.reflow #lp-page .r-form label[style*="grid-column:span 2"],
+body.reflow #lp-page .r-form label[style*="grid-column: span 2"] { grid-column: span 1 !important; }
+body.reflow #lp-page .r-form label,
+body.reflow #lp-page .r-form input,
+body.reflow #lp-page .r-form select,
+body.reflow #lp-page .r-form textarea { min-width: 0 !important; width: 100% !important; }
+body.reflow #lp-page .r-form label { display: flex !important; }
+
+/* cards size to content */
+body.reflow article { height: auto !important; min-height: 0 !important; padding-bottom: 28px !important; }
+body.reflow article[style*="display:flex"] { flex-direction: column !important; }
+body.reflow article[style*="display:flex"] > img { width: 100% !important; height: 200px !important; flex: none !important; }
+body.reflow article[style*="display:flex"] > div { padding: 22px 24px 0 24px !important; }
+body.reflow article > img[style*="position:absolute"] {
+  position: relative !important;
+  left: auto !important; top: auto !important;
+  width: 100% !important; height: auto !important;
+}
+body.reflow article > div[style*="position:absolute"],
+body.reflow article > a[style*="position:absolute"] {
+  position: relative !important;
+  left: auto !important; top: auto !important;
+  width: 100% !important;
+  margin-top: 14px !important;
+}
+body.reflow article > a[style*="position:absolute"] { justify-content: center; padding-left: 0 !important; }
+
+/* forms */
+body.reflow #lp-page .r-form { padding: 30px 22px 34px !important; backdrop-filter: none !important; }
+body.reflow #lp-page .r-form label { height: auto !important; min-height: 48px !important; }
+body.reflow #lp-page .r-form textarea { min-height: 78px !important; }
+
+/* outcomes CTA bar */
+body.reflow #lp-page .r-bar {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 20px !important;
+  padding: 26px 24px !important;
+}
+body.reflow #lp-page .r-bar > * { margin-left: 0 !important; flex: none !important; }
+body.reflow #lp-page .r-bar > div[style*="width:1px"], body.reflow #lp-page .r-bar > div[style*="width: 1px"] { display: none !important; }
+body.reflow #lp-page .r-bar > a { width: 100% !important; gap: 22px !important; }
+
+/* footer */
+body.reflow #lp-page .r-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding-top: 34px !important;
+  border-top: 1px solid rgba(200, 215, 235, .14);
+}
+body.reflow #lp-page .r-footer img { width: auto !important; max-width: 56% !important; height: auto !important; }
+body.reflow #lp-page .r-footer span[style*="width:1px"], body.reflow #lp-page .r-footer span[style*="width: 1px"] { display: none !important; }
+body.reflow #lp-page .r-footer > div[style*="text-align:right"] { text-align: left !important; }
+body.reflow #lp-page .r-footer > div[style*="text-align:right"] div[style*="justify-content:flex-end"] { justify-content: flex-start !important; }
+
+/* --- mobile / tablet plates + chrome the desktop plates supply --- */
+[data-mobile-only] { display: none; }
+/* revert, not block: these are inline images inside centred cards, and forcing
+   block layout would left-hug them */
+body.reflow [data-mobile-only] { display: revert; }
+body.reflow #why article [data-mobile-only] { margin-inline: auto; }
+
+/* Only #top gets a figurative plate below 1180px: it carries no card artwork.
+   The plates for #outcomes / #leadership / #why bake card frames, photos, logos,
+   icons and WhatsApp pills into fixed positions for a 678×1204 single-column
+   composition — in reflow the DOM draws its own cards, so those plates would
+   double every element. Reflow keeps the flat dark ground instead. */
+body.reflow #top { background-image: none !important; background-color: #000815 !important; }
+/* the hero plate stays, but confined to a fixed-aspect band behind the eyebrow
+   and headline only — at full-section height its neon "5" and skyline fall
+   across the buttons and the form */
+body.reflow #top::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 100%;
+  aspect-ratio: 678 / 1204;
+  max-height: 420px;
+  /* cover + bottom: the plate's focal region (the neon "5" and the Riyadh
+     skyline) sits in its lower half, so anchoring to the top of a 420px band
+     would show only empty sky */
+  background: url('../assets/bg-s1-mobile.png') no-repeat bottom center / cover;
+  opacity: .85;
+  pointer-events: none;
+  z-index: 0;
+}
+body.reflow #top > * { position: relative; z-index: 1; }
+body.reflow #outcomes,
+body.reflow #leadership,
+body.reflow #why {
+  background-image: none !important;
+  background-color: #000813 !important;
+}
+
+/* the desktop plates draw these frames; reflow needs its own */
+body.reflow #lp-page #outcomes article,
+body.reflow #lp-page #leadership article,
+body.reflow #lp-page #why article {
+  border: 1px solid rgba(120, 170, 220, .30) !important;
+  background: linear-gradient(180deg, rgba(6, 15, 32, .92), rgba(3, 8, 18, .94)) !important;
+  border-radius: 16px !important;
+  padding-top: 24px !important;
+}
+body.reflow #lp-page #leadership .r-cta-row {
+  position: relative !important;
+  left: auto !important; top: auto !important;
+  width: 100% !important;
+  justify-content: center !important;
+  margin-top: 14px !important;
+}
+body.reflow #lp-page #leadership .r-cta-row > a[href*="wa.me"] {
+  width: auto !important;
+  flex: 1 1 auto !important;
+  max-width: 260px !important;
+  justify-content: center !important;
+  padding-left: 0 !important;
+}
+body.reflow #lp-page #leadership article a[href*="wa.me"] {
+  border: 1px solid rgba(80, 200, 160, .45) !important;
+  background: rgba(6, 20, 26, .75) !important;
+  padding-left: 16px !important;
+}
+body.reflow #lp-page #outcomes .r-bar {
+  border: 1px solid rgba(150, 110, 230, .42) !important;
+  background: linear-gradient(90deg, rgba(18, 20, 48, .55), rgba(30, 18, 56, .35)) !important;
+}
+body.reflow #lp-page #outcomes .r-bar > span { display: none !important; }
+body.reflow #lp-page #outcomes .r-bar > a {
+  background: linear-gradient(90deg, #2f7bf6, #7b3fe4 52%, #f45cd0) !important;
+  height: 64px !important;
+}
+body.reflow #lp-page #leadership article > img { max-height: 340px !important; object-fit: contain !important; }
+/* the footer marks are opaque crops on rgb(0,0,12); match the plate behind them
+   so they don't read as dark rectangles */
+/* footer marks are transparent PNGs — no plate to hide */
+
+/* hero logos sit as a pair on small screens: iTANZ left, LEAP right */
+body.reflow #top { padding-top: 92px !important; }
+body.reflow #lp-page #top > img[src*="logo-itanz"],
+body.reflow #lp-page #top > img[src*="logo-leap"] {
+  position: absolute !important;
+  top: 26px !important;
+  width: auto !important;
+  height: 36px !important;
+  max-width: 44% !important;
+  object-fit: contain;
+  object-position: center;
+  align-self: auto !important;
+}
+body.reflow #lp-page #top > img[src*="logo-itanz"] { left: 16px !important; right: auto !important; }
+body.reflow #lp-page #top > img[src*="logo-leap"] { right: 16px !important; left: auto !important; }
+
+@media (min-width: 641px) and (max-width: 1180px) {
+  body.reflow #top { padding-top: 116px !important; }
+  body.reflow #lp-page #top > img[src*="logo-itanz"],
+  body.reflow #lp-page #top > img[src*="logo-leap"] { top: 34px !important; height: 48px !important; }
+  body.reflow #lp-page #top > img[src*="logo-itanz"] { left: 34px !important; }
+  body.reflow #lp-page #top > img[src*="logo-leap"] { right: 34px !important; }
+}
+
+/* the LEAP plate is a fixed-ratio image, not a logo: it keeps its own size */
+body.reflow #lp-page .r-footer img.r-footer-plate {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 495 / 191;
+  object-fit: cover;
+  border-radius: 10px;
+}
+body.reflow #lp-page .r-footer { background: transparent; }
+
+/* ---- phone ---- */
+@media (max-width: 640px) {
+  body.reflow #lp-page > section { padding: 34px 16px 42px; gap: 20px; }
+  body.reflow #lp-page .r-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+  body.reflow #lp-page .r-form label[style*="grid-column:span 2"],
+  body.reflow #lp-page .r-form label[style*="grid-column: span 2"] { grid-column: span 1 !important; }
+  body.reflow #lp-page .r-logo { max-width: 74% !important; }
+  body.reflow #lp-page .r-nav { gap: 10px 16px !important; }
+  body.reflow #lp-page .r-nav > a { font-size: 13px !important; padding: 8px 0 !important; }
+  /* comfortable tap targets for the inline card links */
+  body.reflow article a { min-height: 40px !important; align-items: center !important; }
+  body.reflow #lp-page .r-row { gap: 12px !important; }
+  body.reflow #lp-page .r-row > a { width: 100% !important; }
+  body.reflow #lp-page .r-footer img { max-width: 68% !important; }
+}
+
+/* ---- tablet ---- */
+@media (min-width: 641px) and (max-width: 1180px) {
+  body.reflow #lp-page > section { padding: 54px 34px 62px; }
+  body.reflow #lp-page .r-logo { max-width: 40% !important; }
+  body.reflow #lp-page .r-form { max-width: 640px !important; }
+}
+
+/* hover states (inline styles cannot express :hover) */
+.hv-white:hover { color: #ffffff; }
+.hv-bright:hover { filter: brightness(1.08); }
+.hv-bright15:hover { filter: brightness(1.15); }
+.hv-border:hover { border-color: rgba(214, 226, 240, .7); }
+.hv-link:hover { color: #8ddaff; }
+
+a, button, [data-dd-face] { transition: filter .18s ease, color .18s ease, border-color .18s ease; }
+
+/* custom dropdown panel (built by js/main.js) */
+.dd-panel {
+  position: absolute; left: 0; top: calc(100% + 8px);
+  min-width: 100%; width: max-content; max-width: 420px;
+  display: none; z-index: 60; padding: 8px 0;
+  border-radius: 12px; border: 1px solid rgba(120, 170, 220, .34);
+  background: linear-gradient(180deg, #081426 0%, #050d1c 100%);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(60, 110, 180, .12);
+  max-height: 340px; overflow-y: auto; cursor: default;
+}
+.dd-panel.is-open { display: block; }
+.dd-row { display: flex; align-items: center; white-space: nowrap; cursor: pointer; color: #e4ecf5; }
+.dd-row:hover { background: rgba(90, 160, 230, .12); }
+.dd-panel::-webkit-scrollbar { width: 8px; }
+.dd-panel::-webkit-scrollbar-thumb { background: rgba(120, 170, 220, .35); border-radius: 4px; }
+
+/* the real <select> stays in the DOM for submission, visually replaced */
+.dd-native { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+
+/* ============ mobile top bar + hamburger menu (reflow only) ============ */
+.r-topbar { display: none; }
+body.reflow .r-topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 95;
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 16px;
+  background: rgba(0, 8, 20, .94);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(150, 180, 215, .16);
+}
+body.reflow .r-topbar__logo { display: flex; align-items: center; flex: none; }
+body.reflow .r-topbar img { width: auto; height: 34px; object-fit: contain; }
+body.reflow .r-topbar__leap { height: 26px !important; margin-left: auto; }
+@media (max-width: 420px) {
+  body.reflow .r-topbar { padding: 8px 12px; }
+  body.reflow .r-topbar img { height: 28px; }
+  body.reflow .r-topbar__leap { height: 21px !important; }
+}
+.r-burger {
+  flex: none; margin-left: 14px;
+  display: flex; flex-direction: column; justify-content: center; gap: 5px;
+  width: 44px; height: 44px; padding: 0 10px;
+  border: 1px solid rgba(150, 190, 235, .42); border-radius: 11px;
+  background: rgba(8, 20, 38, .65); cursor: pointer;
+}
+.r-burger span { display: block; height: 2px; border-radius: 2px; background: #dbe7f4; transition: transform .22s ease, opacity .16s ease; }
+.r-burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.r-burger.is-open span:nth-child(2) { opacity: 0; }
+.r-burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* the bar clears the page and carries both logos */
+body.reflow #lp-outer { padding-top: 62px !important; }
+body.reflow #top { padding-top: 30px !important; }
+body.reflow #lp-page .r-hero-logos,
+body.reflow #lp-page #top > img[src*="itanz"],
+body.reflow #lp-page #top > img[src*="logo-leap"] { display: none !important; }
+
+body.reflow #lp-page #top nav.r-nav {
+  position: fixed !important; top: 66px !important; left: 12px !important; right: 12px !important;
+  width: auto !important; max-width: none !important;
+  display: none !important; flex-direction: column !important; align-items: stretch !important;
+  gap: 0 !important; padding: 6px !important; margin: 0 !important; z-index: 94;
+  border-radius: 14px; border: 1px solid rgba(120, 170, 220, .34);
+  background: linear-gradient(180deg, #081426, #050d1c);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, .6);
+}
+body.reflow #lp-page #top nav.r-nav.is-open { display: flex !important; }
+body.reflow #lp-page #top nav.r-nav > a {
+  padding: 14px 16px !important; border-radius: 10px;
+  font-size: 14px !important; letter-spacing: 1.1px !important;
+}
+body.reflow #lp-page #top nav.r-nav > a + a { border-top: 1px solid rgba(150, 180, 215, .12); }
+body.reflow #lp-page #top nav.r-nav > a > div { display: none !important; }
+
+/* ============ info pills: fixed canvas heights spill when text wraps ====== */
+body.reflow #lp-page .r-pill {
+  height: auto !important; min-height: 44px !important;
+  width: auto !important; max-width: 100% !important;
+  flex-wrap: wrap !important; row-gap: 6px !important;
+  padding: 10px 18px !important;
+}
+body.reflow #lp-page .r-pill > span[style*="width:1px"] { display: none !important; }
+
+/* ============ the reserve form is one column on anything narrow ========== */
+@media (max-width: 900px) {
+  body.reflow #lp-page .r-form div[style*="grid-template-columns"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+  body.reflow #lp-page .r-form label[style*="grid-column:span 2"],
+  body.reflow #lp-page .r-form label[style*="grid-column: span 2"] { grid-column: span 1 !important; }
+  body.reflow #lp-page .r-form label,
+  body.reflow #lp-page .r-form input,
+  body.reflow #lp-page .r-form select,
+  body.reflow #lp-page .r-form textarea { min-width: 0 !important; }
+  body.reflow #lp-page .r-form textarea { min-height: 88px !important; }
+}
+
+/* ============ phone body copy + rhythm ================================== */
+@media (max-width: 640px) {
+  body.reflow #lp-page p { font-size: clamp(15.5px, 4.2vw, 18px) !important; line-height: 1.62 !important; }
+  body.reflow #lp-page #top p { margin-top: 22px !important; }
+  body.reflow #lp-page > section { gap: 18px; }
+  body.reflow #lp-page .r-pill { padding: 9px 15px !important; }
+  body.reflow #lp-page .r-pill span { font-size: 14.5px !important; letter-spacing: .8px !important; }
+}
+
+/* ============ phone type scale on CTAs ================================== */
+@media (max-width: 640px) {
+  /* hero + section CTA buttons */
+  body.reflow #lp-page a[href="#reserve"],
+  body.reflow #lp-page a[href="#book"],
+  body.reflow #lp-page a[href="#strength"] {
+    font-size: 13.5px !important; letter-spacing: .9px !important;
+    gap: 12px !important; padding: 0 16px !important;
+  }
+  body.reflow #lp-page .r-form button[type="submit"] {
+    font-size: 14.5px !important; letter-spacing: 1px !important; gap: 18px !important;
+  }
+  /* leadership WhatsApp pill */
+  body.reflow #lp-page #leadership a[href*="wa.me"] {
+    font-size: 11.5px !important; letter-spacing: .5px !important;
+    gap: 8px !important; padding: 0 10px !important;
+  }
+  body.reflow #lp-page #leadership a[href*="wa.me"] svg { width: 17px !important; height: 17px !important; }
+  body.reflow #lp-page #leadership .r-cta-row { gap: 8px !important; }
+  body.reflow #lp-page #leadership a[href*="linkedin"] { width: 46px !important; }
+}
+@media (max-width: 400px) {
+  body.reflow #lp-page #leadership a[href*="wa.me"] { font-size: 10.5px !important; gap: 6px !important; }
+}

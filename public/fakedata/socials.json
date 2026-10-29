@@ -1,0 +1,22 @@
+[
+	{
+		"name": "LinkedIn",
+		"iconName": "fa-brands fa-linkedin-in",
+		"path": "https://www.linkedin.com/company/itanz/"
+	},
+	{
+		"name": "Twitter",
+		"iconName": "fa-brands fa-x-twitter",
+		"path": "https://twitter.com/iTANZGroup"
+	},
+	{
+		"name": "YouTube",
+		"iconName": "fa-brands fa-youtube",
+		"path": "https://www.youtube.com/channel/UCZpKqzVtkLc0caEUEreJdAw/"
+	},
+	{
+		"name": "Facebook",
+		"iconName": "fa-brands fa-facebook-f",
+		"path": "https://www.facebook.com/iTANZGROUP"
+	}
+]

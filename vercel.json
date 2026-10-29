@@ -1,0 +1,17 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"routes": [
+		{
+			"src": "/blog(?:/.*)?$",
+			"mitigate": {
+				"action": "deny"
+			}
+		},
+		{
+			"src": "/api/(?:blog|generate|demo)(?:/.*)?$",
+			"mitigate": {
+				"action": "deny"
+			}
+		}
+	]
+}

@@ -1,0 +1,62 @@
+[
+	{
+		"img": "/images/brands/oracle.png",
+		"img2": "/images/brands/brand-1-light.webp",
+		"img3": "/images/brands/h5-brand-1.webp"
+	},
+	{
+		"img": "/images/brands/aws.png",
+		"img2": "/images/brands/brand-5-light.webp",
+		"img3": "/images/brands/h5-brand-5.webp"
+	},
+	{
+		"img": "/images/brands/cisco.png",
+		"img2": "/images/brands/brand-5-light.webp",
+		"img3": "/images/brands/h5-brand-5.webp"
+	},
+	{
+		"img": "/images/brands/oracle-netsuite.png",
+		"img2": "/images/brands/brand-4-light.webp",
+		"img3": "/images/brands/h5-brand-4.webp"
+	},
+	{
+		"img": "/images/brands/informatica.png",
+		"img2": "/images/brands/brand-4-light.webp",
+		"img3": "/images/brands/h5-brand-4.webp"
+	},
+	{
+		"img": "/images/brands/cloudflare.png",
+		"img2": "/images/brands/brand-6-light.webp",
+		"img3": "/images/brands/h5-brand-6.webp"
+	},
+	{
+		"img": "/images/brands/couchbase.png",
+		"img2": "/images/brands/brand-1-light.webp",
+		"img3": "/images/brands/h5-brand-1.webp"
+	},
+	{
+		"img": "/images/brands/fortinet.png",
+		"img2": "/images/brands/brand-2-light.webp",
+		"img3": "/images/brands/h5-brand-2.webp"
+	},
+	{
+		"img": "/images/brands/salesforce.png",
+		"img2": "/images/brands/brand-3-light.webp",
+		"img3": "/images/brands/h5-brand-3.webp"
+	},
+	{
+		"img": "/images/brands/huawei.png",
+		"img2": "/images/brands/brand-3-light.webp",
+		"img3": "/images/brands/h5-brand-3.webp"
+	},
+	{
+		"img": "/images/brands/mulesoft.png",
+		"img2": "/images/brands/brand-4-light.webp",
+		"img3": "/images/brands/h5-brand-4.webp"
+	},
+	{
+		"img": "/images/brands/whatsapp.png",
+		"img2": "/images/brands/brand-4-light.webp",
+		"img3": "/images/brands/h5-brand-4.webp"
+	}
+]

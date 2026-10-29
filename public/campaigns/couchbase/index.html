@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base href="/campaigns/couchbase/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+
+<style>
+  .tai-section { background:#fff; padding:clamp(52px,6vw,88px) 0; font-family:"Open Sans",Helvetica,Arial,sans-serif; }
+  .tai-inner { width:100%; max-width:1400px; margin:0 auto; padding:0 clamp(20px,4vw,64px); }
+  .tai-title { font-family:Montserrat,sans-serif; font-weight:700; font-size:clamp(25px,2.7vw,38px);
+               line-height:1.25; letter-spacing:-0.01em; color:#0d2b52; text-align:center; margin:0; }
+  .tai-rule { width:46px; height:3px; background:#ef7622; margin:16px auto clamp(30px,3.2vw,44px); }
+  .tai-grid { display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); gap:clamp(14px,1.5vw,24px); }
+  @media (min-width:520px)  { .tai-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (min-width:840px)  { .tai-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media (min-width:1120px) { .tai-grid { grid-template-columns:repeat(5,minmax(0,1fr)); } }
+  .tai-card { border:1px solid #e6ebf1; border-radius:3px; overflow:hidden; background:#fff;
+              box-shadow:0 6px 22px rgba(13,43,82,.07); }
+  .tai-media { position:relative; background:#f4f7fa; display:flex; align-items:center; justify-content:center; z-index:1; }
+  .tai-media img { width:100%; height:auto; display:block; }
+  .tai-icon { position:absolute; left:50%; bottom:-26px; transform:translateX(-50%); width:52px; height:52px;
+              border-radius:50%; background:#fff; box-shadow:0 4px 14px rgba(13,43,82,.14);
+              display:flex; align-items:center; justify-content:center; z-index:3; }
+  .tai-label { text-align:center; font-weight:600; font-size:clamp(14px,1.2vw,16px); color:#0d2b52;
+               margin:0; padding:40px 12px 22px; }
+  .tai-stats { margin-top:clamp(30px,3.4vw,48px); background:#0b5f86; border-radius:14px;
+               padding:clamp(28px,3.4vw,46px) clamp(18px,2.6vw,38px);
+               display:grid; grid-template-columns:repeat(1,minmax(0,1fr)); }
+  @media (min-width:560px)  { .tai-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (min-width:900px)  { .tai-stats { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media (min-width:1140px) { .tai-stats { grid-template-columns:repeat(5,minmax(0,1fr)); } }
+  .tai-stat { position:relative; text-align:center; padding:clamp(14px,1.4vw,18px) clamp(12px,1.4vw,22px); }
+  .tai-stat + .tai-stat::before { content:""; position:absolute; left:0; top:12%; bottom:12%; width:1px;
+               background:repeating-linear-gradient(to bottom, rgba(255,255,255,.42) 0 2px, transparent 2px 7px); }
+  @media (max-width:559px) { .tai-stat + .tai-stat::before { display:none; } }
+  .tai-stat-num { font-family:Montserrat,sans-serif; font-weight:400; font-size:clamp(34px,3.6vw,46px);
+               line-height:1.05; letter-spacing:-0.01em; color:#fff; }
+  .tai-stat-txt { font-size:clamp(13px,1.05vw,15px); line-height:1.45; color:#e8f1f6;
+               margin:10px 0 0; max-width:220px; margin-left:auto; margin-right:auto; }
+</style>
+
+<style>
+  /* ---------- Book a Consultation modal ---------- */
+  @keyframes bcFade { from { opacity:0; } to { opacity:1; } }
+  @keyframes bcRise { from { opacity:0; transform:translateY(22px) scale(.985); } to { opacity:1; transform:none; } }
+
+  .bc-overlay { position:fixed; inset:0; z-index:999; background:rgba(8,26,46,.55);
+                backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+                display:flex; align-items:flex-start; justify-content:center;
+                padding:clamp(14px,3vw,44px); overflow-y:auto; animation:bcFade .18s ease both;
+                font-family:Montserrat,Helvetica,Arial,sans-serif; }
+  .bc-modal { position:relative; width:100%; max-width:1060px; background:#fff; border-radius:16px;
+              box-shadow:0 30px 80px rgba(6,22,42,.32); padding:clamp(26px,3.4vw,52px) clamp(20px,3.6vw,56px) clamp(28px,3.4vw,46px);
+              animation:bcRise .26s cubic-bezier(.2,.8,.25,1) both; }
+  .bc-close { position:absolute; top:14px; right:14px; width:40px; height:40px; border-radius:50%;
+              border:1px solid #e3e8ee; background:#fff; color:#0f1c2e; cursor:pointer;
+              display:flex; align-items:center; justify-content:center; transition:background .16s, color .16s, transform .16s; }
+  .bc-close:hover { background:#0b5f86; border-color:#0b5f86; color:#fff; transform:rotate(90deg); }
+  .bc-title { font-size:clamp(23px,2.5vw,31px); font-weight:600; letter-spacing:-.015em; color:#0f1c2e;
+              margin:0 46px 4px 0; }
+  .bc-sub { font-size:14px; color:#7b8797; margin:0 0 clamp(24px,2.4vw,34px); }
+
+  .bc-grid { display:grid; grid-template-columns:1fr; column-gap:clamp(24px,3vw,44px); row-gap:clamp(22px,2.4vw,32px); }
+  @media (min-width:720px) { .bc-grid { grid-template-columns:1fr 1fr; } }
+  .bc-full { grid-column:1 / -1; }
+
+  .bc-field { position:relative; }
+  .bc-input, .bc-select, .bc-area {
+    width:100%; border:0; border-bottom:1px dotted #c2ccd6; background:transparent;
+    font-family:Montserrat,Helvetica,Arial,sans-serif; font-size:15px; color:#12294A;
+    padding:0 0 11px; outline:none; border-radius:0; }
+  .bc-input::placeholder, .bc-area::placeholder { color:#8a97a4; }
+  .bc-input:focus, .bc-select:focus, .bc-area:focus { border-bottom:1px solid #0b5f86; }
+  .bc-area { resize:vertical; min-height:86px; line-height:1.6; }
+  .bc-select { -webkit-appearance:none; appearance:none; color:#8a97a4; cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%235c6b7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat:no-repeat; background-position:right 2px top 3px; padding-right:26px; }
+  .bc-select.bc-has-value { color:#12294A; }
+
+  .bc-qlabel { font-size:15px; line-height:1.5; color:#55636f; margin:0 0 16px; }
+  .bc-options { display:grid; grid-template-columns:1fr; gap:12px 34px; }
+  @media (min-width:720px) { .bc-options { grid-template-columns:1fr 1fr; } }
+  .bc-opt { display:flex; align-items:flex-start; gap:11px; font-size:14.5px; line-height:1.45;
+            color:#22364e; cursor:pointer; padding:7px 10px 7px 0; border-radius:6px; transition:color .15s; }
+  .bc-opt:hover { color:#0b5f86; }
+  .bc-radio { appearance:none; -webkit-appearance:none; margin:1px 0 0; flex:0 0 auto;
+              width:17px; height:17px; border:1.5px solid #b9c4cf; border-radius:50%;
+              background:#fff; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
+  .bc-radio:checked { border-color:#0b5f86; box-shadow:inset 0 0 0 4px #0b5f86; }
+  .bc-radio:focus-visible { outline:2px solid #9ec6da; outline-offset:2px; }
+
+  .bc-check-hint { font-size:12.5px; color:#8a97a4; margin:-11px 0 14px; }
+
+  .bc-divider { grid-column:1 / -1; height:1px; background:repeating-linear-gradient(to right,#d6dee6 0 3px,transparent 3px 7px); }
+
+  .bc-consent { display:flex; align-items:flex-start; gap:11px; font-size:13px; line-height:1.5;
+                color:#55636f; cursor:pointer; }
+  .bc-check { appearance:none; -webkit-appearance:none; -moz-appearance:none; margin:1px 0 0; flex:0 0 auto;
+              width:15px; height:15px; border:1.5px solid #b9c4cf; border-radius:3px; background:#fff;
+              cursor:pointer; position:relative; transition:border-color .15s, background .15s; }
+  .bc-check:checked { border-color:#0b5f86; background:#0b5f86; }
+  .bc-check:checked::after { content:""; position:absolute; left:4px; top:1px; width:4px; height:8px;
+    border:solid #fff; border-width:0 2px 2px 0; transform:rotate(45deg); }
+  .bc-check:focus-visible { outline:2px solid #9ec6da; outline-offset:2px; }
+  .bc-opt .bc-check { width:17px; height:17px; border-radius:4px; }
+  .bc-opt .bc-check:checked::after { left:5px; top:2px; width:5px; height:9px; }
+
+  .bc-submit { display:inline-flex; align-items:center; gap:16px; border:0; cursor:pointer;
+               background:#0b5f86; color:#fff; font-family:Montserrat,Helvetica,Arial,sans-serif;
+               font-size:15px; font-weight:700; letter-spacing:.005em; border-radius:999px;
+               padding:9px 9px 9px 26px; transition:background .16s, box-shadow .16s; }
+  .bc-submit:hover { background:#094c6c; box-shadow:0 8px 20px rgba(11,95,134,.28); }
+  .bc-submit:disabled { opacity:.6; cursor:not-allowed; box-shadow:none; }
+  .bc-submit span.bc-arrow { width:32px; height:32px; border-radius:50%; background:#0f1c2e;
+               display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+  .bc-fieldset { border:0; margin:0; padding:0; min-width:0; }
+  .bc-fieldset:disabled { opacity:.55; }
+  .bc-error { grid-column:1 / -1; font-size:13.5px; line-height:1.5; color:#b3261e;
+              background:#fdecea; border-radius:6px; padding:11px 14px; margin:0; }
+
+  .bc-thanks { text-align:center; padding:clamp(16px,3vw,40px) 0 clamp(6px,1vw,14px); }
+  .bc-thanks-badge { width:66px; height:66px; border-radius:50%; background:#eaf4f8; color:#0b5f86;
+               display:flex; align-items:center; justify-content:center; margin:0 auto 20px; }
+</style>
+
+<style>
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; padding: 0; background: #ffffff; }
+  * { box-sizing: border-box; }
+  img { display: block; }
+  a { color: #12294A; text-decoration: none; }
+  a:hover { color: #E8332A; }
+  body { -webkit-font-smoothing: antialiased; }
+</style>
+</helmet>
+<div style="font-family: Barlow, Helvetica, sans-serif; color: #12294A; background: #ffffff; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; background: #ffffff; border-bottom: 1px solid #E9EBEF;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 14px clamp(18px, 3.2vw, 44px) 12px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <div style="display: flex; align-items: center; gap: 18px;">
+                             <img src="assets/itanz-x-couchbase.png" alt="iTANZ" style="height: 50px; width: auto;" />
+</div>
+      </div>
+
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display: flex; align-items: center; gap: clamp(18px, 2.4vw, 36px);">
+          <a href="#home" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid #E8332A;">Home</a>
+          <a href="#why" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid transparent;" style-hover="border-bottom: 2.5px solid #E8332A;">Why Couchbase</a>
+          <a href="#solutions" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid transparent;" style-hover="border-bottom: 2.5px solid #E8332A;">Solutions</a>
+          <a href="#usecases" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid transparent;" style-hover="border-bottom: 2.5px solid #E8332A;">Use Cases</a>
+          <a href="#assessment" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid transparent;" style-hover="border-bottom: 2.5px solid #E8332A;">Assessment</a>
+          <a href="#contact" style="font-size: 15px; font-weight: 500; color: #12294A; white-space: nowrap; padding-bottom: 6px; border-bottom: 2.5px solid transparent;" style-hover="border-bottom: 2.5px solid #E8332A;">Contact</a>
+        </nav>
+      </sc-if>
+
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" aria-label="Menu" style="margin-top: 6px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid #E1E4E9; border-radius: 4px; color: #12294A; cursor: pointer;">
+          <i data-lucide="menu" style="width: 22px; height: 22px;"></i>
+        </button>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="display: flex; flex-direction: column; border-top: 1px solid #EDEFF2; padding: 6px clamp(18px, 3.2vw, 44px) 14px; background: #ffffff;">
+        <a href="#home" style="font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid #F1F2F5;">Home</a>
+        <a href="#why" style="font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid #F1F2F5;">Why Couchbase</a>
+        <a href="#solutions" style="font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid #F1F2F5;">Solutions</a>
+        <a href="#usecases" style="font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid #F1F2F5;">Use Cases</a>
+        <a href="#assessment" style="font-size: 16px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid #F1F2F5;">Assessment</a>
+        <a href="#contact" style="font-size: 16px; font-weight: 500; padding: 12px 0;">Contact</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <section id="home" data-screen-label="Hero" style="background-color: #08223C; background-image: url(assets/hero.png); background-size: cover; background-position: 62% center;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: clamp(46px, 6vw, 84px) clamp(18px, 3.2vw, 44px); min-height: clamp(400px, 43vw, 596px); display: flex; flex-direction: column; justify-content: center;">
+      <h1 style="margin: 0; font-size: clamp(34px, 4.9vw, 62px); line-height: 1.12; font-weight: 700; letter-spacing: -0.4px; color: #ffffff;">MODERN DATA.<br />REAL BUSINESS<br />IMPACT.</h1>
+      <div style="width: 52px; height: 4px; background: #E8332A; margin: 24px 0 22px;"></div>
+      <p style="margin: 0; font-size: clamp(16px, 1.75vw, 23px); line-height: 1.5; color: #DDE4EC; max-width: 400px;">Deliver fast, reliable and scalable applications with a modern data platform built for the cloud era.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 30px;">
+        <a href="#why" style="display: inline-flex; align-items: center; gap: 30px; background: #E8332A; color: #ffffff; font-size: 17px; font-weight: 600; padding: 15px 24px; border-radius: 3px;" style-hover="background: #D22A22; color: #ffffff;">Explore Partnership<i data-lucide="arrow-right" style="width: 19px; height: 19px;"></i></a>
+        <a href="#book" onClick="{{ openModal }}" style="display: inline-flex; align-items: center; gap: 24px; border: 1.5px solid rgba(255,255,255,0.85); color: #ffffff; font-size: 17px; font-weight: 600; padding: 15px 24px; border-radius: 3px; cursor: pointer;" style-hover="background: rgba(255,255,255,0.12); color: #ffffff;">Talk to an Expert<i data-lucide="arrow-right" style="width: 19px; height: 19px;"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" data-screen-label="Why iTANZ Couchbase" style="background: #FAFBFC; padding: clamp(42px, 4.5vw, 62px) 0 clamp(48px, 5vw, 70px);">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 3.2vw, 44px);">
+      <h2 style="margin: 0; text-align: center; font-size: clamp(27px, 3.1vw, 40px); font-weight: 700; color: #12294A; letter-spacing: -0.2px;">Why iTAN<span style="border-bottom: 3px solid #E8332A; padding-bottom: 5px;">Z</span> | Couchbase</h2>
+      <p style="margin: 12px 0 0; text-align: center; font-size: clamp(15px, 1.3vw, 17px); color: #4B5A6E;">A partnership built to power modern applications anywhere data lives.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 34px;">
+        <div style="background: #ffffff; border: 1px solid #EDEFF2; border-radius: 4px; padding: 28px 26px; display: flex; align-items: center; gap: 22px; min-height: 152px;">
+          <i data-lucide="gauge" style="width: 42px; height: 42px; flex: 0 0 auto; color: #E8332A; stroke-width: 1.6;"></i>
+          <div>
+            <div style="font-size: 19px; font-weight: 600; color: #12294A;">High Performance</div>
+            <div style="font-size: 15px; line-height: 1.75; color: #56637A; margin-top: 4px;">Deliver lightning-fast experiences at any scale, anywhere.</div>
+          </div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #EDEFF2; border-radius: 4px; padding: 28px 26px; display: flex; align-items: center; gap: 22px; min-height: 152px;">
+          <i data-lucide="cloud-cog" style="width: 42px; height: 42px; flex: 0 0 auto; color: #E8332A; stroke-width: 1.6;"></i>
+          <div>
+            <div style="font-size: 19px; font-weight: 600; color: #12294A;">Cloud to Edge</div>
+            <div style="font-size: 15px; line-height: 1.75; color: #56637A; margin-top: 4px;">Run seamlessly across cloud, edge and hybrid environments.</div>
+          </div>
+        </div>
+        <div style="background: #ffffff; border: 1px solid #EDEFF2; border-radius: 4px; padding: 28px 26px; display: flex; align-items: center; gap: 22px; min-height: 152px;">
+          <i data-lucide="chart-no-axes-combined" style="width: 42px; height: 42px; flex: 0 0 auto; color: #E8332A; stroke-width: 1.6;"></i>
+          <div>
+            <div style="font-size: 19px; font-weight: 600; color: #12294A;">Built for Scale</div>
+            <div style="font-size: 15px; line-height: 1.75; color: #56637A; margin-top: 4px;">Scale effortlessly to meet today's and tomorrow's data demands.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="solutions" data-screen-label="Built for Modern Applications" style="background: #F4F4F6; padding: clamp(40px, 4.2vw, 58px) 0 clamp(46px, 4.8vw, 66px);">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 3.2vw, 44px);">
+      <h2 style="margin: 0; text-align: center; font-size: clamp(27px, 3.1vw, 40px); font-weight: 700; color: #12294A; letter-spacing: -0.2px;">Built for Modern Applications</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(238px, 1fr)); gap: 21px; margin-top: 32px;">
+        <div style="border-radius: 4px; overflow: hidden; background-color: #0A1F38; background-image: url(assets/card1.png); background-size: cover; background-position: center; min-height: 396px; padding: 24px 22px; display: flex; flex-direction: column;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: #E8332A; display: flex; align-items: center; justify-content: center; color: #ffffff;"><i data-lucide="users" style="width: 25px; height: 25px;"></i></div>
+          <div style="flex: 1; min-height: 34px;"></div>
+          <div style="font-size: 22px; line-height: 1.22; font-weight: 600; color: #ffffff;">One Partnership.<br />Limitless<br />Possibilities.</div>
+          <div style="width: 30px; height: 3px; background: #E8332A; margin: 15px 0 14px;"></div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8D3E1;">iTANZ and Couchbase deliver modern data solutions that power what's next.</div>
+          <div style="height: 26px;"></div>
+          <i data-lucide="arrow-right" style="width: 22px; height: 22px; color: #ffffff;"></i>
+        </div>
+        <div style="border-radius: 4px; overflow: hidden; background-color: #0A1F38; background-image: url(assets/card2.png); background-size: cover; background-position: center; min-height: 396px; padding: 24px 22px; display: flex; flex-direction: column;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: #E8332A; display: flex; align-items: center; justify-content: center; color: #ffffff;"><i data-lucide="database" style="width: 25px; height: 25px;"></i></div>
+          <div style="flex: 1; min-height: 34px;"></div>
+          <div style="font-size: 22px; line-height: 1.22; font-weight: 600; color: #ffffff;">Modern Data.<br />Real Business<br />Impact.</div>
+          <div style="width: 30px; height: 3px; background: #E8332A; margin: 15px 0 14px;"></div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8D3E1;">Fast, reliable and scalable applications for a cloud-first world.</div>
+          <div style="height: 26px;"></div>
+          <i data-lucide="arrow-right" style="width: 22px; height: 22px; color: #ffffff;"></i>
+        </div>
+        <div style="border-radius: 4px; overflow: hidden; background-color: #0A1F38; background-image: url(assets/card3.png); background-size: cover; background-position: center; min-height: 396px; padding: 24px 22px; display: flex; flex-direction: column;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: #E8332A; display: flex; align-items: center; justify-content: center; color: #ffffff;"><i data-lucide="brain" style="width: 25px; height: 25px;"></i></div>
+          <div style="flex: 1; min-height: 34px;"></div>
+          <div style="font-size: 22px; line-height: 1.22; font-weight: 600; color: #ffffff;">AI is Ready.<br />Is Your Data?</div>
+          <div style="width: 30px; height: 3px; background: #E8332A; margin: 15px 0 14px;"></div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8D3E1;">Unlock AI and analytics with high-performance operational data.</div>
+          <div style="height: 26px;"></div>
+          <i data-lucide="arrow-right" style="width: 22px; height: 22px; color: #ffffff;"></i>
+        </div>
+        <div style="border-radius: 4px; overflow: hidden; background-color: #0A1F38; background-image: url(assets/card4.png); background-size: cover; background-position: center; min-height: 396px; padding: 24px 22px; display: flex; flex-direction: column;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; background: #E8332A; display: flex; align-items: center; justify-content: center; color: #ffffff;"><i data-lucide="clock" style="width: 25px; height: 25px;"></i></div>
+          <div style="flex: 1; min-height: 34px;"></div>
+          <div style="font-size: 22px; line-height: 1.22; font-weight: 600; color: #ffffff;">Built for<br />Real-Time<br />Business</div>
+          <div style="width: 30px; height: 3px; background: #E8332A; margin: 15px 0 14px;"></div>
+          <div style="font-size: 15px; line-height: 1.6; color: #C8D3E1;">Stream, react and act—in real time, every time.</div>
+          <div style="height: 26px;"></div>
+          <i data-lucide="arrow-right" style="width: 22px; height: 22px; color: #ffffff;"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usecases" data-screen-label="Challenges and Solutions" style="background: #062340; padding: clamp(38px, 4vw, 52px) 0 clamp(40px, 4.4vw, 58px);">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 0 clamp(18px, 3.2vw, 44px); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 4px;">
+      <div style="padding: 4px 26px 4px 0;">
+        <div style="display: flex; align-items: center; gap: 13px; margin-bottom: 20px;">
+          <i data-lucide="database" style="width: 29px; height: 29px; color: #E8332A; stroke-width: 1.7;"></i>
+          <div style="font-size: 18px; font-weight: 600; color: #ffffff;">Data Fragmentation</div>
+        </div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #E8532B;">THE CHALLENGE</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Siloed systems and scattered data slow down decisions.</div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #55A9D8; margin-top: 22px;">OUR SOLUTION</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Unify operational data in a single, agile platform.</div>
+      </div>
+      <div style="padding: 4px 26px; border-left: 1px solid rgba(255,255,255,0.16);">
+        <div style="display: flex; align-items: center; gap: 13px; margin-bottom: 20px;">
+          <i data-lucide="chart-no-axes-combined" style="width: 29px; height: 29px; color: #E8332A; stroke-width: 1.7;"></i>
+          <div style="font-size: 18px; font-weight: 600; color: #ffffff;">Scaling Pressure</div>
+        </div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #E8532B;">THE CHALLENGE</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Growing data and users strain legacy infrastructure.</div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #55A9D8; margin-top: 22px;">OUR SOLUTION</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Scale horizontally with consistent performance.</div>
+      </div>
+      <div style="padding: 4px 26px; border-left: 1px solid rgba(255,255,255,0.16);">
+        <div style="display: flex; align-items: center; gap: 13px; margin-bottom: 20px;">
+          <i data-lucide="cloud-cog" style="width: 29px; height: 29px; color: #E8332A; stroke-width: 1.7;"></i>
+          <div style="font-size: 18px; font-weight: 600; color: #ffffff;">Cloud &amp; Edge Complexity</div>
+        </div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #E8532B;">THE CHALLENGE</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Managing data across cloud, edge and on-prem is hard.</div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #55A9D8; margin-top: 22px;">OUR SOLUTION</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">One platform. Any environment. Simplify and accelerate.</div>
+      </div>
+      <div style="padding: 4px 0 4px 26px; border-left: 1px solid rgba(255,255,255,0.16);">
+        <div style="display: flex; align-items: center; gap: 13px; margin-bottom: 20px;">
+          <i data-lucide="zap" style="width: 29px; height: 29px; color: #E8332A; stroke-width: 1.7;"></i>
+          <div style="font-size: 18px; font-weight: 600; color: #ffffff;">Real-Time Demands</div>
+        </div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #E8532B;">THE CHALLENGE</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Businesses need real-time context to stay ahead.</div>
+        <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.6px; color: #55A9D8; margin-top: 22px;">OUR SOLUTION</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #D6DFEA; margin-top: 7px;">Deliver real-time insights and actions at global scale.</div>
+      </div>
+    </div>
+  </section>
+
+<!-- Trusted Across Industries -->
+
+<section class="tai-section">
+  <div class="tai-inner">
+    <h2 class="tai-title">Trusted Across Industries</h2>
+    <div class="tai-rule"></div>
+
+    <div class="tai-grid">
+
+      <div class="tai-card">
+        <div class="tai-media">
+          <img src="assets/bfsi.png" alt="BFSI" />
+          <span class="tai-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="1.8"/><path d="M8.6 10.5V7.8a3.4 3.4 0 0 1 6.8 0v2.7"/></svg>
+          </span>
+        </div>
+        <p class="tai-label">BFSI</p>
+      </div>
+
+      <div class="tai-card">
+        <div class="tai-media">
+          <img src="assets/government.png" alt="Government" />
+          <span class="tai-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 9.5L12 4.5l8.5 5"/><path d="M6 9.5v9M10 9.5v9M14 9.5v9M18 9.5v9"/><path d="M3.5 19.5h17"/></svg>
+          </span>
+        </div>
+        <p class="tai-label">Government</p>
+      </div>
+
+      <div class="tai-card">
+        <div class="tai-media">
+          <img src="assets/telecom.png" alt="Telecom" />
+          <span class="tai-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="2"/><path d="M7.8 5.8a6 6 0 0 0 0 8.4M16.2 5.8a6 6 0 0 1 0 8.4"/><path d="M11 12l-1.4 8h4.8L13 12"/></svg>
+          </span>
+        </div>
+        <p class="tai-label">Telecom</p>
+      </div>
+
+      <div class="tai-card">
+        <div class="tai-media">
+          <img src="assets/utilities.png" alt="Utilities" />
+          <span class="tai-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.6"/><path d="M12 3.2v2.6M12 18.2v2.6M3.2 12h2.6M18.2 12h2.6M5.8 5.8l1.9 1.9M16.3 16.3l1.9 1.9M18.2 5.8l-1.9 1.9M7.7 16.3l-1.9 1.9"/></svg>
+          </span>
+        </div>
+        <p class="tai-label">Utilities</p>
+      </div>
+
+      <div class="tai-card">
+        <div class="tai-media">
+          <img src="assets/manufacturing.png" alt="Manufacturing" />
+          <span class="tai-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d2b52" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10l5 3.2V10l5 3.2V8l6 4v8z"/><path d="M4 20h16"/></svg>
+          </span>
+        </div>
+        <p class="tai-label">Manufacturing</p>
+      </div>
+
+    </div>
+
+    <div class="tai-stats">
+      <div class="tai-stat">
+        <div class="tai-stat-num">08+</div>
+        <p class="tai-stat-txt">Years powering enterprise transformation</p>
+      </div>
+      <div class="tai-stat">
+        <div class="tai-stat-num">50+</div>
+        <p class="tai-stat-txt">Customers</p>
+      </div>
+      <div class="tai-stat">
+        <div class="tai-stat-num">06+</div>
+        <p class="tai-stat-txt">Countries with our Presence and Clientele</p>
+      </div>
+      <div class="tai-stat">
+        <div class="tai-stat-num">200+</div>
+        <p class="tai-stat-txt">Minds engineering what's next.</p>
+      </div>
+      <div class="tai-stat">
+        <div class="tai-stat-num">24/7</div>
+        <p class="tai-stat-txt">Support &amp; Managed Operations</p>
+      </div>
+    </div>
+  </div>
+</section>
+  <section id="assessment" data-screen-label="Data Modernization Assessment" style="display: flex; flex-wrap: wrap; background: #EAEDF1;">
+    <div style="flex: 1 1 390px; background: linear-gradient(160deg, #EEF1F5 0%, #E5E9EE 100%); padding: clamp(38px, 4.4vw, 62px) clamp(20px, 3.4vw, 48px) clamp(38px, 4.4vw, 58px) clamp(20px, 4.6vw, 62px); display: flex; flex-direction: column; justify-content: center;">
+      <h2 style="margin: 0; font-size: clamp(28px, 3vw, 39px); line-height: 1.15; font-weight: 700; color: #12294A; letter-spacing: -0.3px;">DATA MODERNIZATION<br />ASSESSMENT</h2>
+      <div style="width: 52px; height: 4px; background: #E8332A; margin: 18px 0 20px;"></div>
+      <p style="margin: 0; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.55; color: #3C4A5F; max-width: 430px;">Evaluate your application performance, scale and architecture readiness.</p>
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px;">
+        <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="circle-check" style="width: 20px; height: 20px; color: #E8332A; flex: 0 0 auto;"></i><span style="font-size: 17px; color: #1B3050;">Discover performance bottlenecks</span></div>
+        <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="circle-check" style="width: 20px; height: 20px; color: #E8332A; flex: 0 0 auto;"></i><span style="font-size: 17px; color: #1B3050;">Assess scalability and resilience</span></div>
+        <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="circle-check" style="width: 20px; height: 20px; color: #E8332A; flex: 0 0 auto;"></i><span style="font-size: 17px; color: #1B3050;">Get expert recommendations</span></div>
+        <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="circle-check" style="width: 20px; height: 20px; color: #E8332A; flex: 0 0 auto;"></i><span style="font-size: 17px; color: #1B3050;">Build a roadmap for modern applications</span></div>
+      </div>
+      <div style="display: flex; margin-top: 28px;">
+        <a href="#contact" style="display: inline-flex; align-items: center; gap: 30px; background: #E8332A; color: #ffffff; font-size: 17px; font-weight: 600; padding: 14px 24px; border-radius: 3px;" style-hover="background: #D22A22; color: #ffffff;">Request Your Assessment<i data-lucide="arrow-right" style="width: 19px; height: 19px;"></i></a>
+      </div>
+    </div>
+    <div style="flex: 1 1 430px; min-height: 340px; background-image: url(assets/assess.png); background-size: cover; background-position: center;"></div>
+  </section>
+
+  <section id="contact" data-screen-label="Closing CTA" style="background-color: #08223C; background-image: url(assets/cta.png); background-size: cover; background-position: 65% center;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: clamp(44px, 5.2vw, 72px) clamp(18px, 3.2vw, 44px);">
+      <h2 style="margin: 0; font-size: clamp(28px, 3.6vw, 46px); line-height: 1.16; font-weight: 700; color: #ffffff; letter-spacing: -0.3px;">ONE PARTNERSHIP.<br />LIMITLESS POSSIBILITIES.</h2>
+      <p style="margin: 14px 0 0; font-size: clamp(16px, 1.6vw, 20px); color: #D8E0EA;">Build modern applications with confidence.</p>
+      <div style="display: flex; margin-top: 26px;">
+        <a href="#book" onClick="{{ openModal }}" style="display: inline-flex; align-items: center; gap: 30px; background: #E8332A; color: #ffffff; font-size: 17px; font-weight: 600; padding: 15px 24px; border-radius: 3px; cursor: pointer;" style-hover="background: #D22A22; color: #ffffff;">Book Your Consultation<i data-lucide="arrow-right" style="width: 19px; height: 19px;"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background: #F8F9FA; border-top: 1px solid #E7E9ED;">
+    <div style="max-width: 1320px; margin: 0 auto; padding: 26px clamp(18px, 3.2vw, 44px) 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px;">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 18px;">
+                             <img src="assets/itanz-x-couchbase.png" alt="iTANZ" style="height: 60px; width: auto;" />
+</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: clamp(20px, 3vw, 44px);">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="globe" style="width: 20px; height: 20px; color: #33455F; stroke-width: 1.7;"></i><a href="https://www.itanzgroup.com" style="font-size: 16px; color: #1B3050;">www.itanzgroup.com</a></div>
+          <div style="display: flex; align-items: center; gap: 13px;"><i data-lucide="mail" style="width: 20px; height: 20px; color: #33455F; stroke-width: 1.7;"></i><a href="mailto:info@itanzgroup.com" style="font-size: 16px; color: #1B3050;">info@itanzgroup.com</a></div>
+        </div>
+        <div style="width: 1px; align-self: stretch; min-height: 52px; background: #D9DCE2;"></div>
+        <div style="font-size: 17px; line-height: 1.5; font-weight: 500; color: #1B3050;">Clarity In Systems.<br />Confidence In Scale.</div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #E7E9ED;">
+      <div style="max-width: 1320px; margin: 0 auto; padding: 12px clamp(18px, 3.2vw, 44px); text-align: center; font-size: 13px; color: #7B8798;">© 2026 iTANZ Tech Solutions Pvt. Ltd. All rights reserved. &nbsp;|&nbsp; <a href="/docs/iTANZ_Privacy_Policy.pdf" target="_blank" rel="noopener" style="color: #7B8798; text-decoration: underline;">Privacy Policy</a></div>
+    </div>
+  </footer>
+
+  <!-- Book a Consultation popup -->
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="bc-overlay" onClick="{{ onBackdrop }}">
+      <div class="bc-modal" role="dialog" aria-modal="true" aria-label="Book a Consultation" onClick="{{ stopClick }}">
+        <button class="bc-close" type="button" aria-label="Close" onClick="{{ closeModal }}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+
+        <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h2 class="bc-title">Book a Consultation</h2>
+            <p class="bc-sub">Tell us about your data challenge and our specialists will get back to you within one business day.</p>
+
+            <form onSubmit="{{ onSubmit }}" method="post" action="/api/campaign-enquiry">
+             <fieldset class="bc-fieldset" disabled="{{ sending }}">
+              <div class="bc-grid">
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="first_name" placeholder="First Name*" autocomplete="given-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="last_name" placeholder="Last Name*" autocomplete="family-name" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="email" name="work_email" placeholder="Work Email*" autocomplete="email" required="" />
+                </div>
+                <div class="bc-field">
+                  <input class="bc-input" type="text" name="company_name" placeholder="Company Name*" autocomplete="organization" required="" />
+                </div>
+                <div class="bc-field bc-full">
+                  <input class="bc-input" type="text" name="job_title" placeholder="Job Title*" autocomplete="organization-title" required="" />
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <p class="bc-qlabel">What is your organisation's most pressing data or application challenge?*</p>
+                  <p class="bc-check-hint">Select all that apply.</p>
+                  <div class="bc-options">
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Legacy database or platform limitations" /><span>Legacy database or platform limitations</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Application performance and scalability" /><span>Application performance and scalability</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Real-time data access and processing" /><span>Real-time data access and processing</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Cloud and database modernisation" /><span>Cloud and database modernisation</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Preparing data architecture for AI" /><span>Preparing data architecture for AI</span></label>
+                    <label class="bc-opt"><input class="bc-check" type="checkbox" name="challenge[]" value="Evaluating options—not yet defined" /><span>Evaluating options—not yet defined</span></label>
+                  </div>
+                </div>
+
+                <div class="bc-divider"></div>
+
+                <div class="bc-full">
+                  <label class="bc-consent"><input class="bc-check" type="checkbox" name="consent" required="" /><span>I agree that iTANZ may use my details to respond to this enquiry in line with its privacy process.</span></label>
+                </div>
+
+                <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+                  <p class="bc-error">{{ errorMsg }}</p>
+                </sc-if>
+
+                <div class="bc-full">
+                  <button class="bc-submit" type="submit" disabled="{{ sending }}">{{ submitLabel }}<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M9 7h8v8"/></svg></span></button>
+                </div>
+              </div>
+             </fieldset>
+              <input type="text" name="website" tabIndex="-1" autoComplete="off" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0;" />
+            </form>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div class="bc-thanks">
+            <div class="bc-thanks-badge">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h2 class="bc-title" style="margin-right: 0; text-align: center;">Thank you</h2>
+            <p class="bc-sub" style="margin-bottom: 26px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 15px; line-height: 1.6;">Your enquiry has been submitted successfully, and a confirmation email has been sent to you.</p>
+            <button class="bc-submit" type="button" onClick="{{ closeModal }}">Close<span class="bc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2600}}">
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1440, menuOpen: false, modalOpen: false, submitted: false, sending: false, errorMsg: '' };
+
+  componentDidMount() {
+    this._onResize = () => {
+      const w = window.innerWidth;
+      if (w !== this.state.w) this.setState({ w, menuOpen: w > 900 ? false : this.state.menuOpen });
+    };
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.modalOpen && !this.state.sending) this.closeModal(); };
+    window.addEventListener('resize', this._onResize);
+    window.addEventListener('keydown', this._onKey);
+    this._onResize();
+    this.drawIcons();
+  }
+
+  componentDidUpdate() {
+    this.drawIcons();
+    document.body.style.overflow = this.state.modalOpen ? 'hidden' : '';
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    window.removeEventListener('keydown', this._onKey);
+    document.body.style.overflow = '';
+  }
+
+  drawIcons() {
+    const run = () => { if (window.lucide) window.lucide.createIcons(); };
+    run();
+    if (!window.lucide && !this._waiting) {
+      this._waiting = true;
+      const t = setInterval(() => { if (window.lucide) { clearInterval(t); this._waiting = false; run(); } }, 120);
+      setTimeout(() => clearInterval(t), 8000);
+    }
+  }
+
+  closeModal = () => { this.setState({ modalOpen: false, submitted: false, sending: false, errorMsg: '' }); };
+
+  submitForm = (e) => {
+    e.preventDefault();
+    if (this.state.sending) return;
+    const form = e.target;
+    if (!form.querySelector('input[name="challenge[]"]:checked')) {
+      this.setState({ errorMsg: 'Please select at least one challenge.' });
+      return;
+    }
+    const data = new FormData(form);
+    data.append('page_url', window.location.href);
+    this.setState({ sending: true, errorMsg: '' });
+
+    fetch("/api/campaign-enquiry", { method: 'POST', body: data })
+      .then(r => r.json().catch(() => ({ ok: false, error: 'The form handler did not respond correctly. Please try again.' })))
+      .then(res => {
+        if (res && res.ok) {
+          this.setState({ sending: false, submitted: true, errorMsg: '' });
+        } else {
+          this.setState({ sending: false, errorMsg: (res && res.error) || 'Something went wrong. Please try again.' });
+        }
+      })
+      .catch(() => {
+        this.setState({ sending: false, errorMsg: 'We could not reach the server. Please check your connection and try again.' });
+      });
+  };
+
+  renderVals() {
+    const mobile = this.state.w <= 900;
+    return {
+      isMobile: mobile,
+      isDesktop: !mobile,
+      menuOpen: mobile && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      modalOpen: this.state.modalOpen,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      sending: this.state.sending,
+      submitLabel: this.state.sending ? 'Sending…' : 'Speak to an Expert',
+      errorMsg: this.state.errorMsg,
+      hasError: !!this.state.errorMsg,
+      openModal: (e) => { if (e) e.preventDefault(); this.setState({ modalOpen: true, submitted: false, sending: false, errorMsg: '', menuOpen: false }); },
+      closeModal: this.closeModal,
+      onBackdrop: () => { if (!this.state.sending) this.closeModal(); },
+      stopClick: (e) => e.stopPropagation(),
+      onSubmit: this.submitForm
+    };
+  }
+}
+
+</script>
+</body>
+</html>

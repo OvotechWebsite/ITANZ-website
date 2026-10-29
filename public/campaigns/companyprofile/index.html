@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="/campaigns/companyprofile/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>iTANZ Leadership - LEAP 2026</title>
+
+    <!-- Raleway Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            --accent: #b7b30e;
+            --black: #000000;
+            --dark: #0c1e21;
+            --gray: #777777;
+            --light-gray: #eeeeee;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        body {
+            font-family: "Raleway", sans-serif;
+            background: #ffffff;
+            color: var(--black);
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================== */
+
+        .profile-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+
+        /* =========================
+           MAIN HEADER
+        ========================== */
+
+        .page-title {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 55px 20px 25px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            color: var(--black);
+            font-size: 38px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: 1px;
+        }
+
+        .page-title .line {
+            display: block;
+        }
+
+        .page-title .highlight {
+            color: var(--accent);
+        }
+
+        .page-title .leap {
+            margin-top: 7px;
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+
+        /* =========================
+           HEADER LINE
+        ========================== */
+
+        .header-line {
+            width: 100%;
+            max-width: 1250px;
+            height: 1px;
+            margin: 0 auto 30px;
+            background: #e5e5e5;
+            position: relative;
+        }
+
+        .header-line::after {
+            content: "";
+
+            position: absolute;
+            left: 50%;
+            top: 0;
+
+            transform: translateX(-50%);
+
+            width: 90px;
+            height: 2px;
+
+            background: var(--accent);
+        }
+
+
+        /* =========================
+           TEAM MEMBERS
+        ========================== */
+
+        .team-members {
+            width: 100%;
+            max-width: 1250px;
+
+            margin: 0 auto 35px;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .member {
+            position: relative;
+            padding: 23px 20px 27px;
+            text-align: center;
+        }
+
+        .member:not(:last-child)::after {
+            content: "";
+
+            position: absolute;
+
+            top: 23px;
+            right: 0;
+
+            width: 1px;
+            height: calc(100% - 46px);
+
+            background: #eeeeee;
+        }
+
+        .member-name {
+            margin: 0 0 8px;
+
+            color: var(--black);
+
+            font-size: 18px;
+            font-weight: 700;
+
+            line-height: 1.3;
+        }
+
+        .member-designation {
+            margin: 0 auto 13px;
+
+            max-width: 250px;
+            min-height: 40px;
+
+            color: var(--gray);
+
+            font-size: 13px;
+            font-weight: 500;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           WHATSAPP
+        ========================== */
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            color: var(--dark);
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: opacity 0.2s ease;
+        }
+
+        .whatsapp-link:hover {
+            opacity: 0.65;
+        }
+
+        .whatsapp-link i {
+            color: #25D366;
+            font-size: 18px;
+        }
+
+
+        /* =========================
+           ITANZ COMPANY PROFILE HEADER
+        ========================== */
+
+        .company-header {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 0 0 22px;
+        }
+
+        .company-logo {
+            display: block;
+
+            width: 145px;
+            height: auto;
+        }
+
+        .company-divider {
+            width: 1px;
+            height: 45px;
+
+            background: #cccccc;
+        }
+
+        .company-profile-title {
+            margin: 0;
+
+            color: #888888;
+
+            font-size: 24px;
+            font-weight: 500;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /* =========================
+           PDF BUTTONS
+        ========================== */
+
+        .profile-links {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 18px;
+
+            flex-wrap: wrap;
+
+            width: 100%;
+
+            padding: 0 0 35px;
+
+            background: #ffffff;
+        }
+
+
+        /* Sticky after PDF opens */
+
+        .profile-links.sticky {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            padding: 12px 20px;
+
+            border-bottom: 1px solid #dddddd;
+
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-links button,
+        .profile-links .button {
+            text-decoration: none;
+            min-width: 310px;
+
+            padding: 16px 25px;
+
+            background: #ffffff;
+
+            color: var(--black);
+
+            border: 1px solid #cccccc;
+
+            border-radius: 3px;
+
+            font-family: "Raleway", sans-serif;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+        }
+
+        .profile-links button:hover,
+        .profile-links button.active,
+        .profile-links .button:hover,
+        .profile-links .button.active {
+            background: var(--accent);
+
+            color: #ffffff;
+
+            border-color: var(--accent);
+        }
+
+
+        /* =========================
+           PDF VIEWER
+        ========================== */
+
+        .pdf-viewer {
+            display: none;
+
+            width: 100%;
+
+            margin: 0;
+        }
+
+        .pdf-viewer iframe {
+            display: block;
+
+            width: 100%;
+
+            height: calc(100vh - 70px);
+
+            min-height: 700px;
+
+            border: none;
+
+            background: #f5f5f5;
+        }
+
+
+        /* =========================
+           TABLET
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .team-members {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .member:nth-child(2)::after {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 32px;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .profile-container {
+                padding: 0 15px;
+            }
+
+            .page-title {
+                padding: 35px 10px 20px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+                letter-spacing: 0.5px;
+            }
+
+            .page-title .leap {
+                margin-top: 5px;
+
+                font-size: 16px;
+
+                letter-spacing: 1.5px;
+            }
+
+
+            .header-line {
+                margin-bottom: 20px;
+            }
+
+
+            /* Team */
+
+            .team-members {
+                grid-template-columns: 1fr;
+
+                margin-bottom: 25px;
+            }
+
+            .member {
+                padding: 20px 15px;
+            }
+
+            .member:not(:last-child)::after {
+                top: auto;
+
+                right: 15%;
+
+                bottom: 0;
+
+                width: 70%;
+
+                height: 1px;
+            }
+
+
+            /* Company Header */
+
+            .company-header {
+                gap: 14px;
+
+                padding-bottom: 18px;
+            }
+
+            .company-logo {
+                width: 115px;
+            }
+
+            .company-divider {
+                height: 38px;
+            }
+
+            .company-profile-title {
+                font-size: 19px;
+            }
+
+
+            /* PDF Buttons */
+
+            .profile-links {
+                flex-direction: column;
+
+                gap: 10px;
+
+                padding-bottom: 25px;
+            }
+
+            .profile-links.sticky {
+                padding: 10px 15px;
+            }
+
+            .profile-links button {
+                width: 100%;
+
+                min-width: 0;
+
+                padding: 14px 15px;
+
+                font-size: 14px;
+            }
+
+
+            /* PDF */
+
+            .pdf-viewer iframe {
+                height: calc(100vh - 120px);
+
+                min-height: 500px;
+            }
+
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="profile-container">
+
+
+        <!-- =================================
+         MAIN PAGE HEADER
+    ================================== -->
+
+        <header class="page-title">
+
+            <h1>
+
+                <span class="line">
+                    CONNECT WITH
+                </span>
+
+                <span class="line highlight">
+                    iTANZ LEADERSHIP
+                </span>
+
+                <span class="line leap">
+                    AT LEAP 2026
+                </span>
+
+            </h1>
+
+        </header>
+
+
+        <!-- Header Divider -->
+
+        <div class="header-line"></div>
+
+
+        <!-- =================================
+         TEAM MEMBERS
+    ================================== -->
+
+        <section class="team-members">
+
+
+            <!-- =========================
+             MEMBER 1
+        ========================== -->
+
+            <div class="member">
+
+                <h2 class="member-name">
+                    Syed Asim Zaffar
+                </h2>
+
+                <p class="member-designation">
+                    Chief Executive Officer
+                </p>
+
+                <a class="whatsapp-link" href="https://wa.me/+923343972746" target="_blank" rel="noopener noreferrer">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                    <span>
+                        +92 334 3972746
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBER 2
+        ========================== -->
+
+            <div class="member">
+
+                <h2 class="member-name">
+                    Syed Rizwan
+                </h2>
+
+                <p class="member-designation">
+                    Chief Strategy &amp; Technology Officer
+                </p>
+
+                <a class="whatsapp-link" href="https://wa.me/923427772999" target="_blank" rel="noopener noreferrer">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                    <span>
+                        +92 342 7772999
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBER 3
+        ========================== -->
+
+            <div class="member">
+
+                <h2 class="member-name">
+                    Farhan Ibrahim Ch.
+                </h2>
+
+                <p class="member-designation">
+                    Chief Revenue &amp; Growth Officer
+                </p>
+
+                <a class="whatsapp-link" href="https://wa.me/6581115808" target="_blank" rel="noopener noreferrer">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                    <span>
+                        +65 8111 5808
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBER 4
+        ========================== -->
+
+            <div class="member">
+
+                <h2 class="member-name">
+                    Amer Khan
+                </h2>
+
+                <p class="member-designation">
+                    Chief Growth Officer & Head of Commercial
+                </p>
+
+                <a class="whatsapp-link" href="https://wa.me/+923001910002" target="_blank" rel="noopener noreferrer">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                    <span>
+                        +92 300 1910002
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+         ITANZ COMPANY PROFILE HEADER
+    ================================== -->
+
+        <header class="company-header">
+
+            <img src="https://itanz.vercel.app/images/logos/logo.webp" alt="iTANZ" class="company-logo">
+
+            <div class="company-divider"></div>
+
+            <h2 class="company-profile-title">
+                Company Profile
+            </h2>
+
+        </header>
+
+
+        <!-- =================================
+         PDF BUTTONS
+    ================================== -->
+
+        <div class="profile-links" id="profileLinks">
+
+            <a href="/images/investor-relations/profile/iTANZ_Profile_English.pdf" target="_blank" class="button">iTANZ
+                Company Profile - English Version</a>
+            <a href="/images/investor-relations/profile/iTANZ_Profile_Arabic.pdf" target="_blank" class="button">iTANZ
+                Company Profile - Arabic Version</a>
+            <!-- <button type="button" onclick="showPDF('/companyprofile/english.pdf', this)">
+                iTANZ Company Profile - English Version
+            </button>
+            <button type="button" onclick="showPDF('/companyprofile/arabic.pdf', this)">
+                iTANZ Company Profile - Arabic Version
+            </button> -->
+
+        </div>
+
+
+        <!-- =================================
+         PDF VIEWER
+    ================================== -->
+
+        <div class="pdf-viewer" id="pdfViewer">
+
+            <iframe id="pdfFrame" title="iTANZ Company Profile"></iframe>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================
+     JAVASCRIPT
+================================== -->
+
+    <script>
+
+        function showPDF(pdfFile, button) {
+
+            const viewer =
+                document.getElementById("pdfViewer");
+
+            const frame =
+                document.getElementById("pdfFrame");
+
+            const buttons =
+                document.getElementById("profileLinks");
+
+
+            /* Load selected PDF */
+
+            frame.src = pdfFile;
+
+
+            /* Show PDF viewer */
+
+            viewer.style.display = "block";
+
+
+            /* Make PDF buttons sticky */
+
+            buttons.classList.add("sticky");
+
+
+            /* Remove active state */
+
+            document
+                .querySelectorAll(".profile-links button")
+                .forEach(function (btn) {
+
+                    btn.classList.remove("active");
+
+                });
+
+
+            /* Add active state */
+
+            button.classList.add("active");
+
+
+            /* Scroll to PDF */
+
+            setTimeout(function () {
+
+                viewer.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }, 100);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

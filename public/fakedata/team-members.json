@@ -1,0 +1,114 @@
+[
+	{
+		"id": 1,
+		"name": "Syed Asim Ali",
+		"desig": "Chief Executive Officer",
+		"img": "/images/team/1.webp",
+		"img2": "/images/team/h7-team-1.webp",
+		"imgLarge": "/images/team/team-1-big.webp"
+	},
+	{
+		"id": 2,
+		"name": "Syed Ahmed Bilal",
+		"desig": "Chairman & Group Managing Director",
+		"img": "/images/team/2.webp",
+		"img2": "/images/team/h7-team-2.webp",
+		"imgLarge": "/images/team/team-2-big.webp"
+	},
+	{
+		"id": 3,
+		"name": "Syed Rizwan Munawar",
+		"desig": "Chief Strategy & Technology Officer",
+		"img": "/images/team/3.webp",
+		"img2": "/images/team/h7-team-3.webp",
+		"imgLarge": "/images/team/team-3-big.webp"
+	},
+	{
+		"id": 4,
+		"name": "Amer Khan",
+		"desig": "Chief Growth Officer - MEA Region",
+		"img": "/images/team/4.webp",
+		"img2": "/images/team/h7-team-4.webp",
+		"imgLarge": "/images/team/team-4-big.webp"
+	},
+	{
+		"id": 5,
+		"name": "Hafiz Muhammad Maqsood Munshi",
+		"desig": "Company Secretary",
+		"img": "/images/team/5.webp",
+		"img2": "/images/team/h7-team-6.webp",
+		"imgLarge": "/images/team/team-1-big.webp"
+	},
+	{
+		"id": 6,
+		"name": "Farhan Ibrahim Chaudhry",
+		"desig": "Chief Revenue & Growth Officer",
+		"img": "/images/team/6.webp",
+		"img2": "/images/team/h7-team-7.webp",
+		"imgLarge": "/images/team/team-2-big.webp"
+	},
+	{
+		"id": 7,
+		"name": "Benjamin Reed",
+		"desig": "Operations Head",
+		"img": "/images/team/team-7.webp",
+		"img2": "/images/team/h7-team-8.webp",
+		"imgLarge": "/images/team/team-3-big.webp"
+	},
+	{
+		"id": 8,
+		"name": "Savannah Nguyen",
+		"desig": "Chief Executive",
+		"img": "/images/team/team-8.webp",
+		"img2": "/images/team/h7-team-9.webp",
+		"imgLarge": "/images/team/team-4-big.webp"
+	},
+	{
+		"id": 9,
+		"name": "Nathan Price",
+		"desig": "Marketing Lead",
+		"img": "/images/team/team-3.webp",
+		"img2": "/images/team/h7-team-1.webp",
+		"imgLarge": "/images/team/team-1-big.webp"
+	},
+	{
+		"id": 10,
+		"name": "Caleb Turner",
+		"desig": "Business Director",
+		"img": "/images/team/team-4.webp",
+		"img2": "/images/team/h7-team-2.webp",
+		"imgLarge": "/images/team/team-2-big.webp"
+	},
+	{
+		"id": 11,
+		"name": "Nathaniel Ellington",
+		"desig": "Business Director",
+		"img": "/images/team/team-5.webp",
+		"img2": "/images/team/h7-team-3.webp",
+		"imgLarge": "/images/team/team-3-big.webp"
+	},
+	{
+		"id": 12,
+		"name": "Kristin Watson",
+		"desig": "Marketing Lead",
+		"img": "/images/team/team-6.webp",
+		"img2": "/images/team/h7-team-4.webp",
+		"imgLarge": "/images/team/team-4-big.webp"
+	},
+	{
+		"id": 13,
+		"name": "Savannah Nguyen",
+		"desig": "Operations Head",
+		"img": "/images/team/team-7.webp",
+		"img2": "/images/team/h7-team-1.webp",
+		"imgLarge": "/images/team/team-1-big.webp"
+	},
+	{
+		"id": 14,
+		"name": "Eade Marren",
+		"desig": "Chief Executive",
+		"img": "/images/team/team-8.webp",
+		"img2": "/images/team/h7-team-1.webp",
+		"imgLarge": "/images/team/team-2-big.webp"
+	}
+]

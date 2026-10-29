@@ -1,0 +1,256 @@
+[
+	{
+		"id": 1,
+		"name": "Home",
+		"path": "/"
+	},
+	{
+		"id": 2,
+		"name": "Discover iTANZ",
+		"path": "/company"
+	},
+	{
+		"id": 3,
+		"name": "Solutions",
+		"path": "/solutions",
+		"desc": "Explore platform-led services across Oracle, NetSuite, Salesforce, Integration, Analytics, AI and RaaS.",
+		"submenu": [
+			{
+				"id": 1,
+				"name": "Delivery Models & IP",
+				"items": [
+					{
+						"id": 1,
+						"name": "UBR",
+						"path": "/solutions/utility-billing-revenue-management"
+					},
+					{ "id": 2, "name": "ICP", "path": "/solutions/intelligent-city-platform" },
+					{
+						"id": 3,
+						"name": "iTANZ Accelerators",
+						"path": "/solutions/itanz-accelerators-prosuite-core"
+					},
+					{
+						"id": 4,
+						"name": "Resource as a Service",
+						"path": "/solutions/resource-as-a-service"
+					}
+				]
+			},
+			{
+				"id": 2,
+				"name": "Enterprise Platforms",
+				"items": [
+					{ "id": 1, "name": "Oracle", "path": "/solutions/oracle-fusion" },
+					{ "id": 2, "name": "NetSuite", "path": "/solutions/netsuite-erp" },
+					{ "id": 3, "name": "Salesforce", "path": "/solutions/salesforce" },
+					{ "id": 4, "name": "AWS", "path": "/partners/aws" }
+				]
+			},
+			{
+				"id": 3,
+				"name": "Data Platforms, Integration & AI",
+				"items": [
+					{ "id": 1, "name": "Informatica", "path": "/solutions/informatica" },
+					{ "id": 2, "name": "Couchbase", "path": "/solutions/couchbase" },
+					{ "id": 3, "name": "MuleSoft", "path": "/solutions/mulesoft" },
+					{
+						"id": 4,
+						"name": "Analytics & Reporting",
+						"path": "/solutions/analytics-reporting-oacs-tableau"
+					},
+					{
+						"id": 5,
+						"name": "Data & AI",
+						"path": "/solutions/agentic-ai-digital-transformation"
+					},
+					{
+						"id": 6,
+						"name": "Robotics & Automation",
+						"path": "/solutions/robotics-automation"
+					}
+				]
+			},
+			{
+				"id": 4,
+				"name": "Cloud, Infrastructure & Security",
+				"items": [
+					{
+						"id": 1,
+						"name": "Cloud Infrastructure",
+						"path": "/solutions/oracle-cloud-oci-database-multicloud"
+					},
+					{ "id": 2, "name": "Huawei", "path": "/solutions/huawei" },
+					{ "id": 3, "name": "Network Security", "path": "/solutions/network-security" },
+					{ "id": 4, "name": "Cloudflare", "path": "/solutions/cloudflare" },
+					{ "id": 5, "name": "Cisco", "path": "/solutions/cisco" },
+					{ "id": 6, "name": "Fortinet", "path": "/solutions/fortinet" }
+				]
+			},
+			{
+				"id": 5,
+				"name": "Implementation & Support",
+				"items": [
+					{
+						"id": 1,
+						"name": "OEM Implementation Services",
+						"path": "/solutions/oem-implementation-services"
+					},
+					{ "id": 2, "name": "Managed Services", "path": "/solutions/managed-services" },
+					{ "id": 3, "name": "Platform Support", "path": "/solutions/platform-support" },
+					{
+						"id": 4,
+						"name": "Post-Go-Live Optimisation",
+						"path": "/solutions/post-go-live-optimisation"
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": 4,
+		"name": "Industries",
+		"path": "/industries",
+		"desc": "Find sector-ready solutions for government, utilities, financial services, healthcare, manufacturing, defence and agriculture.",
+		"submenu": [
+			{ "id": 1, "name": "Government", "path": "/industries/government-public-sector" },
+			{ "id": 2, "name": "Local Government", "path": "/industries/local-government" },
+			{ "id": 3, "name": "Utilities & Energy", "path": "/industries/utilities-energy" },
+			{
+				"id": 4,
+				"name": "Financial Services",
+				"path": "/industries/banking-financial-services"
+			},
+			{ "id": 5, "name": "Healthcare", "path": "/industries/healthcare" },
+			{ "id": 6, "name": "Manufacturing", "path": "/industries/manufacturing" },
+			{ "id": 7, "name": "Defence", "path": "/industries/defence" },
+			{ "id": 8, "name": "Agriculture", "path": "/industries/agriculture" }
+		]
+	},
+	{
+		"id": 5,
+		"name": "Success Stories",
+		"path": "/success-stories",
+		"desc": "See how iTANZ turns enterprise technology into measurable transformation outcomes."
+	},
+	{
+		"id": 6,
+		"name": "Insights",
+		"path": "/insights",
+		"submenu": [
+			{ "id": 1, "name": "Case Studies", "path": "/case-studies" },
+			{ "id": 2, "name": "Blogs", "path": "/insights/blogs" },
+			{ "id": 3, "name": "Newsroom", "path": "/insights/newsroom" }
+		]
+	},
+	{
+		"id": 7,
+		"name": "Partners",
+		"path": "/partners",
+		"submenu": [
+			{
+				"id": 1,
+				"name": "Oracle",
+				"path": "/partners/oracle",
+				"desc": "Modernize Oracle applications, utilities, data and cloud with controlled delivery."
+			},
+			{
+				"id": 2,
+				"name": "NetSuite",
+				"path": "/partners/netsuite",
+				"desc": "Unify finance, operations and integrations on a scalable cloud ERP foundation."
+			},
+			{
+				"id": 3,
+				"name": "Salesforce",
+				"path": "/partners/salesforce",
+				"desc": "Connect customer data, engagement and governed AI around one trusted CRM platform."
+			},
+			{
+				"id": 4,
+				"name": "Informatica",
+				"path": "/partners/informatica",
+				"desc": "Improve data quality, governance and integration before analytics or AI depends on it."
+			},
+			{
+				"id": 5,
+				"name": "Couchbase",
+				"path": "/partners/couchbase",
+				"desc": "Modernize operational data for real-time, AI-ready and distributed applications."
+			},
+			{
+				"id": 6,
+				"name": "MuleSoft",
+				"path": "/partners/mulesoft",
+				"desc": "Replace brittle interfaces with reusable API-led connectivity across the enterprise."
+			},
+			{
+				"id": 7,
+				"name": "AWS",
+				"path": "/partners/aws",
+				"desc": "Modernize, migrate and operate cloud workloads with stronger control over architecture, resilience and cost."
+			},
+			{
+				"id": 8,
+				"name": "Huawei",
+				"path": "/partners/huawei",
+				"desc": "Modernize network, storage, compute and resilient infrastructure for demanding environments."
+			},
+			{
+				"id": 9,
+				"name": "Cloudflare",
+				"path": "/partners/cloudflare",
+				"desc": "Modernize secure access, protect digital services and strengthen edge resilience."
+			},
+			{
+				"id": 10,
+				"name": "Cisco",
+				"path": "/partners/cisco",
+				"desc": "Build secure, observable and scalable enterprise and industrial networks."
+			},
+			{
+				"id": 11,
+				"name": "Fortinet",
+				"path": "/partners/fortinet",
+				"desc": "Consolidate fragmented security across network, endpoint, cloud and OT."
+			}
+		]
+	},
+	{
+		"id": 8,
+		"name": "Careers",
+		"path": "/careers"
+	},
+	{
+		"id": 9,
+		"name": "Contact Us",
+		"path": "/contact",
+		"submenu": [
+			{
+				"id": 1,
+				"name": "Book a Consultation",
+				"path": "/contact/book-a-consultation"
+			},
+			{
+				"id": 2,
+				"name": "Product Demo",
+				"path": "/contact/product-demo"
+			},
+			{
+				"id": 3,
+				"name": "Regional Offices",
+				"path": "/contact/regional-offices"
+			},
+			{
+				"id": 4,
+				"name": "Investor Enquiries",
+				"path": "/contact/investor-enquiries"
+			}
+		]
+	},
+	{
+		"id": 10,
+		"name": "Investor Relations",
+		"path": "/investor-relations"
+	}
+]
