@@ -1,3 +1,4 @@
+import { isNeonConfigured, saveTalentSubmission } from "@/libs/itanzNeon";
 import {
 	isSupabaseServiceConfigured,
 	supabaseFetch,
@@ -193,6 +194,29 @@ export async function POST(request) {
 		const subject = roleInterest
 			? `New iTANZ Talent Network profile - ${fullName} / ${roleInterest}`
 			: `New iTANZ Talent Network profile - ${fullName}`;
+
+		if (isNeonConfigured()) {
+			try {
+				await saveTalentSubmission({
+					full_name: fullName,
+					email,
+					phone,
+					city: currentCity,
+					country: currentCountry,
+					linkedin_url: linkedin,
+					areas_of_interest: areas,
+					experience_level: experienceLevel,
+					opportunity_type: opportunityType,
+					preferred_locations: [workLocation].filter(Boolean),
+					portfolio_url: portfolio,
+					impact_statement: impact,
+					cv_file_url: cvFileUrl || cv?.name || "CV-attached-in-email.pdf",
+					source_page: sourcePage,
+				});
+			} catch (error) {
+				console.error("Unable to save talent submission to Neon:", error.message);
+			}
+		}
 
 		if (isSupabaseServiceConfigured()) {
 			try {

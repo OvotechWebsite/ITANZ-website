@@ -1,3 +1,4 @@
+import { isNeonConfigured, saveContactSubmission } from "@/libs/itanzNeon";
 import { isSupabaseServiceConfigured, supabaseFetch } from "@/libs/itanzSupabase";
 
 const CAMPAIGN_TO_EMAIL = process.env.CAMPAIGN_TO_EMAIL || process.env.CONTACT_TO_EMAIL || "info@itanzgroup.com";
@@ -145,6 +146,26 @@ export async function POST(request) {
 				{ ok: false, success: false, error: "Please provide your email address." },
 				{ status: 400 }
 			);
+		}
+
+		if (isNeonConfigured()) {
+			try {
+				await saveContactSubmission({
+					name: fullName,
+					company,
+					email,
+					phone: clean(formData.get("whatsapp") || formData.get("phone")),
+					region: "",
+					solution: campaignName,
+					custom_solution: "",
+					industry: "",
+					enquiry_type: "Campaign Enquiry",
+					source_page: pageUrl || campaignName,
+					message,
+				});
+			} catch (error) {
+				console.error("Unable to save campaign enquiry to Neon:", error.message);
+			}
 		}
 
 		if (isSupabaseServiceConfigured()) {

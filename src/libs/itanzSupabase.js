@@ -1,3 +1,5 @@
+import { verifyAdminToken } from "./itanzNeon.js";
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_PUBLISHABLE_KEY =
 	process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
@@ -125,6 +127,22 @@ export const getAdminFromToken = async accessToken => {
 
 export const requireAdmin = async request => {
 	const token = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+
+	const tokenPayload = verifyAdminToken(token);
+	if (tokenPayload) {
+		const username = tokenPayload.username || process.env.ADMIN_USERNAME || "admin";
+		return {
+			admin: {
+				id: "admin-env",
+				email: username,
+				username: username,
+				name: "Administrator",
+				is_active: true,
+			},
+			token,
+		};
+	}
+
 	const admin = await getAdminFromToken(token);
 
 	if (!admin) {

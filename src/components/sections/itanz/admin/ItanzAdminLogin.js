@@ -22,13 +22,15 @@ const ItanzAdminLogin = () => {
 		setStatus({ type: "", message: "" });
 
 		const formData = new FormData(event.currentTarget);
+		const userIdentifier = formData.get("username") || formData.get("email");
 
 		try {
 			const response = await fetch("/api/admin/login", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					email: formData.get("email"),
+					username: userIdentifier,
+					email: userIdentifier,
 					password: formData.get("password"),
 				}),
 			});
@@ -59,17 +61,24 @@ const ItanzAdminLogin = () => {
 				<p></p>
 				<form onSubmit={handleSubmit}>
 					<label>
-						Email
+						Username or Email
 						<input
-							type="email"
-							name="email"
-							defaultValue="info@itanzgroup.com"
+							type="text"
+							name="username"
+							placeholder="Enter admin username or email"
+							autoComplete="username"
 							required
 						/>
 					</label>
 					<label>
 						Password
-						<input type="password" name="password" required />
+						<input
+							type="password"
+							name="password"
+							placeholder="Enter password"
+							autoComplete="current-password"
+							required
+						/>
 					</label>
 					<button className="itanz-admin-primary-btn" type="submit" disabled={isSubmitting}>
 						{isSubmitting ? "Signing in..." : "Sign in"}

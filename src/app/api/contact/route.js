@@ -1,3 +1,4 @@
+import { isNeonConfigured, saveContactSubmission } from "@/libs/itanzNeon";
 import { isSupabaseServiceConfigured, supabaseFetch } from "@/libs/itanzSupabase";
 
 const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL || "info@itanzgroup.com";
@@ -158,6 +159,26 @@ export async function POST(request) {
 		});
 		const text = fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n");
 		const ccEmails = parseEmailList(process.env.CONTACT_CC_EMAIL);
+
+		if (isNeonConfigured()) {
+			try {
+				await saveContactSubmission({
+					name: clean(name),
+					company: clean(company),
+					email: clean(email),
+					phone: clean(phone),
+					region: cleanedRegion,
+					solution: cleanedSolution,
+					custom_solution: clean(customSolution),
+					industry: cleanedIndustry,
+					enquiry_type: clean(enquiryType),
+					source_page: clean(sourcePage),
+					message: clean(message),
+				});
+			} catch (error) {
+				console.error("Unable to save contact submission to Neon:", error.message);
+			}
+		}
 
 		if (isSupabaseServiceConfigured()) {
 			try {
