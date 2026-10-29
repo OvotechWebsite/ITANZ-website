@@ -136,7 +136,7 @@ const ItanzContactForm = ({
 			setFormStatus({
 				type: "success",
 				message:
-					"Thank you. Your enquiry has been submitted successfully, and a confirmation email has been sent to you.",
+					"Thank you. Your enquiry has been submitted successfully. An iTANZ team member will review it and respond shortly.",
 			});
 		} catch (error) {
 			setFormStatus({

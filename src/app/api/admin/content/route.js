@@ -1,4 +1,4 @@
-import { requireAdmin, supabaseFetch } from "@/libs/itanzSupabase";
+import { isSupabaseServiceConfigured, requireAdmin, supabaseFetch } from "@/libs/itanzSupabase";
 
 const clean = value => String(value || "").trim();
 
@@ -39,6 +39,10 @@ export async function GET(request) {
 			return error;
 		}
 
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [] });
+		}
+
 		const rows = await supabaseFetch(
 			"rest/v1/itanz_content_posts?select=*&order=created_at.desc&limit=150",
 			{ service: true }
@@ -66,6 +70,10 @@ export async function POST(request) {
 				{ error: "Type, title and slug are required." },
 				{ status: 400 }
 			);
+		}
+
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [] });
 		}
 
 		const rows = await supabaseFetch("rest/v1/itanz_content_posts?select=*", {
@@ -105,6 +113,10 @@ export async function PATCH(request) {
 							: null,
 			  }
 			: mapContentPayload(body);
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [] });
+		}
+
 		const rows = await supabaseFetch(
 			`rest/v1/itanz_content_posts?id=eq.${encodeURIComponent(body.id)}&select=*`,
 			{
@@ -134,6 +146,10 @@ export async function DELETE(request) {
 
 		if (!body.id) {
 			return Response.json({ error: "Content id is required." }, { status: 400 });
+		}
+
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ ok: true });
 		}
 
 		await supabaseFetch(

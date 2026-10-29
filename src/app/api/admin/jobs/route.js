@@ -1,4 +1,4 @@
-import { normalizeJobs, requireAdmin, supabaseFetch } from "@/libs/itanzSupabase";
+import { isSupabaseServiceConfigured, normalizeJobs, requireAdmin, supabaseFetch } from "@/libs/itanzSupabase";
 
 const parseList = value =>
 	String(value || "")
@@ -42,6 +42,10 @@ export async function GET(request) {
 			return error;
 		}
 
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [], rawRows: [] });
+		}
+
 		const rows = await supabaseFetch(
 			"rest/v1/itanz_jobs?select=*&order=sort_order.asc,created_at.desc",
 			{ service: true }
@@ -69,6 +73,10 @@ export async function POST(request) {
 				{ error: "Job title is required." },
 				{ status: 400 }
 			);
+		}
+
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [], rawRows: [] });
 		}
 
 		const rows = await supabaseFetch("rest/v1/itanz_jobs?select=*", {
@@ -103,6 +111,10 @@ export async function PATCH(request) {
 		const payload = body.toggleOnly
 			? { is_active: Boolean(body.is_active) }
 			: mapJobPayload(body);
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ rows: [], rawRows: [] });
+		}
+
 		const rows = await supabaseFetch(
 			`rest/v1/itanz_jobs?id=eq.${encodeURIComponent(id)}&select=*`,
 			{
@@ -133,6 +145,10 @@ export async function DELETE(request) {
 
 		if (!id) {
 			return Response.json({ error: "Job id is required." }, { status: 400 });
+		}
+
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ ok: true });
 		}
 
 		await supabaseFetch(

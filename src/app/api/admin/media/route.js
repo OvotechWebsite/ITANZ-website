@@ -1,5 +1,6 @@
 import {
 	getSupabasePublicUrl,
+	isSupabaseServiceConfigured,
 	requireAdmin,
 	uploadSupabaseFile,
 } from "@/libs/itanzSupabase";
@@ -15,6 +16,10 @@ export async function POST(request) {
 		}
 
 		const formData = await request.formData();
+
+		if (!isSupabaseServiceConfigured()) {
+			return Response.json({ error: "Media storage is not configured. Please paste an image URL directly." }, { status: 400 });
+		}
 		const file = formData.get("file");
 		const usage = String(formData.get("usage") || "media")
 			.toLowerCase()
