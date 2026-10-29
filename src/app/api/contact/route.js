@@ -103,14 +103,7 @@ export async function POST(request) {
 		const cleanedIndustry = cleanSelect(industry);
 
 		if (website) {
-			return Response.json({ ok: true });
-		}
-
-		if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL) {
-			return Response.json(
-				{ error: "Email service is not configured yet." },
-				{ status: 500 }
-			);
+			return Response.json({ ok: true, success: true });
 		}
 
 		if (!clean(name) || !clean(company) || !clean(email) || !clean(message)) {
@@ -147,19 +140,7 @@ export async function POST(request) {
 			["Message", message],
 		];
 
-		const subject = `New iTANZ website enquiry${cleanedSolution ? ` - ${cleanedSolution}` : ""}`;
-		const html = buildBrandedEmail({
-			eyebrow: "Website Enquiry",
-			title: "New iTANZ Website Enquiry",
-			intro:
-				"A new enquiry has been submitted through the iTANZ website. The visitor context and form details are below.",
-			fields,
-			footer:
-				"Reply directly to this email to respond to the visitor using their submitted email address.",
-		});
-		const text = fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n");
-		const ccEmails = parseEmailList(process.env.CONTACT_CC_EMAIL);
-
+		// 1. Save to Neon PostgreSQL
 		if (isNeonConfigured()) {
 			try {
 				await saveContactSubmission({
@@ -180,6 +161,7 @@ export async function POST(request) {
 			}
 		}
 
+		// 2. Save to Supabase (if configured)
 		if (isSupabaseServiceConfigured()) {
 			try {
 				await supabaseFetch("rest/v1/itanz_contact_submissions", {
@@ -200,65 +182,77 @@ export async function POST(request) {
 					},
 				});
 			} catch (error) {
-				console.error("Unable to save contact submission:", error.message);
+				console.error("Unable to save contact submission to Supabase:", error.message);
 			}
 		}
 
-		try {
-			await sendEmail({
-				from: process.env.RESEND_FROM_EMAIL,
-				to: [CONTACT_TO_EMAIL],
-				cc: ccEmails.length ? ccEmails : undefined,
-				reply_to: email,
-				subject,
-				html,
-				text,
-			});
-
-			await sendEmail({
-				from: process.env.RESEND_FROM_EMAIL,
-				to: [email],
-				reply_to: CONTACT_TO_EMAIL,
-				subject: "Thank you for contacting iTANZ",
-				html: buildBrandedEmail({
-					eyebrow: "Thank You",
-					title: "Thank you for contacting iTANZ",
-					intro: `Hi ${name}, we have received your enquiry. An iTANZ team member will review it and respond as soon as possible.`,
-					fields: [
-						["Company", company],
-						["Solution", cleanedSolution],
-						["Industry", cleanedIndustry],
-						["Enquiry Type", enquiryType],
-						["Message", message],
-					],
+		// 3. Send email notifications via Resend (if configured)
+		if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL) {
+			try {
+				const subject = `New iTANZ website enquiry${cleanedSolution ? ` - ${cleanedSolution}` : ""}`;
+				const html = buildBrandedEmail({
+					eyebrow: "Website Enquiry",
+					title: "New iTANZ Website Enquiry",
+					intro:
+						"A new enquiry has been submitted through the iTANZ website. The visitor context and form details are below.",
+					fields,
 					footer:
-						"This confirmation is for your records. You do not need to submit the form again.",
-				}),
-				text: [
-					`Hi ${name},`,
-					"",
-					"Thank you for your enquiry. We have received your message and an iTANZ team member will review it and respond as soon as possible.",
-					"",
-					"Your enquiry summary:",
-					`Company: ${company || "-"}`,
-					`Solution: ${cleanedSolution || "-"}`,
-					`Industry: ${cleanedIndustry || "-"}`,
-					`Enquiry Type: ${enquiryType || "-"}`,
-					`Message: ${message || "-"}`,
-					"",
-					"Regards,",
-					"iTANZ Technologies",
-				].join("\n"),
-			});
-		} catch (error) {
-			console.error("Resend email failed:", error.message);
-			return Response.json(
-				{ error: "Unable to send the enquiry right now." },
-				{ status: 502 }
-			);
+						"Reply directly to this email to respond to the visitor using their submitted email address.",
+				});
+				const text = fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n");
+				const ccEmails = parseEmailList(process.env.CONTACT_CC_EMAIL);
+
+				await sendEmail({
+					from: process.env.RESEND_FROM_EMAIL,
+					to: [CONTACT_TO_EMAIL],
+					cc: ccEmails.length ? ccEmails : undefined,
+					reply_to: email,
+					subject,
+					html,
+					text,
+				});
+
+				await sendEmail({
+					from: process.env.RESEND_FROM_EMAIL,
+					to: [email],
+					reply_to: CONTACT_TO_EMAIL,
+					subject: "Thank you for contacting iTANZ",
+					html: buildBrandedEmail({
+						eyebrow: "Thank You",
+						title: "Thank you for contacting iTANZ",
+						intro: `Hi ${name}, we have received your enquiry. An iTANZ team member will review it and respond as soon as possible.`,
+						fields: [
+							["Company", company],
+							["Solution", cleanedSolution],
+							["Industry", cleanedIndustry],
+							["Enquiry Type", enquiryType],
+							["Message", message],
+						],
+						footer:
+							"This confirmation is for your records. You do not need to submit the form again.",
+					}),
+					text: [
+						`Hi ${name},`,
+						"",
+						"Thank you for your enquiry. We have received your message and an iTANZ team member will review it and respond as soon as possible.",
+						"",
+						"Your enquiry summary:",
+						`Company: ${company || "-"}`,
+						`Solution: ${cleanedSolution || "-"}`,
+						`Industry: ${cleanedIndustry || "-"}`,
+						`Enquiry Type: ${enquiryType || "-"}`,
+						`Message: ${message || "-"}`,
+						"",
+						"Regards,",
+						"iTANZ Technologies",
+					].join("\n"),
+				});
+			} catch (error) {
+				console.warn("Resend email notification failed:", error.message);
+			}
 		}
 
-		return Response.json({ ok: true });
+		return Response.json({ ok: true, success: true });
 	} catch (error) {
 		console.error("Contact form error:", error);
 		return Response.json(

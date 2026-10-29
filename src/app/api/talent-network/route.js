@@ -86,14 +86,7 @@ export async function POST(request) {
 		const website = clean(formData.get("website"));
 
 		if (website) {
-			return Response.json({ ok: true });
-		}
-
-		if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL) {
-			return Response.json(
-				{ error: "Email service is not configured yet." },
-				{ status: 500 }
-			);
+			return Response.json({ ok: true, success: true });
 		}
 
 		const fullName = clean(formData.get("full_name"));
@@ -140,33 +133,31 @@ export async function POST(request) {
 			);
 		}
 
-		const cvName = clean(cv.name).toLowerCase();
-		const hasAllowedExtension = ALLOWED_CV_EXTENSIONS.some(extension =>
-			cvName.endsWith(extension)
-		);
+		const cvExtension = `.${String(cv.name || "").split(".").pop()}`.toLowerCase();
+		const isTypeAllowed =
+			ALLOWED_CV_TYPES.includes(cv.type) ||
+			ALLOWED_CV_EXTENSIONS.includes(cvExtension);
 
-		if (!ALLOWED_CV_TYPES.includes(cv.type) && !hasAllowedExtension) {
+		if (!isTypeAllowed) {
 			return Response.json(
-				{ error: "Please upload your CV as a PDF, DOC or DOCX file." },
+				{ error: "Please upload a PDF or Word document (.pdf, .doc, .docx)." },
 				{ status: 400 }
 			);
 		}
 
 		if (!consent) {
 			return Response.json(
-				{ error: "Please confirm consent before submitting." },
+				{ error: "Please confirm your consent before submitting." },
 				{ status: 400 }
 			);
 		}
 
 		const fields = [
-			["Role Interest", roleInterest],
-			["Source Page", sourcePage],
 			["Full Name", fullName],
-			["Email Address", email],
-			["Mobile / WhatsApp", phone],
-			["Current City", currentCity],
-			["Current Country", currentCountry],
+			["Target Role / Focus", roleInterest || "Open Candidate Profile"],
+			["Source Page", sourcePage || "Careers / Talent Network"],
+			["Email", email],
+			["Phone", phone],
 			["Current Location", currentLocation],
 			["LinkedIn Profile", linkedin],
 			["Area of Interest", areas.join(", ")],
@@ -191,10 +182,8 @@ export async function POST(request) {
 		}
 
 		cvBuffer = Buffer.from(await cv.arrayBuffer());
-		const subject = roleInterest
-			? `New iTANZ Talent Network profile - ${fullName} / ${roleInterest}`
-			: `New iTANZ Talent Network profile - ${fullName}`;
 
+		// 1. Save to Neon PostgreSQL
 		if (isNeonConfigured()) {
 			try {
 				await saveTalentSubmission({
@@ -218,6 +207,7 @@ export async function POST(request) {
 			}
 		}
 
+		// 2. Save to Supabase (if configured)
 		if (isSupabaseServiceConfigured()) {
 			try {
 				await supabaseFetch("rest/v1/itanz_talent_submissions", {
@@ -245,22 +235,33 @@ export async function POST(request) {
 			}
 		}
 
-		await sendEmail({
-			from: process.env.RESEND_FROM_EMAIL,
-			to: [TALENT_TO_EMAIL],
-			reply_to: email,
-			subject,
-			html: buildTalentEmail({ fields, cvName: cv.name }),
-			text: fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n"),
-			attachments: [
-				{
-					filename: cv.name,
-					content: cvBuffer.toString("base64"),
-				},
-			],
-		});
+		// 3. Send email notifications via Resend (if configured)
+		if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL) {
+			try {
+				const subject = roleInterest
+					? `New iTANZ Talent Network profile - ${fullName} / ${roleInterest}`
+					: `New iTANZ Talent Network profile - ${fullName}`;
 
-		return Response.json({ ok: true });
+				await sendEmail({
+					from: process.env.RESEND_FROM_EMAIL,
+					to: [TALENT_TO_EMAIL],
+					reply_to: email,
+					subject,
+					html: buildTalentEmail({ fields, cvName: cv.name }),
+					text: fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n"),
+					attachments: [
+						{
+							filename: cv.name,
+							content: cvBuffer.toString("base64"),
+						},
+					],
+				});
+			} catch (error) {
+				console.warn("Talent email notification failed:", error.message);
+			}
+		}
+
+		return Response.json({ ok: true, success: true });
 	} catch (error) {
 		console.error("Talent network form error:", error);
 		return Response.json(

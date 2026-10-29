@@ -99,13 +99,6 @@ export async function POST(request) {
 			return Response.json({ ok: true, success: true });
 		}
 
-		if (!process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL) {
-			return Response.json(
-				{ ok: false, success: false, error: "Email service is not configured yet." },
-				{ status: 500 }
-			);
-		}
-
 		const pageUrl = clean(formData.get("page_url") || formData.get("source") || formData.get("source_page"));
 		const campaignName = getCampaignName(pageUrl);
 		const entries = [];
@@ -148,6 +141,7 @@ export async function POST(request) {
 			);
 		}
 
+		// 1. Save to Neon PostgreSQL
 		if (isNeonConfigured()) {
 			try {
 				await saveContactSubmission({
@@ -168,6 +162,7 @@ export async function POST(request) {
 			}
 		}
 
+		// 2. Save to Supabase (if configured)
 		if (isSupabaseServiceConfigured()) {
 			try {
 				await supabaseFetch("rest/v1/itanz_contact_submissions", {
@@ -187,21 +182,28 @@ export async function POST(request) {
 					},
 				});
 			} catch (error) {
-				console.error("Unable to save campaign enquiry:", error.message);
+				console.error("Unable to save campaign enquiry to Supabase:", error.message);
 			}
 		}
 
-		const ccEmails = parseEmailList(process.env.CONTACT_CC_EMAIL);
+		// 3. Send email notifications via Resend (if configured)
+		if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL) {
+			try {
+				const ccEmails = parseEmailList(process.env.CONTACT_CC_EMAIL);
 
-		await sendEmail({
-			from: process.env.RESEND_FROM_EMAIL,
-			to: [CAMPAIGN_TO_EMAIL],
-			cc: ccEmails.length ? ccEmails : undefined,
-			reply_to: email,
-			subject,
-			html: buildCampaignEmail({ campaignName, fields }),
-			text: message,
-		});
+				await sendEmail({
+					from: process.env.RESEND_FROM_EMAIL,
+					to: [CAMPAIGN_TO_EMAIL],
+					cc: ccEmails.length ? ccEmails : undefined,
+					reply_to: email,
+					subject,
+					html: buildCampaignEmail({ campaignName, fields }),
+					text: message,
+				});
+			} catch (error) {
+				console.warn("Campaign email notification failed:", error.message);
+			}
+		}
 
 		return Response.json({ ok: true, success: true });
 	} catch (error) {
