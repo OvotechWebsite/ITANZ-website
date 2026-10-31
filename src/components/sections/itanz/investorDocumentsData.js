@@ -1,5 +1,16 @@
 export const investorDocuments = [
 	{
+		"title": "First Quarterly Report for the Period Ended September 30, 2026",
+		"slug": "first-quarterly-report-for-the-period-ended-september-30-2026",
+		"category": "Financial Report",
+		"year": "2026",
+		"fileUrl": "/downloads/investor-relations/First-Quarterly-Report-for-the-Period-Ended-September-30-2026.pdf",
+		"fileType": "PDF",
+		"fileSize": "4.4 MB",
+		"assetType": "pdf",
+		"viewUrl": "/legal/first-quarterly-report-for-the-period-ended-september-30-2026/"
+	},
+	{
 		"title": "Financial Results for the Quarter Ended September 30, 2026",
 		"slug": "financial-results-for-the-quarter-ended-september-30-2026",
 		"category": "Financial Report",
