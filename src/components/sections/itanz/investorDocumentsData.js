@@ -22,6 +22,18 @@ export const investorDocuments = [
 		"viewUrl": "/legal/financial-results-for-the-quarter-ended-september-30-2026/"
 	},
 	{
+		"title": "Extract of Resolutions Passed at the AGM Held on October 24, 2026",
+		"slug": "extract-of-resolutions-passed-at-the-agm-held-on-october-24-2026",
+		"category": "Shareholder Document",
+		"year": "2026",
+		"fileUrl": "/downloads/investor-relations/Extract-of-Resolutions-Passed-at-the-AGM-October-24-2026.pdf",
+		"fileType": "PDF",
+		"fileSize": "4.1 MB",
+		"assetType": "pdf",
+		"viewUrl": "/legal/extract-of-resolutions-passed-at-the-agm-held-on-october-24-2026/"
+	},
+
+	{
 		"title": "Annual Report 2026",
 		"slug": "annual-report-2026",
 		"category": "Annual Report",

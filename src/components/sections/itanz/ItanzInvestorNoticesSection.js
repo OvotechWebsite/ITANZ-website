@@ -49,6 +49,10 @@ const getDocumentGroup = document => {
 		title.includes("section 134") ||
 		title.includes("scheme of arrangement")
 	) {
+		if (title.includes("resolutions") || title.includes("extract")) {
+			return ["General Meetings", "Extracts of General Meetings and Related Documents"];
+		}
+
 		if (title.includes("agm")) {
 			return ["General Meetings", "Notice of Annual General Meeting (AGM)"];
 		}
