@@ -116,7 +116,7 @@ const ItanzStockQuote = () => {
 				</a>
 			</div>
 			<p className="itanz-stock-note">
-				Market data is sourced from the PSX Data Portal via Parse Bot and may be delayed.
+				Market data is sourced directly from the PSX Data Portal and may be delayed.
 			</p>
 		</div>
 	);
