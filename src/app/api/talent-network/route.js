@@ -4,9 +4,13 @@ import {
 	supabaseFetch,
 	uploadSupabaseFile,
 } from "@/libs/itanzSupabase";
+import {
+	buildBrandedEmail,
+	isResendConfigured,
+	NOTIFICATION_EMAIL,
+	sendEmail,
+} from "@/libs/itanzEmail";
 
-const TALENT_TO_EMAIL = process.env.TALENT_TO_EMAIL || "talent@itanzgroup.com";
-const RESEND_API_URL = "https://api.resend.com/emails";
 const MAX_CV_SIZE = 5 * 1024 * 1024;
 const ALLOWED_CV_TYPES = [
 	"application/pdf",
@@ -15,70 +19,8 @@ const ALLOWED_CV_TYPES = [
 ];
 const ALLOWED_CV_EXTENSIONS = [".pdf", ".doc", ".docx"];
 
-const escapeHtml = value =>
-	String(value || "")
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
-
 const clean = value => String(value || "").trim();
 const list = value => (Array.isArray(value) ? value.filter(Boolean) : [value].filter(Boolean));
-
-const buildFieldCards = fields =>
-	fields
-		.map(
-			([label, value]) => `
-				<div style="padding:14px 16px;border:1px solid #dfe6e8;border-radius:10px;background:#ffffff;">
-					<div style="margin:0 0 4px;color:#5b6b70;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">${escapeHtml(label)}</div>
-					<div style="color:#09272d;font-size:15px;font-weight:600;line-height:1.45;">${escapeHtml(value || "-")}</div>
-				</div>`
-		)
-		.join("");
-
-const buildTalentEmail = ({ fields, cvName }) => `
-	<div style="margin:0;padding:0;background:#eef3f4;">
-		<div style="max-width:760px;margin:0 auto;padding:34px 18px;font-family:Arial,sans-serif;color:#09272d;">
-			<div style="overflow:hidden;border-radius:18px;background:#ffffff;box-shadow:0 18px 45px rgba(9,39,45,.10);">
-				<div style="padding:30px 34px;background:#09272d;color:#ffffff;">
-					<div style="margin:0 0 18px;font-size:22px;font-weight:800;letter-spacing:.02em;">iTANZ</div>
-					<div style="display:inline-block;margin:0 0 12px;padding:6px 10px;border-radius:999px;background:#ddd62c;color:#09272d;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;">Talent Network</div>
-					<h1 style="margin:0;color:#ffffff;font-size:28px;line-height:1.2;">New Talent Network Profile</h1>
-					<p style="margin:12px 0 0;color:#d7e4e7;font-size:15px;line-height:1.6;">A candidate has submitted their profile through the iTANZ Careers page. The CV is attached.</p>
-				</div>
-				<div style="padding:30px 34px;">
-					<div style="display:grid;gap:12px;">
-						${buildFieldCards(fields)}
-						${buildFieldCards([["CV Attachment", cvName]])}
-					</div>
-					<p style="margin:24px 0 0;color:#5b6b70;font-size:14px;line-height:1.6;">Reply directly to this email to contact the candidate using their submitted email address.</p>
-				</div>
-				<div style="padding:18px 34px;background:#f7fafb;border-top:1px solid #e2eaec;color:#5b6b70;font-size:12px;line-height:1.5;">
-					iTANZ Technologies<br />
-					Enterprise technology, integration, analytics and managed capability.
-				</div>
-			</div>
-		</div>
-	</div>`;
-
-const sendEmail = async emailPayload => {
-	const response = await fetch(RESEND_API_URL, {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(emailPayload),
-	});
-
-	if (!response.ok) {
-		const error = await response.text();
-		throw new Error(error);
-	}
-
-	return response.json();
-};
 
 export async function POST(request) {
 	try {
@@ -236,26 +178,69 @@ export async function POST(request) {
 		}
 
 		// 3. Send email notifications via Resend (if configured)
-		if (process.env.RESEND_API_KEY && process.env.RESEND_FROM_EMAIL) {
+		if (isResendConfigured()) {
 			try {
 				const subject = roleInterest
-					? `New iTANZ Talent Network profile - ${fullName} / ${roleInterest}`
-					: `New iTANZ Talent Network profile - ${fullName}`;
+					? `[New Talent Application] ${roleInterest} - ${fullName}`
+					: `[New Talent Network Profile] ${fullName}`;
 
+				const talentRecipients = [NOTIFICATION_EMAIL];
+				if (process.env.TALENT_TO_EMAIL && !talentRecipients.includes(process.env.TALENT_TO_EMAIL)) {
+					talentRecipients.push(process.env.TALENT_TO_EMAIL);
+				}
+
+				const html = buildBrandedEmail({
+					eyebrow: "Careers & Talent Network",
+					title: `New Candidate Profile: ${fullName}`,
+					intro: "A candidate has submitted their profile through the iTANZ Careers portal. The CV is attached to this email.",
+					fields: [
+						...fields,
+						["CV Attached", cv?.name || "Candidate CV"],
+					],
+					footer: "Reply directly to this email to contact the candidate using their submitted email address.",
+				});
+
+				// Notification to info@itanzgroup.com with CV attached
 				await sendEmail({
-					from: process.env.RESEND_FROM_EMAIL,
-					to: [TALENT_TO_EMAIL],
+					to: talentRecipients,
 					reply_to: email,
 					subject,
-					html: buildTalentEmail({ fields, cvName: cv.name }),
+					html,
 					text: fields.map(([label, value]) => `${label}: ${value || "-"}`).join("\n"),
-					attachments: [
-						{
-							filename: cv.name,
-							content: cvBuffer.toString("base64"),
-						},
-					],
+					attachments: cvBuffer
+						? [
+								{
+									filename: cv.name || "Candidate-CV.pdf",
+									content: cvBuffer.toString("base64"),
+								},
+						  ]
+						: undefined,
 				});
+
+				// Auto-confirmation reply to candidate
+				if (email && email.includes("@")) {
+					try {
+						await sendEmail({
+							to: [email],
+							reply_to: NOTIFICATION_EMAIL,
+							subject: "Welcome to the iTANZ Talent Network",
+							html: buildBrandedEmail({
+								eyebrow: "Application Received",
+								title: "Thank you for joining the iTANZ Talent Network",
+								intro: `Hi ${fullName}, thank you for introducing yourself. Our recruitment team will review your profile and reach out when an opportunity aligns with your experience and interests.`,
+								fields: [
+									["Name", fullName],
+									["Focus / Role", roleInterest || "Open Candidate Profile"],
+									["Current Location", currentLocation],
+								],
+								footer: "We appreciate your interest in building the future of enterprise technology with iTANZ.",
+							}),
+							text: `Hi ${fullName},\n\nThank you for submitting your profile to the iTANZ Talent Network. Our team will review your details.\n\nRegards,\niTANZ Talent Team`,
+						});
+					} catch (replyError) {
+						console.warn("Talent applicant reply failed:", replyError.message);
+					}
+				}
 			} catch (error) {
 				console.warn("Talent email notification failed:", error.message);
 			}
