@@ -111,7 +111,6 @@ export async function POST(request) {
 						phone: clean(phone),
 						region: cleanedRegion,
 						solution: cleanedSolution,
-						custom_solution: clean(customSolution),
 						industry: cleanedIndustry,
 						enquiry_type: clean(enquiryType),
 						source_page: clean(sourcePage),

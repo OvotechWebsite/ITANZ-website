@@ -13,20 +13,49 @@ export async function GET(request) {
 			return error;
 		}
 
+		const allRows = [];
+		const seenKeys = new Set();
+
 		if (isNeonConfigured()) {
-			const rows = await getContactSubmissions();
-			return Response.json({ rows });
+			try {
+				const neonRows = await getContactSubmissions();
+				if (Array.isArray(neonRows)) {
+					for (const row of neonRows) {
+						const key = `${row.email}_${row.created_at}_${row.name}`;
+						if (!seenKeys.has(key)) {
+							seenKeys.add(key);
+							allRows.push(row);
+						}
+					}
+				}
+			} catch (neonError) {
+				console.error("Neon contact submissions error:", neonError.message);
+			}
 		}
 
 		if (isSupabaseServiceConfigured()) {
-			const rows = await supabaseFetch(
-				"rest/v1/itanz_contact_submissions?select=*&order=created_at.desc&limit=100",
-				{ service: true }
-			);
-			return Response.json({ rows });
+			try {
+				const supaRows = await supabaseFetch(
+					"rest/v1/itanz_contact_submissions?select=*&order=created_at.desc&limit=100",
+					{ service: true }
+				);
+				if (Array.isArray(supaRows)) {
+					for (const row of supaRows) {
+						const key = `${row.email}_${row.created_at}_${row.name}`;
+						if (!seenKeys.has(key)) {
+							seenKeys.add(key);
+							allRows.push(row);
+						}
+					}
+				}
+			} catch (supaError) {
+				console.error("Supabase contact submissions error:", supaError.message);
+			}
 		}
 
-		return Response.json({ rows: [] });
+		allRows.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+		return Response.json({ rows: allRows });
 	} catch (error) {
 		console.error("Contact submissions admin error:", error);
 		return Response.json(
