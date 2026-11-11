@@ -149,48 +149,6 @@ export async function POST(request) {
 					html,
 					text,
 				});
-
-				// Auto-confirmation reply to visitor
-				if (email && email.includes("@")) {
-					try {
-						await sendEmail({
-							to: [email],
-							reply_to: NOTIFICATION_EMAIL,
-							subject: "Thank you for contacting iTANZ",
-							html: buildBrandedEmail({
-								eyebrow: "Thank You",
-								title: "Thank you for contacting iTANZ",
-								intro: `Hi ${name}, we have received your enquiry. An iTANZ team member will review it and respond as soon as possible.`,
-								fields: [
-									["Company", company],
-									["Solution", cleanedSolution],
-									["Industry", cleanedIndustry],
-									["Enquiry Type", enquiryType],
-									["Message", message],
-								],
-								footer:
-									"This confirmation is for your records. An iTANZ representative will be in touch shortly.",
-							}),
-							text: [
-								`Hi ${name},`,
-								"",
-								"Thank you for your enquiry. We have received your message and an iTANZ team member will review it and respond as soon as possible.",
-								"",
-								"Your enquiry summary:",
-								`Company: ${company || "-"}`,
-								`Solution: ${cleanedSolution || "-"}`,
-								`Industry: ${cleanedIndustry || "-"}`,
-								`Enquiry Type: ${enquiryType || "-"}`,
-								`Message: ${message || "-"}`,
-								"",
-								"Regards,",
-								"iTANZ Technologies",
-							].join("\n"),
-						});
-					} catch (replyError) {
-						console.warn("Visitor confirmation email failed:", replyError.message);
-					}
-				}
 			} catch (error) {
 				console.warn("Resend email notification failed:", error.message);
 			}

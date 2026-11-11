@@ -216,31 +216,6 @@ export async function POST(request) {
 						  ]
 						: undefined,
 				});
-
-				// Auto-confirmation reply to candidate
-				if (email && email.includes("@")) {
-					try {
-						await sendEmail({
-							to: [email],
-							reply_to: NOTIFICATION_EMAIL,
-							subject: "Welcome to the iTANZ Talent Network",
-							html: buildBrandedEmail({
-								eyebrow: "Application Received",
-								title: "Thank you for joining the iTANZ Talent Network",
-								intro: `Hi ${fullName}, thank you for introducing yourself. Our recruitment team will review your profile and reach out when an opportunity aligns with your experience and interests.`,
-								fields: [
-									["Name", fullName],
-									["Focus / Role", roleInterest || "Open Candidate Profile"],
-									["Current Location", currentLocation],
-								],
-								footer: "We appreciate your interest in building the future of enterprise technology with iTANZ.",
-							}),
-							text: `Hi ${fullName},\n\nThank you for submitting your profile to the iTANZ Talent Network. Our team will review your details.\n\nRegards,\niTANZ Talent Team`,
-						});
-					} catch (replyError) {
-						console.warn("Talent applicant reply failed:", replyError.message);
-					}
-				}
 			} catch (error) {
 				console.warn("Talent email notification failed:", error.message);
 			}

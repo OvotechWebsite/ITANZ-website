@@ -10,7 +10,7 @@ export const getResendFromEmail = () =>
 	process.env.RESEND_FROM_EMAIL ||
 	process.env.Resend_FROM_EMAIL ||
 	process.env.resend_from_email ||
-	"iTANZ <info@itanzgroup.com>";
+	"iTANZ <noreply@itanzgroup.com>";
 
 export const NOTIFICATION_EMAIL =
 	process.env.CONTACT_TO_EMAIL || "info@itanzgroup.com";
