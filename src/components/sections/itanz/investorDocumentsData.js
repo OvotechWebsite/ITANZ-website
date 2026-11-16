@@ -1,5 +1,16 @@
 export const investorDocuments = [
 	{
+			"title": "Corporate Briefing Session (CBS) Presentation - November 16, 2026",
+			"slug": "corporate-briefing-session-presentation-november-16-2026",
+			"category": "Corporate Announcement",
+			"year": "2026",
+			"fileUrl": "/downloads/investor-relations/Corporate-Briefing-Session-Presentation-November-16-2026.pdf",
+			"fileType": "PDF",
+			"fileSize": "7.0 MB",
+			"assetType": "pdf",
+			"viewUrl": "/legal/corporate-briefing-session-presentation-november-16-2026/"
+	},
+	{
 			"title": "Notice of Corporate Briefing Session - November 16, 2026",
 			"slug": "notice-of-corporate-briefing-session-november-16-2026",
 			"category": "Corporate Announcement",
