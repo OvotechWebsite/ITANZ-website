@@ -1,6 +1,6 @@
 import { investorDocuments } from "./investorDocumentsData";
 
-const latestDocuments = investorDocuments.slice(0, 5);
+const latestDocuments = investorDocuments.slice(0, 6);
 
 const getDocumentGroup = document => {
 	const title = document.title.toLowerCase();

@@ -1,5 +1,16 @@
 export const investorDocuments = [
 	{
+			"title": "Notice of Corporate Briefing Session - November 16, 2026",
+			"slug": "notice-of-corporate-briefing-session-november-16-2026",
+			"category": "Corporate Announcement",
+			"year": "2026",
+			"fileUrl": "/downloads/investor-relations/Notice-of-Corporate-Briefing-Session-November-16-2026.pdf",
+			"fileType": "PDF",
+			"fileSize": "86 KB",
+			"assetType": "pdf",
+			"viewUrl": "/legal/notice-of-corporate-briefing-session-november-16-2026/"
+	},
+	{
 		"title": "First Quarterly Report for the Period Ended September 30, 2026",
 		"slug": "first-quarterly-report-for-the-period-ended-september-30-2026",
 		"category": "Financial Report",
