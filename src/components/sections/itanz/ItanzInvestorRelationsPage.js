@@ -1,4 +1,5 @@
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+import ItanzCorporateBriefingSection from "./ItanzCorporateBriefingSection";
 import ItanzCta from "./ItanzCta";
 import ItanzGovernanceDirectory from "./ItanzGovernanceDirectory";
 import ItanzInvestorNoticesSection from "./ItanzInvestorNoticesSection";
@@ -69,6 +70,8 @@ const ItanzInvestorRelationsPage = () => {
 			<ItanzInvestorProfileSection />
 
 			<ItanzInvestorSustainabilitySection />
+
+			<ItanzCorporateBriefingSection />
 
 			<ItanzInvestorNoticesSection />
 
