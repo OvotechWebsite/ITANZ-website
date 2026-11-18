@@ -115,18 +115,18 @@ To keep the website running permanently and smoothly on the Free Tier, we have o
 
 ```mermaid
 flowchart TD
-    A["Current State: 85.94 GB / 100 GB"] --> B["Step 1: External Video Streaming (SharePoint / Microsoft Stream)"]
-    A --> C["Step 2: Compress Hero Background Videos (62 MB -> 6 MB)"]
+    A["Current State: 85.94 GB / 100 GB"] --> B["Step 1: External Video Streaming (YouTube CDN / Cloud)"]
+    A --> C["Step 2: Compress Hero Background Videos (62 MB -> 7 MB)"]
     A --> D["Step 3: PDF Document Compression (42 MB -> 5 MB)"]
     A --> E["Step 4: Enable 1-Year Browser Edge Caching"]
     A --> F["Step 5: Purge 141 MB Unused Media Files"]
     B & C & D & E & F --> G["Optimized State: ~5 to 8 GB / 100 GB (Saves 90%+)"]
 ```
 
-### Strategy 1: Host Video Recordings on Microsoft SharePoint / Stream (Implemented)
+### Strategy 1: Host Video Recordings on YouTube CDN / Cloud Video (Implemented)
 * Large video recordings (such as the **Corporate Briefing Session Recording**) should **never** be served directly from Vercel's web server.
-* **Implementation**: The CBS session recording is now hosted directly on **Microsoft SharePoint / Microsoft Stream** (`infotechanz-my.sharepoint.com`).
-* **Why this works**: Microsoft Stream delivers the video in adaptive chunk-by-chunk streaming (identical to YouTube). The data flows directly between Microsoft's Azure CDN and the viewer's browser. **Zero bytes of video streaming hit Vercel.**
+* **Implementation**: The CBS session recording is now embedded via **YouTube** (`https://www.youtube.com/watch?v=AjUMC36m76k`).
+* **Why this works**: YouTube delivers the video in adaptive chunk-by-chunk streaming with **zero sign-in required**, full speed controls (0.25x to 2x), resolution selection (Auto/1080p/720p), and captions. The data flows 100% directly from Google's global video CDN to the viewer's browser. **Zero bytes of video streaming hit Vercel.**
 
 ---
 
@@ -187,7 +187,7 @@ flowchart TD
 | Metric | Current Status (Unoptimized) | Projected Post-Optimization | Net Improvement |
 | :--- | :---: | :---: | :---: |
 | **Homepage Payload per Visit** | 62.64 MB | ~5.5 MB | **-91.2%** |
-| **CBS Video Bandwidth on Vercel** | N/A (Offloaded to SharePoint) | **0.00 MB** | **100% External** |
+| **CBS Video Bandwidth on Vercel** | N/A (Offloaded to YouTube) | **0.00 MB** | **100% External** |
 | **Monthly Fast Data Transfer** | **85.94 GB** (85.9%) | **~5 to 8 GB** (5–8%) | **Over 90% Bandwidth Saved** |
 | **Repository Asset Storage** | 497.5 MB | ~350 MB | **-141.5 MB Deleted** |
 | **Vercel Monthly Cost** | $0.00 (Approaching limit) | **$0.00 (Permanent Free Tier)** | **Zero Upgrade Cost** |

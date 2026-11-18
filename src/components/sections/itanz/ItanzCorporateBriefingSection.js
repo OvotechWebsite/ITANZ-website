@@ -24,22 +24,11 @@ const cbsDocuments = [
 	},
 ];
 
-const SHAREPOINT_DIRECT_URL =
-	"https://infotechanz-my.sharepoint.com/:v:/g/personal/maqsood_munshi_itanzgroup_com/IQAxcvETzSTeSId0hH80-1ROAUdhhNrxTuHrmQaOsxv1Hmo?e=ampJFU";
-
-// If a YouTube video ID is provided in the future, it will automatically embed inline with zero sign-in.
-const YOUTUBE_VIDEO_ID = ""; // e.g., "YOUR_YOUTUBE_ID"
+const YOUTUBE_URL = "https://www.youtube.com/watch?v=AjUMC36m76k";
+const YOUTUBE_VIDEO_ID = "AjUMC36m76k";
 
 const ItanzCorporateBriefingSection = () => {
-	const [isPlayingInline, setIsPlayingInline] = useState(false);
-
-	const handlePlayClick = () => {
-		if (YOUTUBE_VIDEO_ID) {
-			setIsPlayingInline(true);
-		} else {
-			window.open(SHAREPOINT_DIRECT_URL, "_blank", "noopener,noreferrer");
-		}
-	};
+	const [isPlaying, setIsPlaying] = useState(false);
 
 	return (
 		<section id="corporate-briefing" className="itanz-cbs-section section-gap">
@@ -119,31 +108,29 @@ const ItanzCorporateBriefingSection = () => {
 								<h4>iTANZ Corporate Briefing Session (CBS) 2026 — Full Recording</h4>
 							</div>
 							<a
-								href={SHAREPOINT_DIRECT_URL}
+								href={YOUTUBE_URL}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="itanz-cbs-stream-btn"
 							>
-								<span>Watch on Microsoft Stream</span>
-								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-									<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-									<polyline points="15 3 21 3 21 9"></polyline>
-									<line x1="10" y1="14" x2="21" y2="3"></line>
+								<span>Watch on YouTube</span>
+								<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+									<path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
 								</svg>
 							</a>
 						</div>
 
 						<div className="itanz-cbs-player-frame">
-							{YOUTUBE_VIDEO_ID && isPlayingInline ? (
+							{isPlaying ? (
 								<iframe
-									src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`}
+									src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
 									title="iTANZ Corporate Briefing Session (CBS) 2026 Recording"
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
 									allowFullScreen
 									className="itanz-cbs-iframe"
 								></iframe>
 							) : (
-								<div className="itanz-cbs-poster" onClick={handlePlayClick}>
+								<div className="itanz-cbs-poster" onClick={() => setIsPlaying(true)}>
 									<div className="itanz-cbs-poster-overlay">
 										<button
 											type="button"
@@ -151,7 +138,7 @@ const ItanzCorporateBriefingSection = () => {
 											aria-label="Play Corporate Briefing Session Recording"
 											onClick={(e) => {
 												e.stopPropagation();
-												handlePlayClick();
+												setIsPlaying(true);
 											}}
 										>
 											<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -160,13 +147,13 @@ const ItanzCorporateBriefingSection = () => {
 										</button>
 										<div className="itanz-cbs-poster-text">
 											<span className="itanz-cbs-poster-tag">Corporate Briefing Session Video</span>
-											<h5>Click to Watch Session Recording</h5>
-											<p>High-Definition Adaptive Streaming &bull; Hosted on Microsoft Cloud</p>
+											<h5>Click to Play Recording Here</h5>
+											<p>Full HD Playback &bull; Speed Controls (0.25x–2x) &bull; Quality Selection</p>
 											<div className="itanz-cbs-badge-pill">
 												<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
 													<polygon points="5 3 19 12 5 21 5 3"></polygon>
 												</svg>
-												Click to Open Recording in Fullscreen HD
+												Instant Inline Stream (No Sign-in Required)
 											</div>
 										</div>
 									</div>
@@ -181,16 +168,16 @@ const ItanzCorporateBriefingSection = () => {
 									<polyline points="12 6 12 12 14 14"></polyline>
 								</svg>
 								<span>
-									<strong>Cloud Adaptive Streaming:</strong> Video is streamed chunk-by-chunk directly from Microsoft Cloud with zero bandwidth impact on the website server.
+									<strong>Adaptive Chunk Streaming:</strong> Streamed directly via YouTube&apos;s global CDN with zero sign-in required and zero bandwidth load on website servers.
 								</span>
 							</div>
 							<a
-								href={SHAREPOINT_DIRECT_URL}
+								href={YOUTUBE_URL}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="itanz-cbs-alt-link"
 							>
-								Watch on Microsoft Stream ↗
+								Watch on YouTube ↗
 							</a>
 						</div>
 					</div>
