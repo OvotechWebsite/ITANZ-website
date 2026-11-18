@@ -20,7 +20,7 @@ export const heroSlides = [
 		highlight: "Partner",
 		desc: "We support sectors where reliability, compliance, data and service continuity matter most.",
 		img: "/images/hero/slider-3.webp",
-		video: "/video/global-video.mov",
+		video: "/video/global-video.mp4",
 		thumbImg: "/images/hero/slider-thumb-3.png",
 	},
 ];

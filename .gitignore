@@ -44,4 +44,8 @@ src/iTANZ webiste content/
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
+# old video backups and unused reels assets
+public/video/*-old.*
+*-old.mp4
+*-old.mov
+public/images/reels/
