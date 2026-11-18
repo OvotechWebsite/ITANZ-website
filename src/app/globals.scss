@@ -10083,3 +10083,17 @@ a.itanz-admin-secondary-btn {
 		height: 58px;
 	}
 }
+
+
+.itanz-cbs-badge-pill {
+	display: inline-flex;
+	align-items: center;
+	margin-top: 10px;
+	padding: 6px 14px;
+	border-radius: 999px;
+	background: rgba(0, 194, 136, 0.18);
+	border: 1px solid rgba(0, 194, 136, 0.4);
+	color: #00e5a3;
+	font-size: 13px;
+	font-weight: 600;
+}

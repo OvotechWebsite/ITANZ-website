@@ -27,11 +27,19 @@ const cbsDocuments = [
 const SHAREPOINT_DIRECT_URL =
 	"https://infotechanz-my.sharepoint.com/:v:/g/personal/maqsood_munshi_itanzgroup_com/IQAxcvETzSTeSId0hH80-1ROAUdhhNrxTuHrmQaOsxv1Hmo?e=ampJFU";
 
-const SHAREPOINT_EMBED_URL =
-	"https://infotechanz-my.sharepoint.com/personal/maqsood_munshi_itanzgroup_com/_layouts/15/embed.aspx?id=%2Fpersonal%2Fmaqsood%5Fmunshi%5Fitanzgroup%5Fcom%2FDocuments%2FAttachments%2FiTANZ%5FCBS%5F2026%5FFull%5FSession%5FRecording%2Emp4&ga=1&referrer=StreamWebApp";
+// If a YouTube video ID is provided in the future, it will automatically embed inline with zero sign-in.
+const YOUTUBE_VIDEO_ID = ""; // e.g., "YOUR_YOUTUBE_ID"
 
 const ItanzCorporateBriefingSection = () => {
 	const [isPlayingInline, setIsPlayingInline] = useState(false);
+
+	const handlePlayClick = () => {
+		if (YOUTUBE_VIDEO_ID) {
+			setIsPlayingInline(true);
+		} else {
+			window.open(SHAREPOINT_DIRECT_URL, "_blank", "noopener,noreferrer");
+		}
+	};
 
 	return (
 		<section id="corporate-briefing" className="itanz-cbs-section section-gap">
@@ -116,7 +124,7 @@ const ItanzCorporateBriefingSection = () => {
 								rel="noopener noreferrer"
 								className="itanz-cbs-stream-btn"
 							>
-								<span>Open in Microsoft Stream</span>
+								<span>Watch on Microsoft Stream</span>
 								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
 									<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
 									<polyline points="15 3 21 3 21 9"></polyline>
@@ -126,16 +134,16 @@ const ItanzCorporateBriefingSection = () => {
 						</div>
 
 						<div className="itanz-cbs-player-frame">
-							{isPlayingInline ? (
+							{YOUTUBE_VIDEO_ID && isPlayingInline ? (
 								<iframe
-									src={SHAREPOINT_EMBED_URL}
+									src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`}
 									title="iTANZ Corporate Briefing Session (CBS) 2026 Recording"
-									allow="autoplay; fullscreen; picture-in-picture"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 									allowFullScreen
 									className="itanz-cbs-iframe"
 								></iframe>
 							) : (
-								<div className="itanz-cbs-poster" onClick={() => setIsPlayingInline(true)}>
+								<div className="itanz-cbs-poster" onClick={handlePlayClick}>
 									<div className="itanz-cbs-poster-overlay">
 										<button
 											type="button"
@@ -143,7 +151,7 @@ const ItanzCorporateBriefingSection = () => {
 											aria-label="Play Corporate Briefing Session Recording"
 											onClick={(e) => {
 												e.stopPropagation();
-												setIsPlayingInline(true);
+												handlePlayClick();
 											}}
 										>
 											<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -152,8 +160,14 @@ const ItanzCorporateBriefingSection = () => {
 										</button>
 										<div className="itanz-cbs-poster-text">
 											<span className="itanz-cbs-poster-tag">Corporate Briefing Session Video</span>
-											<h5>Click to Stream Recording</h5>
-											<p>Adaptive Chunk-by-Chunk HD Playback powered by Microsoft Cloud</p>
+											<h5>Click to Watch Session Recording</h5>
+											<p>High-Definition Adaptive Streaming &bull; Hosted on Microsoft Cloud</p>
+											<div className="itanz-cbs-badge-pill">
+												<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
+													<polygon points="5 3 19 12 5 21 5 3"></polygon>
+												</svg>
+												Click to Open Recording in Fullscreen HD
+											</div>
 										</div>
 									</div>
 								</div>
@@ -167,7 +181,7 @@ const ItanzCorporateBriefingSection = () => {
 									<polyline points="12 6 12 12 14 14"></polyline>
 								</svg>
 								<span>
-									<strong>Cloud Adaptive Streaming:</strong> Video is delivered chunk-by-chunk via Microsoft Stream &amp; SharePoint global CDN infrastructure with zero bandwidth impact on website servers.
+									<strong>Cloud Adaptive Streaming:</strong> Video is streamed chunk-by-chunk directly from Microsoft Cloud with zero bandwidth impact on the website server.
 								</span>
 							</div>
 							<a
@@ -176,7 +190,7 @@ const ItanzCorporateBriefingSection = () => {
 								rel="noopener noreferrer"
 								className="itanz-cbs-alt-link"
 							>
-								Having trouble playing inline? Watch on SharePoint ↗
+								Watch on Microsoft Stream ↗
 							</a>
 						</div>
 					</div>
