@@ -10,6 +10,7 @@ import { heroSlides } from "./data";
 
 const ItanzHero = () => {
 	const [controlledMainSwiper, setControlledMainSwiper] = useState(null);
+	const [activeSlide, setActiveSlide] = useState(0);
 
 	return (
 		<section className="tj-slider-section itanz-template-hero">
@@ -20,6 +21,7 @@ const ItanzHero = () => {
 				effect="fade"
 				speed={1400}
 				autoplay={{ delay: 6500 }}
+				onSlideChange={(swiper) => setActiveSlide(swiper.realIndex)}
 				modules={[Autoplay, Navigation, EffectFade, Thumbs]}
 				thumbs={{ swiper: controlledMainSwiper }}
 				navigation={{ nextEl: ".slider-next", prevEl: ".slider-prev" }}
@@ -35,14 +37,16 @@ const ItanzHero = () => {
 						{video ? (
 							<div className="slider-bg-image itanz-hero-video">
 								<video
-									autoPlay
+									autoPlay={idx === 0}
 									loop
 									muted
 									playsInline
-									preload="metadata"
+									preload={idx === 0 ? "auto" : "none"}
 									poster={img}
 								>
-									<source src={video} type="video/mp4" />
+									{idx === 0 || Math.abs(idx - activeSlide) <= 1 ? (
+										<source src={video} type="video/mp4" />
+									) : null}
 								</video>
 							</div>
 						) : (

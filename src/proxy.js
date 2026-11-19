@@ -18,5 +18,8 @@ export const config = {
 		"/api/blog/:path*",
 		"/api/generate/:path*",
 		"/api/demo/:path*",
+		"/wp-login.php",
+		"/wp-admin/:path*",
+		"/xmlrpc.php",
 	],
 };
